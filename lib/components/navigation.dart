@@ -28,35 +28,53 @@ class Navigation extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 2),
+        color: AppTheme.cardBackground,
+        border: Border(
+          bottom: BorderSide(
+            color: AppTheme.border,
+            width: 1,
           ),
-        ],
+        ),
       ),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isTablet ? 32 : 16,
-            vertical: 8,
+            horizontal: isTablet ? 32 : 20,
+            vertical: 12,
           ),
           child: SizedBox(
             height: isMobile ? 56 : 64,
             child: Row(
               children: [
+                // Logo with brand styling
                 GestureDetector(
                   onTap: () => Navigator.pushReplacementNamed(context, '/'),
-                  child: Text(
-                    'KinyaLearn',
-                    style: TextStyle(
-                      fontSize: isMobile ? 20 : 24,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.primaryBlue,
-                    ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.primaryGradient,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.school,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'KinyaLearn',
+                        style: TextStyle(
+                          fontSize: isMobile ? 20 : 24,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primaryPurple,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 24),
@@ -87,18 +105,14 @@ class Navigation extends StatelessWidget {
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 16,
+                      horizontal: 16,
+                      vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: currentRoute == item.route
-                              ? AppTheme.primaryBlue
-                              : Colors.transparent,
-                          width: 2,
-                        ),
-                      ),
+                      color: currentRoute == item.route
+                          ? AppTheme.primaryPurple.withOpacity(0.1)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       item.name,
@@ -106,8 +120,8 @@ class Navigation extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: currentRoute == item.route
-                            ? Colors.grey[900]
-                            : Colors.grey[500],
+                            ? AppTheme.primaryPurple
+                            : AppTheme.textSecondary,
                       ),
                     ),
                   ),
@@ -125,7 +139,7 @@ class Navigation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.menu, color: AppTheme.primaryBlue),
+            icon: const Icon(Icons.menu, color: AppTheme.primaryPurple),
             onSelected: (route) =>
                 Navigator.pushReplacementNamed(context, route),
             itemBuilder: (context) => navigation
@@ -136,7 +150,7 @@ class Navigation extends StatelessWidget {
                       children: [
                         Icon(
                           _getIconForRoute(item.route),
-                          color: AppTheme.primaryBlue,
+                          color: AppTheme.primaryPurple,
                           size: 20,
                         ),
                         const SizedBox(width: 12),

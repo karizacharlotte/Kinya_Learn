@@ -7,6 +7,11 @@ class CultureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1200;
+    final orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       body: Column(
@@ -14,20 +19,23 @@ class CultureScreen extends StatelessWidget {
           const Navigation(),
           // Cultural Header
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(isTablet ? 24 : 20),
             decoration: const BoxDecoration(
-              gradient: AppTheme.secondaryGradient,
+              gradient: AppTheme.successGradient,
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.language, color: Colors.white, size: 32),
-                SizedBox(width: 16),
-                Text(
-                  'Rwandan Culture & Heritage',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Icon(Icons.language,
+                    color: Colors.white, size: isTablet ? 36 : 32),
+                SizedBox(width: isTablet ? 20 : 16),
+                Expanded(
+                  child: Text(
+                    'Rwandan Culture & Heritage',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isTablet ? 28 : 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -35,77 +43,154 @@ class CultureScreen extends StatelessWidget {
           ),
           // Cultural Content Sections
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                _buildCultureCard(
-                  'Traditional Proverbs',
-                  'Imigani n\'Amazina',
-                  'Learn wisdom through traditional Rwandan sayings',
-                  Icons.format_quote,
-                  AppTheme.primaryBlue,
-                ),
-                _buildCultureCard(
-                  'Folktales & Stories',
-                  'Ibitekerezo n\'Imigani',
-                  'Discover ancient stories and their meanings',
-                  Icons.menu_book,
-                  AppTheme.primaryGreen,
-                ),
-                _buildCultureCard(
-                  'Traditional Celebrations',
-                  'Ibyishimo by\'Igihugu',
-                  'Understand Rwandan festivals and ceremonies',
-                  Icons.celebration,
-                  AppTheme.accentPurple,
-                ),
-                _buildCultureCard(
-                  'Cultural Etiquette',
-                  'Ubwiyunge bw\'Umuco',
-                  'Learn respectful behavior and social customs',
-                  Icons.handshake,
-                  AppTheme.warmOrange,
-                ),
-                _buildCultureCard(
-                  'Historical Context',
-                  'Amateka y\'u Rwanda',
-                  'Understand Rwanda\'s rich history and heritage',
-                  Icons.account_balance,
-                  AppTheme.softPink,
-                ),
-                _buildCultureCard(
-                  'Modern Rwanda',
-                  'U Rwanda rw\'iki gihe',
-                  'Contemporary culture and social dynamics',
-                  Icons.location_city,
-                  AppTheme.accentTeal,
-                ),
-              ],
-            ),
+            child: isDesktop
+                ? _buildDesktopGrid(isTablet)
+                : _buildMobileList(isTablet),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCultureCard(String title, String kinyarwandaTitle, String description, IconData icon, Color color) {
+  Widget _buildDesktopGrid(bool isTablet) {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 24,
+        mainAxisSpacing: 16,
+        childAspectRatio: 2.5,
+        children: [
+          _buildCultureCard(
+            'Traditional Proverbs',
+            'Imigani n\'Amazina',
+            'Learn wisdom through traditional Rwandan sayings',
+            Icons.format_quote,
+            AppTheme.primaryBlue,
+            isTablet: true,
+          ),
+          _buildCultureCard(
+            'Folktales & Stories',
+            'Ibitekerezo n\'Imigani',
+            'Discover ancient stories and their meanings',
+            Icons.menu_book,
+            AppTheme.primaryGreen,
+            isTablet: true,
+          ),
+          _buildCultureCard(
+            'Traditional Celebrations',
+            'Ibyishimo by\'Igihugu',
+            'Understand Rwandan festivals and ceremonies',
+            Icons.celebration,
+            AppTheme.primaryPurple,
+            isTablet: true,
+          ),
+          _buildCultureCard(
+            'Cultural Etiquette',
+            'Ubwiyunge bw\'Umuco',
+            'Learn respectful behavior and social customs',
+            Icons.handshake,
+            AppTheme.primaryOrange,
+            isTablet: true,
+          ),
+          _buildCultureCard(
+            'Historical Context',
+            'Amateka y\'u Rwanda',
+            'Understand Rwanda\'s rich history and heritage',
+            Icons.account_balance,
+            AppTheme.primaryRed,
+            isTablet: true,
+          ),
+          _buildCultureCard(
+            'Modern Rwanda',
+            'U Rwanda rw\'iki gihe',
+            'Contemporary culture and social dynamics',
+            Icons.location_city,
+            AppTheme.primaryTeal,
+            isTablet: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMobileList(bool isTablet) {
+    return ListView(
+      padding: EdgeInsets.all(isTablet ? 20 : 16),
+      children: [
+        _buildCultureCard(
+          'Traditional Proverbs',
+          'Imigani n\'Amazina',
+          'Learn wisdom through traditional Rwandan sayings',
+          Icons.format_quote,
+          AppTheme.primaryBlue,
+          isTablet: isTablet,
+        ),
+        _buildCultureCard(
+          'Folktales & Stories',
+          'Ibitekerezo n\'Imigani',
+          'Discover ancient stories and their meanings',
+          Icons.menu_book,
+          AppTheme.primaryGreen,
+          isTablet: isTablet,
+        ),
+        _buildCultureCard(
+          'Traditional Celebrations',
+          'Ibyishimo by\'Igihugu',
+          'Understand Rwandan festivals and ceremonies',
+          Icons.celebration,
+          AppTheme.primaryPurple,
+          isTablet: isTablet,
+        ),
+        _buildCultureCard(
+          'Cultural Etiquette',
+          'Ubwiyunge bw\'Umuco',
+          'Learn respectful behavior and social customs',
+          Icons.handshake,
+          AppTheme.primaryOrange,
+          isTablet: isTablet,
+        ),
+        _buildCultureCard(
+          'Historical Context',
+          'Amateka y\'u Rwanda',
+          'Understand Rwanda\'s rich history and heritage',
+          Icons.account_balance,
+          AppTheme.primaryRed,
+          isTablet: isTablet,
+        ),
+        _buildCultureCard(
+          'Modern Rwanda',
+          'U Rwanda rw\'iki gihe',
+          'Contemporary culture and social dynamics',
+          Icons.location_city,
+          AppTheme.primaryTeal,
+          isTablet: isTablet,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCultureCard(String title, String kinyarwandaTitle,
+      String description, IconData icon, Color color,
+      {bool isTablet = false}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: isTablet ? 20 : 16),
       child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: isTablet ? 6 : 4,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
         child: InkWell(
           onTap: () {
             // Navigate to specific cultural content
           },
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(isTablet ? 20 : 16),
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: isTablet ? 70 : 60,
+                  height: isTablet ? 70 : 60,
                   decoration: BoxDecoration(
                     color: color,
                     shape: BoxShape.circle,
@@ -113,35 +198,35 @@ class CultureScreen extends StatelessWidget {
                   child: Icon(
                     icon,
                     color: Colors.white,
-                    size: 30,
+                    size: isTablet ? 35 : 30,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: isTablet ? 20 : 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: isTablet ? 20 : 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         kinyarwandaTitle,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: isTablet ? 16 : 14,
                           fontStyle: FontStyle.italic,
                           color: color,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: isTablet ? 6 : 4),
                       Text(
                         description,
                         style: TextStyle(
                           color: Colors.grey[600],
-                          fontSize: 14,
+                          fontSize: isTablet ? 16 : 14,
                         ),
                       ),
                     ],
@@ -150,7 +235,7 @@ class CultureScreen extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey[400],
-                  size: 16,
+                  size: isTablet ? 20 : 16,
                 ),
               ],
             ),

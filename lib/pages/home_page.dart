@@ -14,222 +14,299 @@ class HomePage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
-    final orientation = MediaQuery.of(context).orientation;
+    final isMobile = screenWidth < 768;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppTheme.background,
       body: Column(
         children: [
           const Navigation(),
-          // Progress Header
+          // Welcome Header
           Container(
-            padding: EdgeInsets.all(isTablet ? 24 : 16),
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: isDesktop ? 40 : (isTablet ? 32 : 20),
+              vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
+            ),
             decoration: const BoxDecoration(
               gradient: AppTheme.primaryGradient,
             ),
-            child: orientation == Orientation.landscape && !isDesktop
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildStatCard('XP', '1,250', Icons.star, isTablet, AppTheme.warmOrange),
-                      _buildStatCard('Streak', '5', Icons.local_fire_department, isTablet, AppTheme.primaryGreen),
-                      _buildStatCard('Level', '3', Icons.emoji_events, isTablet, AppTheme.accentTeal),
-                    ],
-                  )
-                : Column(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome back, Sarah! 👋',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isDesktop ? 28 : (isTablet ? 24 : 20),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: isTablet ? 8 : 6),
+                Text(
+                  'Continue your Kinyarwanda learning journey',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: isDesktop ? 16 : (isTablet ? 15 : 14),
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                SizedBox(height: isDesktop ? 32 : (isTablet ? 24 : 20)),
+                _buildStatsRow(isTablet, isDesktop),
+              ],
+            ),
+          ),
+          // Lessons Section
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(isDesktop ? 32 : (isTablet ? 24 : 20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Your Progress',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: isTablet ? 20 : 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        'Your Lessons',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium
+                            ?.copyWith(
+                              fontSize: isTablet ? 24 : 20,
+                            ),
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _buildStatCard('XP', '1,250', Icons.star, isTablet, AppTheme.warmOrange),
-                          _buildStatCard('Streak', '5', Icons.local_fire_department, isTablet, AppTheme.primaryGreen),
-                          _buildStatCard('Level', '3', Icons.emoji_events, isTablet, AppTheme.accentTeal),
-                        ],
+                      TextButton(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/lessons'),
+                        child: Text(
+                          'View All',
+                          style: TextStyle(
+                            color: AppTheme.primaryPurple,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-          ),
-          // Lessons List
-          Expanded(
-            child: isDesktop
-                ? _buildDesktopLessonGrid(lessons)
-                : _buildMobileLessonList(lessons, isTablet),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: _buildLessonsGrid(lessons, isTablet, isDesktop),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, bool isTablet, Color iconColor) {
-    return Column(
+  Widget _buildStatsRow(bool isTablet, bool isDesktop) {
+    return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconColor.withOpacity(0.2),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: iconColor, size: isTablet ? 28 : 24),
-        ),
-        SizedBox(height: isTablet ? 6 : 4),
-        Text(
-          value,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: isTablet ? 20 : 18,
+        Expanded(
+          child: _buildStatCard(
+            'Total XP',
+            '2,450',
+            Icons.star_rounded,
+            AppTheme.primaryOrange,
+            isTablet,
           ),
         ),
-        Text(
-          title,
-          style: TextStyle(
-            color: Colors.white70,
-            fontSize: isTablet ? 14 : 12,
+        SizedBox(width: isTablet ? 16 : 12),
+        Expanded(
+          child: _buildStatCard(
+            'Day Streak',
+            '12',
+            Icons.local_fire_department_rounded,
+            AppTheme.primaryRed,
+            isTablet,
+          ),
+        ),
+        SizedBox(width: isTablet ? 16 : 12),
+        Expanded(
+          child: _buildStatCard(
+            'Level',
+            '5',
+            Icons.emoji_events_rounded,
+            AppTheme.primaryGreen,
+            isTablet,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildDesktopLessonGrid(List<Lesson> lessons) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: GridView.builder(
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color, bool isTablet) {
+    return Container(
+      padding: EdgeInsets.all(isTablet ? 20 : 16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(isTablet ? 12 : 10),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: isTablet ? 24 : 20,
+            ),
+          ),
+          SizedBox(height: isTablet ? 12 : 8),
+          Text(
+            value,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isTablet ? 24 : 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: isTablet ? 14 : 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLessonsGrid(
+      List<Lesson> lessons, bool isTablet, bool isDesktop) {
+    if (isDesktop) {
+      return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 24,
-          mainAxisSpacing: 24,
-          childAspectRatio: 3,
+          mainAxisSpacing: 20,
+          childAspectRatio: 3.5,
         ),
         itemCount: lessons.length,
-        itemBuilder: (context, index) {
-          final lesson = lessons[index];
-          return _buildLessonCard(context, lesson, index, isDesktop: true);
-        },
-      ),
-    );
+        itemBuilder: (context, index) =>
+            _buildModernLessonCard(lessons[index], index, isTablet: true),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: lessons.length,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child:
+              _buildModernLessonCard(lessons[index], index, isTablet: isTablet),
+        ),
+      );
+    }
   }
 
-  Widget _buildMobileLessonList(List<Lesson> lessons, bool isTablet) {
-    return ListView.builder(
-      padding: EdgeInsets.all(isTablet ? 20 : 16),
-      itemCount: lessons.length,
-      itemBuilder: (context, index) {
-        final lesson = lessons[index];
-        return _buildLessonCard(context, lesson, index, isTablet: isTablet);
-      },
-    );
-  }
+  Widget _buildModernLessonCard(Lesson lesson, int index,
+      {bool isTablet = false}) {
+    final colors = [
+      AppTheme.primaryPurple,   // Deep purple
+      AppTheme.primaryGreen,    // Maroon
+      Color(0xFF8B5CF6),        // Light purple
+      AppTheme.primaryOrange,   // Orange
+    ];
+    final color = colors[index % colors.length];
 
-  Widget _buildLessonCard(BuildContext context, Lesson lesson, int index, {bool isTablet = false, bool isDesktop = false}) {
-    final cardHeight = isDesktop ? null : (isTablet ? 100.0 : 80.0);
-    
-    return Container(
-      margin: EdgeInsets.only(bottom: isDesktop ? 0 : 16),
-      height: cardHeight,
-      child: Card(
-        elevation: isDesktop ? 6 : 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
-        child: InkWell(
-          onTap: lesson.isUnlocked
-              ? () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LessonPage(lesson: lesson),
-                    ),
-                  )
-              : null,
-          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
-          child: Padding(
-            padding: EdgeInsets.all(isTablet ? 20 : 16),
-            child: Row(
-              children: [
-                // Lesson Icon
-                Container(
-                  width: isTablet ? 70 : 60,
-                  height: isTablet ? 70 : 60,
-                  decoration: BoxDecoration(
-                    gradient: lesson.isUnlocked
-                        ? _getLessonGradient(index)
-                        : null,
-                    color: lesson.isUnlocked ? null : Colors.grey,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    lesson.isCompleted
-                        ? Icons.check
-                        : lesson.isUnlocked
-                            ? Icons.play_arrow
-                            : Icons.lock,
-                    color: Colors.white,
-                    size: isTablet ? 35 : 30,
-                  ),
-                ),
-                SizedBox(width: isTablet ? 20 : 16),
-                // Lesson Info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        lesson.title,
-                        style: TextStyle(
-                          fontSize: isTablet ? 20 : 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: isTablet ? 6 : 4),
-                      Text(
-                        lesson.description,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: isTablet ? 16 : 14,
-                        ),
-                        maxLines: isDesktop ? 3 : 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                // Progress indicator
-                if (lesson.isCompleted)
-                  Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: isTablet ? 24 : 20,
-                  ),
-              ],
-            ),
+    return Card(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      child: Container(
+        padding: EdgeInsets.all(isTablet ? 24 : 20),
+        decoration: BoxDecoration(
+          color: AppTheme.cardBackground,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppTheme.border,
+            width: 1,
           ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: isTablet ? 64 : 56,
+              height: isTablet ? 64 : 56,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                lesson.isCompleted
+                    ? Icons.check_circle_rounded
+                    : lesson.isUnlocked
+                        ? Icons.play_circle_rounded
+                        : Icons.lock_rounded,
+                color: color,
+                size: isTablet ? 32 : 28,
+              ),
+            ),
+            SizedBox(width: isTablet ? 20 : 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    lesson.title,
+                    style: TextStyle(
+                      fontSize: isTablet ? 18 : 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    lesson.description,
+                    style: TextStyle(
+                      fontSize: isTablet ? 14 : 13,
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                  if (lesson.isCompleted) ...[
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star_rounded,
+                          color: AppTheme.primaryOrange,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Completed',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.primaryOrange,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (lesson.isUnlocked)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: AppTheme.textMuted,
+                size: 16,
+              ),
+          ],
         ),
       ),
     );
-  }
-
-  LinearGradient _getLessonGradient(int index) {
-    switch (index % 4) {
-      case 0:
-        return AppTheme.primaryGradient;
-      case 1:
-        return AppTheme.secondaryGradient;
-      case 2:
-        return const LinearGradient(
-          colors: [AppTheme.accentPurple, AppTheme.softPink],
-        );
-      default:
-        return const LinearGradient(
-          colors: [AppTheme.accentTeal, AppTheme.brightCyan],
-        );
-    }
   }
 }

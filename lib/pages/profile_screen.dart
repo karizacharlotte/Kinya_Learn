@@ -31,7 +31,8 @@ class ProfileScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: isTablet ? 50 : 40,
                   backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: isTablet ? 50 : 40, color: const Color(0xFF8B5CF6)),
+                  child: Icon(Icons.person,
+                      size: isTablet ? 50 : 40, color: const Color(0xFF8B5CF6)),
                 ),
                 SizedBox(width: isTablet ? 20 : 16),
                 Expanded(
@@ -49,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                       Text(
                         'Intermediate Level • 45 day streak',
                         style: TextStyle(
-                          color: Colors.white70, 
+                          color: Colors.white70,
                           fontSize: isTablet ? 16 : 14,
                         ),
                       ),
@@ -58,7 +59,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.edit, color: Colors.white, size: isTablet ? 28 : 24),
+                  icon: Icon(Icons.edit,
+                      color: Colors.white, size: isTablet ? 28 : 24),
                 ),
               ],
             ),
@@ -69,22 +71,50 @@ class ProfileScreen extends StatelessWidget {
             child: orientation == Orientation.landscape && !isDesktop
                 ? Row(
                     children: [
-                      Expanded(child: _buildStatCard('Total XP', '2,450', Icons.star, const Color(0xFFF59E0B), isTablet)),
+                      Expanded(
+                          child: _buildStatCard('Total XP', '2,450', Icons.star,
+                              const Color(0xFFF59E0B), isTablet)),
                       SizedBox(width: isTablet ? 20 : 16),
-                      Expanded(child: _buildStatCard('Lessons', '23/45', Icons.book, const Color(0xFF4F46E5), isTablet)),
+                      Expanded(
+                          child: _buildStatCard('Lessons', '23/45', Icons.book,
+                              const Color(0xFF4F46E5), isTablet)),
                       SizedBox(width: isTablet ? 20 : 16),
-                      Expanded(child: _buildStatCard('Accuracy', '87%', Icons.check_circle, const Color(0xFF059669), isTablet)),
+                      Expanded(
+                          child: _buildStatCard(
+                              'Accuracy',
+                              '87%',
+                              Icons.check_circle,
+                              const Color(0xFF059669),
+                              isTablet)),
                     ],
                   )
                 : Column(
                     children: [
                       Row(
                         children: [
-                          Expanded(child: _buildStatCard('Total XP', '2,450', Icons.star, const Color(0xFFF59E0B), isTablet)),
+                          Expanded(
+                              child: _buildStatCard(
+                                  'Total XP',
+                                  '2,450',
+                                  Icons.star,
+                                  const Color(0xFFF59E0B),
+                                  isTablet)),
                           SizedBox(width: isTablet ? 20 : 16),
-                          Expanded(child: _buildStatCard('Lessons', '23/45', Icons.book, const Color(0xFF4F46E5), isTablet)),
+                          Expanded(
+                              child: _buildStatCard(
+                                  'Lessons',
+                                  '23/45',
+                                  Icons.book,
+                                  const Color(0xFF4F46E5),
+                                  isTablet)),
                           SizedBox(width: isTablet ? 20 : 16),
-                          Expanded(child: _buildStatCard('Accuracy', '87%', Icons.check_circle, const Color(0xFF059669), isTablet)),
+                          Expanded(
+                              child: _buildStatCard(
+                                  'Accuracy',
+                                  '87%',
+                                  Icons.check_circle,
+                                  const Color(0xFF059669),
+                                  isTablet)),
                         ],
                       ),
                     ],
@@ -111,12 +141,18 @@ class ProfileScreen extends StatelessWidget {
         childAspectRatio: 6,
         children: [
           _buildProfileSection('Learning Goals', Icons.flag, () {}, isTablet),
-          _buildProfileSection('Achievement Badges', Icons.emoji_events, () {}, isTablet),
-          _buildProfileSection('Learning Statistics', Icons.analytics, () {}, isTablet),
-          _buildProfileSection('Cultural Preferences', Icons.language, () {}, isTablet),
-          _buildProfileSection('Offline Downloads', Icons.download, () {}, isTablet),
-          _buildProfileSection('Notification Settings', Icons.notifications, () {}, isTablet),
-          _buildProfileSection('Privacy & Data', Icons.privacy_tip, () {}, isTablet),
+          _buildProfileSection(
+              'Achievement Badges', Icons.emoji_events, () {}, isTablet),
+          _buildProfileSection(
+              'Learning Statistics', Icons.analytics, () {}, isTablet),
+          _buildProfileSection(
+              'Cultural Preferences', Icons.language, () {}, isTablet),
+          _buildProfileSection(
+              'Offline Downloads', Icons.download, () {}, isTablet),
+          _buildProfileSection(
+              'Notification Settings', Icons.notifications, () {}, isTablet),
+          _buildProfileSection(
+              'Privacy & Data', Icons.privacy_tip, () {}, isTablet),
           _buildProfileSection('Help & Support', Icons.help, () {}, isTablet),
         ],
       ),
@@ -128,19 +164,26 @@ class ProfileScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: isTablet ? 20 : 16),
       children: [
         _buildProfileSection('Learning Goals', Icons.flag, () {}, isTablet),
-        _buildProfileSection('Achievement Badges', Icons.emoji_events, () {}, isTablet),
-        _buildProfileSection('Learning Statistics', Icons.analytics, () {}, isTablet),
-        _buildProfileSection('Cultural Preferences', Icons.language, () {}, isTablet),
-        _buildProfileSection('Offline Downloads', Icons.download, () {}, isTablet),
-        _buildProfileSection('Notification Settings', Icons.notifications, () {}, isTablet),
-        _buildProfileSection('Privacy & Data', Icons.privacy_tip, () {}, isTablet),
+        _buildProfileSection(
+            'Achievement Badges', Icons.emoji_events, () {}, isTablet),
+        _buildProfileSection(
+            'Learning Statistics', Icons.analytics, () {}, isTablet),
+        _buildProfileSection(
+            'Cultural Preferences', Icons.language, () {}, isTablet),
+        _buildProfileSection(
+            'Offline Downloads', Icons.download, () {}, isTablet),
+        _buildProfileSection(
+            'Notification Settings', Icons.notifications, () {}, isTablet),
+        _buildProfileSection(
+            'Privacy & Data', Icons.privacy_tip, () {}, isTablet),
         _buildProfileSection('Help & Support', Icons.help, () {}, isTablet),
         _buildProfileSection('About KinyaLearn', Icons.info, () {}, isTablet),
       ],
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, bool isTablet) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color, bool isTablet) {
     return Card(
       elevation: 2,
       child: Padding(
@@ -169,7 +212,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileSection(String title, IconData icon, VoidCallback onTap, bool isTablet) {
+  Widget _buildProfileSection(
+      String title, IconData icon, VoidCallback onTap, bool isTablet) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
@@ -177,7 +221,8 @@ class ProfileScreen extends StatelessWidget {
           horizontal: isTablet ? 20 : 16,
           vertical: isTablet ? 8 : 4,
         ),
-        leading: Icon(icon, color: const Color(0xFF4F46E5), size: isTablet ? 28 : 24),
+        leading: Icon(icon,
+            color: const Color(0xFF4F46E5), size: isTablet ? 28 : 24),
         title: Text(
           title,
           style: TextStyle(fontSize: isTablet ? 18 : 16),
