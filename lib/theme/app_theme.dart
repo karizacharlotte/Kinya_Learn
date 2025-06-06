@@ -1,62 +1,151 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Rwandan-inspired color palette from the provided colors
-  static const Color background = Color(0xFFF7F8FA);
+  // Colors from Figma design
+  static const Color background = Color(0xFFF8FAFC);
   static const Color foreground = Color(0xFF0F172A);
+  static const Color cardBackground = Color(0xFFFFFFFF);
 
-  // Primary colors from the palette
-  static const Color primaryBlue = Color(0xFF6600ff); // Deep purple-blue
-  static const Color primaryGreen = Color(0xFF66ff00); // Bright green
-  static const Color accentPurple = Color(0xFF990099); // Rich purple
-  static const Color accentTeal = Color(0xFF66cccc); // Soft teal
-  static const Color warmOrange = Color(0xFF996600); // Warm brown-orange
-  static const Color lightGreen = Color(0xFF99ff99); // Light green
+  // Primary brand colors from Figma
+  static const Color primaryPurple = Color(0xFF7C3AED);
+  static const Color primaryBlue = Color(0xFF8B5CF6); // Light purple
+  static const Color primaryGreen = Color(0xFF800020); // Maroon color
+  static const Color primaryOrange = Color(0xFFEA580C);
+  static const Color primaryRed = Color(0xFFDC2626);
+  static const Color primaryTeal = Color(0xFF0891B2);
 
-  // Additional accent colors
-  static const Color darkPurple = Color(0xFF663366); // Dark purple
-  static const Color brightCyan = Color(0xFF66ffff); // Bright cyan
-  static const Color deepGreen = Color(0xFF669966); // Deep green
-  static const Color softPink = Color(0xFF9966cc); // Soft pink-purple
+  // Accent colors from design
+  static const Color accentPink = Color(0xFFEC4899);
+  static const Color accentIndigo = Color(0xFF6366F1); // Medium purple
+  static const Color accentEmerald = Color(0xFF800020); // Maroon color
+
+  // Neutral colors from Figma
+  static const Color textPrimary = Color(0xFF0F172A);
+  static const Color textSecondary = Color(0xFF64748B);
+  static const Color textMuted = Color(0xFF94A3B8);
+  static const Color border = Color(0xFFE2E8F0);
+  static const Color surface = Color(0xFFF1F5F9);
+
+  // Status colors
+  static const Color success = Color(0xFF22C55E);
+  static const Color warning = Color(0xFFF59E0B);
+  static const Color error = Color(0xFFEF4444);
+  static const Color info = Color(0xFF3B82F6);
 
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Inter',
       colorScheme: const ColorScheme.light(
         surface: background,
         onSurface: foreground,
-        primary: primaryBlue,
+        primary: primaryPurple,
         onPrimary: Colors.white,
         secondary: primaryGreen,
         onSecondary: Colors.white,
-        tertiary: accentPurple,
+        tertiary: Color(0xFF8B5CF6), // Light purple instead of blue
         onTertiary: Colors.white,
+        error: error,
+        onError: Colors.white,
       ),
       scaffoldBackgroundColor: background,
+      cardTheme: CardTheme(
+        color: cardBackground,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: border, width: 1),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryPurple,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: cardBackground,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: primaryPurple, width: 2),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: foreground),
-        bodyMedium: TextStyle(color: foreground),
-        bodySmall: TextStyle(color: foreground),
+        headlineLarge: TextStyle(
+          color: textPrimary,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          letterSpacing: -0.5,
+        ),
+        headlineMedium: TextStyle(
+          color: textPrimary,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.25,
+        ),
+        titleLarge: TextStyle(
+          color: textPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: TextStyle(
+          color: textPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+        bodyMedium: TextStyle(
+          color: textSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+        bodySmall: TextStyle(
+          color: textMuted,
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
       ),
     );
   }
 
-  // Gradient combinations for beautiful UI elements
+  // Gradients from Figma design
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [primaryBlue, accentPurple],
+    colors: [primaryPurple, Color(0xFF8B5CF6)], // Purple to light purple
   );
 
-  static const LinearGradient secondaryGradient = LinearGradient(
+  static const LinearGradient successGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [primaryGreen, accentTeal],
+    colors: [primaryGreen, primaryRed], // Maroon to red gradient
+  );
+
+  static const LinearGradient warningGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [primaryOrange, primaryRed],
   );
 
   static const LinearGradient accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [warmOrange, lightGreen],
+    colors: [accentPink, accentIndigo],
   );
 }

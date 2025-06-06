@@ -7,40 +7,47 @@ class PracticeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1200;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppTheme.background,
       body: Column(
         children: [
           const Navigation(),
           // Practice Header
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(isTablet ? 24 : 20),
             decoration: const BoxDecoration(
-              gradient: AppTheme.accentGradient,
+              gradient: AppTheme.warningGradient,
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.fitness_center, color: Colors.white, size: 32),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Practice & Review',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                Icon(Icons.fitness_center,
+                    color: Colors.white, size: isTablet ? 36 : 32),
+                SizedBox(width: isTablet ? 20 : 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Practice & Review',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: isTablet ? 28 : 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Strengthen your Kinyarwanda skills',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
+                      Text(
+                        'Strengthen your Kinyarwanda skills',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: isTablet ? 16 : 14,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -48,47 +55,54 @@ class PracticeScreen extends StatelessWidget {
           // Practice Options
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(isTablet ? 20 : 16),
               child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 2),
+                crossAxisSpacing: isTablet ? 20 : 16,
+                mainAxisSpacing: isTablet ? 20 : 16,
+                childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.0),
                 children: [
                   _buildPracticeCard(
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
-                    AppTheme.primaryBlue,
+                    Color(0xFF8B5CF6), // Light purple
+                    isTablet,
                   ),
                   _buildPracticeCard(
                     'Listening Exercises',
                     'Comprehension Training',
                     Icons.headphones,
                     AppTheme.primaryGreen,
+                    isTablet,
                   ),
                   _buildPracticeCard(
                     'Quick Review',
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
-                    AppTheme.accentPurple,
+                    AppTheme.primaryPurple,
+                    isTablet,
                   ),
                   _buildPracticeCard(
                     'Translation Practice',
                     'English ↔ Kinyarwanda',
                     Icons.translate,
-                    AppTheme.warmOrange,
+                    AppTheme.primaryOrange,
+                    isTablet,
                   ),
                   _buildPracticeCard(
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
-                    AppTheme.softPink,
+                    AppTheme.primaryRed,
+                    isTablet,
                   ),
                   _buildPracticeCard(
                     'Daily Scenarios',
                     'Real-life Conversations',
                     Icons.chat_bubble,
-                    AppTheme.accentTeal,
+                    AppTheme.primaryTeal,
+                    isTablet,
                   ),
                 ],
               ),
@@ -96,19 +110,20 @@ class PracticeScreen extends StatelessWidget {
           ),
           // Daily Challenge
           Container(
-            margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(16),
+            margin: EdgeInsets.all(isTablet ? 20 : 16),
+            padding: EdgeInsets.all(isTablet ? 20 : 16),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [AppTheme.accentPurple, AppTheme.primaryGreen],
+                colors: [AppTheme.primaryPurple, AppTheme.primaryGreen],
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
             ),
             child: Row(
               children: [
-                const Icon(Icons.local_fire_department, color: Colors.white, size: 32),
-                const SizedBox(width: 16),
-                const Expanded(
+                Icon(Icons.local_fire_department,
+                    color: Colors.white, size: isTablet ? 36 : 32),
+                SizedBox(width: isTablet ? 20 : 16),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -116,13 +131,16 @@ class PracticeScreen extends StatelessWidget {
                         'Daily Challenge',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: isTablet ? 20 : 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         'Complete today\'s challenge for bonus XP!',
-                        style: TextStyle(color: Colors.white70, fontSize: 14),
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: isTablet ? 16 : 14,
+                        ),
                       ),
                     ],
                   ),
@@ -131,9 +149,16 @@ class PracticeScreen extends StatelessWidget {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFFFF6B6B),
+                    foregroundColor: AppTheme.primaryPurple,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isTablet ? 24 : 16,
+                      vertical: isTablet ? 12 : 8,
+                    ),
                   ),
-                  child: const Text('Start'),
+                  child: Text(
+                    'Start',
+                    style: TextStyle(fontSize: isTablet ? 16 : 14),
+                  ),
                 ),
               ],
             ),
@@ -143,48 +168,61 @@ class PracticeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPracticeCard(String title, String subtitle, IconData icon, Color color) {
+  Widget _buildPracticeCard(String title, String subtitle, IconData icon,
+      Color color, bool isTablet) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: InkWell(
-        onTap: () {
-          // Navigate to specific practice mode
-        },
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.cardBackground,
+          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+          border: Border.all(
+            color: AppTheme.border,
+            width: 1,
+          ),
+        ),
+        child: InkWell(
+          onTap: () {
+            // Navigate to specific practice mode
+          },
+          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+          child: Padding(
+            padding: EdgeInsets.all(isTablet ? 20 : 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: isTablet ? 60 : 50,
+                  height: isTablet ? 60 : 50,
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(icon, color: color, size: isTablet ? 28 : 24),
                 ),
-                child: Icon(icon, color: Colors.white, size: 24),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                SizedBox(height: isTablet ? 16 : 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: isTablet ? 18 : 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 12,
+                SizedBox(height: isTablet ? 6 : 4),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: AppTheme.textSecondary,
+                    fontSize: isTablet ? 14 : 12,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

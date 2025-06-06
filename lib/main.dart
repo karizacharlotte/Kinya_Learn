@@ -5,6 +5,8 @@ import 'pages/practice_screen.dart';
 import 'pages/culture_screen.dart';
 import 'pages/profile_screen.dart';
 import 'theme/app_theme.dart';
+import 'pages/auth/login_screen.dart';
+import 'pages/auth/register_screen.dart';
 
 void main() {
   runApp(const KinyaLearnApp());
@@ -22,6 +24,8 @@ class KinyaLearnApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
         '/lessons': (context) => const LessonsScreen(),
         '/practice': (context) => const PracticeScreen(),
         '/culture': (context) => const CultureScreen(),
