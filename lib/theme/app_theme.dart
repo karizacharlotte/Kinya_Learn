@@ -148,4 +148,19 @@ class AppTheme {
     end: Alignment.bottomRight,
     colors: [accentPink, accentIndigo],
   );
+
+  // Rwanda flag colors for splash screen
+  static const Color rwandaBlue = Color(0xFF00A1DE);
+  static const Color rwandaYellow = Color(0xFFFAD201);
+  static const Color rwandaGreen = Color(0xFF00A651);
+
+  // Splash screen gradient
+  static const LinearGradient splashGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFF8C42), // Orange from your splash screen
+      Color(0xFFFF6B1A), // Deeper orange
+    ],
+  );
 }

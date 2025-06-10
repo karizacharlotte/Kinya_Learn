@@ -1,0 +1,183 @@
+{
+   "checksum": "c872a76f21a6a109c3a4aa5324ca116e",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13394008972902319",
+            "date_last_used": "0",
+            "guid": "9bdac60d-e57e-492e-8572-f9708dc19bd1",
+            "id": "22",
+            "name": "Amazon.com - Online Shopping",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "http://www.amazon.com/gp/ubp/oneButton/config/redirectHome?tagbase=hpbk-ubpl&ref=aagateway-edgebook-hp",
+            "visit_count": 0
+         }, {
+            "date_added": "13394008972902010",
+            "date_last_used": "0",
+            "guid": "a4ccbce9-a877-469f-8a65-494370136cbe",
+            "id": "21",
+            "name": "Booking.com",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=booking&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         }, {
+            "date_added": "13394008972901675",
+            "date_last_used": "0",
+            "guid": "48163ac1-0051-4df7-944e-bf4833b4917e",
+            "id": "20",
+            "name": "McAfee Security",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/hp.html",
+            "visit_count": 0
+         }, {
+            "date_added": "13394008972897438",
+            "date_last_used": "0",
+            "guid": "f9c8b385-859c-482a-84e8-b9d29a6bfc67",
+            "id": "19",
+            "name": "LastPass password manager",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=lastpass&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962821301713",
+            "date_last_used": "0",
+            "guid": "eef3e038-cc92-41fe-83a8-d9caff5cba78",
+            "id": "16",
+            "name": "Amazon.com - Online Shopping",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "http://www.amazon.com/gp/ubp/oneButton/config/redirectHome?tagbase=hpbk-ubpl&ref=aagateway-edgebook-hp",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962821301591",
+            "date_last_used": "0",
+            "guid": "bdff1bd4-1186-4ed0-b32b-e8a31bdd8fca",
+            "id": "15",
+            "name": "Booking.com",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=booking&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962821301397",
+            "date_last_used": "0",
+            "guid": "53d1d11d-17d1-4c95-af97-a7f460e95eb1",
+            "id": "14",
+            "name": "McAfee Security",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/hp.html",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962821300598",
+            "date_last_used": "0",
+            "guid": "fcc75aaa-b836-4b27-9c7e-631e35e08bb7",
+            "id": "13",
+            "name": "LastPass password manager",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=lastpass&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         }, {
+            "date_added": "13318337804166388",
+            "date_last_used": "0",
+            "guid": "dfa07af7-eb0d-46a5-8025-6ecebd4d49d5",
+            "id": "10",
+            "name": "My Applications -",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://apply.alueducation.com/prog/",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962446690847",
+            "date_last_used": "0",
+            "guid": "92fa152d-5142-4af0-a4dd-61878715a45f",
+            "id": "9",
+            "name": "Amazon.com - Online Shopping",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "http://www.amazon.com/gp/ubp/oneButton/config/redirectHome?tagbase=hpbk-ubpl&ref=aagateway-edgebook-hp",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962446690677",
+            "date_last_used": "0",
+            "guid": "3fba6d99-3ec8-4158-969a-44faa41f7d27",
+            "id": "8",
+            "name": "Booking.com",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=booking&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962446690231",
+            "date_last_used": "0",
+            "guid": "6e453553-0dee-4c59-abd6-d921bce39ab6",
+            "id": "7",
+            "name": "McAfee Security",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/hp.html",
+            "visit_count": 0
+         }, {
+            "date_added": "13393962446689397",
+            "date_last_used": "0",
+            "guid": "eecc2537-e7fc-4913-9387-b6a4cd7daf04",
+            "id": "6",
+            "name": "LastPass password manager",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://js.redirect.hp.com/jumpstation?bd=lastpass&c=222&locale=*&pf=*&tp=edge&TYPE=3",
+            "visit_count": 0
+         } ],
+         "date_added": "13393962446104379",
+         "date_last_used": "0",
+         "date_modified": "13394008972902319",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13393962446104381",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13393962446104383",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CjEKDgiIgQISCP06qlWXAQAAEgAqGEJZMERpenRicEYzUFVMRTNGRThKakE9PUgDoAYMEo4BCAESiQEKHHl4Si82ZnZrZWNyN2twNUVRekI0dFdMcGRiRT0SJDE2ZjA5NGY2LTczZGEtNTljMi05Y2ZhLTJhZTJhNjJjMjY1YRgAIAAoADDS3bTurTA46uqek6swQOrqnpOrMEocYVJDV0xnaEY5YjVJbnFLSUR2dUovanZRa0ZjPVoAZQAAAADCPgJgABKsAQgKEqcBChxTb3lIYkh2dEJEZ1BiUzJTYjNBZ1lubGRleEU9EiRkZmEwN2FmNy1lYjBkLTQ2YTUtODAyNS02ZWNlYmQ0ZDQ5ZDUYACACKAIwxYWmrfUyOMqXjrDlMED16aWt9TJKHGpZb3FyT1NwMXpsQThlN0dsa29tVVRNQnZQND1aHiIcamh2YTM5TjVvWGtaSlp5MUw4MExJVllzaEo0PWXuZWtVwj4CYAUSjgEIAhKJAQocWWNTVG9udkVTUHdxQ3M0TDJjclZodjY4TDk4PRIkZjcyN2I2NjktZTVjMi01ZTlmLWIzNWYtMDM0N2Y0NGMyMjBkGAAgACgAMNLdtO6tMDiJ656TqzBAieuek6swShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAAMI+AmAAEo4BCAMSiQEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SJGM1YjFkODNhLTkzYjctNTI3YS05YzU3LWJhMjBkNmM2ZDJhMxgAIAAoADDS3bTurTA4teyek6swQLXsnpOrMEoceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPVoAZQAAAADCPgJgADAAOAA=",
+   "version": 1
+}

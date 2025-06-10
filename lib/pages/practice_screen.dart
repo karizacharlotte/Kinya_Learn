@@ -20,7 +20,14 @@ class PracticeScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
             decoration: const BoxDecoration(
-              gradient: AppTheme.warningGradient,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(255, 158, 74, 21),
+                  Color.fromARGB(255, 95, 72, 60),
+                ],
+              ),
             ),
             child: Row(
               children: [
@@ -66,42 +73,42 @@ class PracticeScreen extends StatelessWidget {
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
-                    Color(0xFF8B5CF6), // Light purple
+                    const Color.fromARGB(255, 158, 74, 21),
                     isTablet,
                   ),
                   _buildPracticeCard(
                     'Listening Exercises',
                     'Comprehension Training',
                     Icons.headphones,
-                    AppTheme.primaryGreen,
+                    const Color(0xFF00A1DE),
                     isTablet,
                   ),
                   _buildPracticeCard(
                     'Quick Review',
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
-                    AppTheme.primaryPurple,
+                    const Color(0xFF00A651),
                     isTablet,
                   ),
                   _buildPracticeCard(
                     'Translation Practice',
                     'English ↔ Kinyarwanda',
                     Icons.translate,
-                    AppTheme.primaryOrange,
+                    const Color(0xFFFAD201),
                     isTablet,
                   ),
                   _buildPracticeCard(
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
-                    AppTheme.primaryRed,
+                    const Color.fromARGB(255, 95, 72, 60),
                     isTablet,
                   ),
                   _buildPracticeCard(
                     'Daily Scenarios',
                     'Real-life Conversations',
                     Icons.chat_bubble,
-                    AppTheme.primaryTeal,
+                    const Color(0xFF00A1DE),
                     isTablet,
                   ),
                 ],
@@ -114,7 +121,12 @@ class PracticeScreen extends StatelessWidget {
             padding: EdgeInsets.all(isTablet ? 20 : 16),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [AppTheme.primaryPurple, AppTheme.primaryGreen],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(255, 95, 72, 60),
+                  Color.fromARGB(255, 158, 74, 21),
+                ],
               ),
               borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
             ),

@@ -13,7 +13,7 @@ class CultureScreen extends StatelessWidget {
     final orientation = MediaQuery.of(context).orientation;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppTheme.background,
       body: Column(
         children: [
           const Navigation(),
@@ -21,7 +21,14 @@ class CultureScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
             decoration: const BoxDecoration(
-              gradient: AppTheme.successGradient,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(255, 158, 74, 21),
+                  Color.fromARGB(255, 95, 72, 60),
+                ],
+              ),
             ),
             child: Row(
               children: [
@@ -66,7 +73,7 @@ class CultureScreen extends StatelessWidget {
             'Imigani n\'Amazina',
             'Learn wisdom through traditional Rwandan sayings',
             Icons.format_quote,
-            AppTheme.primaryBlue,
+            const Color.fromARGB(255, 158, 74, 21),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -74,7 +81,7 @@ class CultureScreen extends StatelessWidget {
             'Ibitekerezo n\'Imigani',
             'Discover ancient stories and their meanings',
             Icons.menu_book,
-            AppTheme.primaryGreen,
+            const Color(0xFF00A1DE),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -82,7 +89,7 @@ class CultureScreen extends StatelessWidget {
             'Ibyishimo by\'Igihugu',
             'Understand Rwandan festivals and ceremonies',
             Icons.celebration,
-            AppTheme.primaryPurple,
+            const Color(0xFF00A651),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -90,7 +97,7 @@ class CultureScreen extends StatelessWidget {
             'Ubwiyunge bw\'Umuco',
             'Learn respectful behavior and social customs',
             Icons.handshake,
-            AppTheme.primaryOrange,
+            const Color(0xFFFAD201),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -98,7 +105,7 @@ class CultureScreen extends StatelessWidget {
             'Amateka y\'u Rwanda',
             'Understand Rwanda\'s rich history and heritage',
             Icons.account_balance,
-            AppTheme.primaryRed,
+            const Color.fromARGB(255, 95, 72, 60),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -106,7 +113,7 @@ class CultureScreen extends StatelessWidget {
             'U Rwanda rw\'iki gihe',
             'Contemporary culture and social dynamics',
             Icons.location_city,
-            AppTheme.primaryTeal,
+            const Color(0xFF00A1DE),
             isTablet: true,
           ),
         ],
@@ -123,7 +130,7 @@ class CultureScreen extends StatelessWidget {
           'Imigani n\'Amazina',
           'Learn wisdom through traditional Rwandan sayings',
           Icons.format_quote,
-          AppTheme.primaryBlue,
+          const Color.fromARGB(255, 158, 74, 21),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -131,7 +138,7 @@ class CultureScreen extends StatelessWidget {
           'Ibitekerezo n\'Imigani',
           'Discover ancient stories and their meanings',
           Icons.menu_book,
-          AppTheme.primaryGreen,
+          const Color(0xFF00A1DE),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -139,7 +146,7 @@ class CultureScreen extends StatelessWidget {
           'Ibyishimo by\'Igihugu',
           'Understand Rwandan festivals and ceremonies',
           Icons.celebration,
-          AppTheme.primaryPurple,
+          const Color(0xFF00A651),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -147,7 +154,7 @@ class CultureScreen extends StatelessWidget {
           'Ubwiyunge bw\'Umuco',
           'Learn respectful behavior and social customs',
           Icons.handshake,
-          AppTheme.primaryOrange,
+          const Color(0xFFFAD201),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -155,7 +162,7 @@ class CultureScreen extends StatelessWidget {
           'Amateka y\'u Rwanda',
           'Understand Rwanda\'s rich history and heritage',
           Icons.account_balance,
-          AppTheme.primaryRed,
+          const Color.fromARGB(255, 95, 72, 60),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -163,7 +170,7 @@ class CultureScreen extends StatelessWidget {
           'U Rwanda rw\'iki gihe',
           'Contemporary culture and social dynamics',
           Icons.location_city,
-          AppTheme.primaryTeal,
+          const Color(0xFF00A1DE),
           isTablet: isTablet,
         ),
       ],
