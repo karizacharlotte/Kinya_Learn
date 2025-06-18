@@ -31,8 +31,8 @@ class LessonsScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 158, 74, 21),
-                  Color.fromARGB(255, 95, 72, 60),
+                  Color.fromARGB(255, 78, 42, 147), // changed from 158, 74, 21
+                  Color.fromARGB(255, 78, 42, 147), // changed from 95, 72, 60
                 ],
               ),
             ),
@@ -98,7 +98,7 @@ class LessonsScreen extends StatelessWidget {
   Widget _buildLessonCard(BuildContext context, Lesson lesson, int index,
       {bool isTablet = false}) {
     final colors = [
-      const Color.fromARGB(255, 158, 74, 21),
+      const Color.fromARGB(255, 78, 42, 147), // changed from 158, 74, 21
       const Color(0xFF00A1DE),
       const Color(0xFF00A651),
       const Color(0xFFFAD201),

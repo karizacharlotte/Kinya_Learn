@@ -33,8 +33,8 @@ class HomePage extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 158, 74, 21),
-                          Color.fromARGB(255, 95, 72, 60),
+                          Color.fromARGB(255, 78, 42, 147),
+                          Color.fromARGB(255, 78, 42, 147),
                         ],
                       ),
                     ),
@@ -74,7 +74,10 @@ class HomePage extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.white,
                                       foregroundColor: const Color.fromARGB(
-                                          255, 158, 74, 21),
+                                          255,
+                                          78,
+                                          42,
+                                          147), // changed from 158,74,21
                                       padding: EdgeInsets.symmetric(
                                         horizontal: isTablet ? 32 : 24,
                                         vertical: isTablet ? 20 : 16,
@@ -124,14 +127,14 @@ class HomePage extends StatelessWidget {
                                         flex: 1,
                                         child: Container(
                                           width: double.infinity,
-                                          color: const Color(0xFFFAD201),
+                                          color: const Color.fromARGB(255, 162, 143, 49),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 2,
                                         child: Container(
                                           width: double.infinity,
-                                          color: const Color(0xFF00A651),
+                                          color: const Color.fromARGB(255, 59, 117, 87),
                                         ),
                                       ),
                                     ],
@@ -144,6 +147,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
+
 
                   // Features Section
                   Padding(
@@ -174,7 +178,8 @@ class HomePage extends StatelessWidget {
                               'Interactive Lessons',
                               'Learn through engaging exercises and real-world scenarios',
                               Icons.school_rounded,
-                              const Color.fromARGB(255, 158, 74, 21),
+                              const Color.fromARGB(
+                                  255, 78, 42, 147), // changed from 158,74,21
                               isTablet,
                             ),
                             _buildFeatureCard(
@@ -207,8 +212,10 @@ class HomePage extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 95, 72, 60),
-                          Color.fromARGB(255, 158, 74, 21),
+                          Color.fromARGB(
+                              255, 78, 42, 147), // changed from 95,72,60
+                          Color.fromARGB(
+                              255, 78, 42, 147), // changed from 158,74,21
                         ],
                       ),
                     ),
@@ -241,8 +248,8 @@ class HomePage extends StatelessWidget {
                                   Navigator.pushNamed(context, '/lessons'),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                foregroundColor:
-                                    const Color.fromARGB(255, 158, 74, 21),
+                                foregroundColor: const Color.fromARGB(
+                                    255, 78, 42, 147), // changed from 158,74,21
                                 padding: EdgeInsets.symmetric(
                                   horizontal: isTablet ? 32 : 24,
                                   vertical: isTablet ? 20 : 16,

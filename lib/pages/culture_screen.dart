@@ -25,8 +25,8 @@ class CultureScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 158, 74, 21),
-                  Color.fromARGB(255, 95, 72, 60),
+                  Color.fromARGB(255, 78, 42, 147),
+                  Color.fromARGB(255, 78, 42, 147),
                 ],
               ),
             ),
@@ -73,7 +73,7 @@ class CultureScreen extends StatelessWidget {
             'Imigani n\'Amazina',
             'Learn wisdom through traditional Rwandan sayings',
             Icons.format_quote,
-            const Color.fromARGB(255, 158, 74, 21),
+            const Color.fromARGB(255, 78, 42, 147),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -89,7 +89,7 @@ class CultureScreen extends StatelessWidget {
             'Ibyishimo by\'Igihugu',
             'Understand Rwandan festivals and ceremonies',
             Icons.celebration,
-            const Color(0xFF00A651),
+            const Color.fromARGB(255, 70, 121, 95),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -97,7 +97,7 @@ class CultureScreen extends StatelessWidget {
             'Ubwiyunge bw\'Umuco',
             'Learn respectful behavior and social customs',
             Icons.handshake,
-            const Color(0xFFFAD201),
+            const Color.fromARGB(255, 111, 102, 56),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -105,7 +105,7 @@ class CultureScreen extends StatelessWidget {
             'Amateka y\'u Rwanda',
             'Understand Rwanda\'s rich history and heritage',
             Icons.account_balance,
-            const Color.fromARGB(255, 95, 72, 60),
+            const Color.fromARGB(255, 78, 42, 147),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -130,7 +130,7 @@ class CultureScreen extends StatelessWidget {
           'Imigani n\'Amazina',
           'Learn wisdom through traditional Rwandan sayings',
           Icons.format_quote,
-          const Color.fromARGB(255, 158, 74, 21),
+          const Color.fromARGB(255, 78, 42, 147),
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -162,7 +162,7 @@ class CultureScreen extends StatelessWidget {
           'Amateka y\'u Rwanda',
           'Understand Rwanda\'s rich history and heritage',
           Icons.account_balance,
-          const Color.fromARGB(255, 95, 72, 60),
+          const Color.fromARGB(255, 78, 42, 147),
           isTablet: isTablet,
         ),
         _buildCultureCard(

@@ -28,8 +28,8 @@ class ProfileScreen extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 158, 74, 21),
-                          Color.fromARGB(255, 95, 72, 60),
+                          Color.fromARGB(255, 78, 42, 147),
+                          Color.fromARGB(255, 78, 42, 147),
                         ],
                       ),
                     ),
@@ -53,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: isTablet ? 16 : 12),
                         // User Name
                         Text(
-                          'Sarah Mukamana',
+                          'Aubert BIHIBINDI',
                           style: TextStyle(
                             fontSize: isTablet ? 24 : 20,
                             fontWeight: FontWeight.bold,
@@ -222,12 +222,12 @@ class ProfileScreen extends StatelessWidget {
                 height: isTablet ? 40 : 36,
                 decoration: BoxDecoration(
                   color:
-                      const Color.fromARGB(255, 158, 74, 21).withOpacity(0.1),
+                      const Color.fromARGB(255, 78, 42, 147).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   icon,
-                  color: const Color.fromARGB(255, 158, 74, 21),
+                  color: const Color.fromARGB(255, 78, 42, 147),
                   size: isTablet ? 20 : 18,
                 ),
               ),

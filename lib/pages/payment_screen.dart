@@ -2,23 +2,12 @@ import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
 
-class PaymentScreen extends StatefulWidget {
+class PaymentScreen extends StatelessWidget {
   final Lesson lesson;
-
   const PaymentScreen({super.key, required this.lesson});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
-}
-
-class _PaymentScreenState extends State<PaymentScreen> {
-  String selectedPaymentMethod = 'card';
-
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
@@ -36,21 +25,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(isTablet ? 24 : 20),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             // Premium features
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(isTablet ? 24 : 20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 158, 74, 21),
-                    Color.fromARGB(255, 95, 72, 60),
+                    Color.fromARGB(255, 78, 42, 147),
+                    Color.fromARGB(255, 78, 42, 147),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
@@ -61,11 +50,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   const Icon(Icons.workspace_premium,
                       color: Colors.white, size: 32),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Unlock Premium Features',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: isTablet ? 24 : 20,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -85,7 +74,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             // Pricing
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(isTablet ? 20 : 16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppTheme.cardBackground,
                 borderRadius: BorderRadius.circular(16),
@@ -96,7 +85,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Text(
                     'Final Quiz & Certificate',
                     style: TextStyle(
-                      fontSize: isTablet ? 18 : 16,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.textPrimary,
                     ),
@@ -105,7 +94,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Text(
                     '\$9.99',
                     style: TextStyle(
-                      fontSize: isTablet ? 32 : 28,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.primaryPurple,
                     ),
@@ -126,7 +115,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     barrierDismissible: false,
                     builder: (context) => const Center(
                       child: CircularProgressIndicator(
-                          color: Color.fromARGB(255, 158, 74, 21)),
+                          color: Color.fromARGB(255, 78, 42, 147)),
                     ),
                   );
 
@@ -135,12 +124,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Navigator.pushReplacementNamed(
                       context,
                       '/final-quiz',
-                      arguments: widget.lesson,
+                      arguments: lesson,
                     );
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 158, 74, 21),
+                  backgroundColor: const Color.fromARGB(255, 78, 42, 147),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: const Text('Purchase Access - \$9.99'),
@@ -152,3 +141,4 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 }
+
