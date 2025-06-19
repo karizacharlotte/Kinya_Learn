@@ -4,8 +4,8 @@ import '../theme/app_theme.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
-
-  const LessonDetailScreen({super.key, required this.lesson});
+  const LessonDetailScreen({super.key, required this.lesson})
+      : assert(lesson != null);
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -98,7 +98,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   const SizedBox(height: 16),
 
                   Text(
-                    'Basic Greetings:\n• Muraho - Hello\n• Mwaramutse - Good morning\n• Mwiriwe - Good afternoon/evening\n• Ijoro ryiza - Good night',
+                    widget.lesson.description,
                     style: TextStyle(
                       fontSize: isTablet ? 16 : 14,
                       color: AppTheme.textSecondary,

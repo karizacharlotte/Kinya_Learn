@@ -1,0 +1,1 @@
+ C:\\Users\\evotech\\Desktop\\Kinya_Learn\\.dart_tool\\flutter_build\\1c1dc00155432924b315d3d8a542cefe\\native_assets.json: 
