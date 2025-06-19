@@ -24,7 +24,7 @@ class _LessonPageState extends State<LessonPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF4F46E5),
+        backgroundColor: const Color.fromARGB(255, 78, 42, 147),
         foregroundColor: Colors.white,
         title: Text(widget.lesson.title),
         bottom: PreferredSize(
@@ -41,7 +41,6 @@ class _LessonPageState extends State<LessonPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Question
             Text(
               exercise.question,
               style: const TextStyle(
@@ -79,7 +78,7 @@ class _LessonPageState extends State<LessonPage> {
               ElevatedButton(
                 onPressed: _nextExercise,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF4F46E5),
+                  backgroundColor: const Color.fromARGB(255, 78, 42, 147),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
