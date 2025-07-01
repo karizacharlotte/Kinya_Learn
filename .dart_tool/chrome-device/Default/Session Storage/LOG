@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2025/06/26-20:10:24.323 a98 Reusing MANIFEST C:\Users\RAISSA\AppData\Local\Temp\flutter_tools.9cec8ee2\flutter_tools_chrome_device.e75aa3e8\Default\Session Storage/MANIFEST-000001
 2025/06/26-20:10:24.395 a98 Recovering log #3
 2025/06/26-20:10:24.401 a98 Reusing old log C:\Users\RAISSA\AppData\Local\Temp\flutter_tools.9cec8ee2\flutter_tools_chrome_device.e75aa3e8\Default\Session Storage/000003.log 
+=======
+2025/06/19-17:55:44.872 3ebc Reusing MANIFEST C:\Users\evotech\AppData\Local\Temp\flutter_tools.d68d4305\flutter_tools_chrome_device.c30e7d9a\Default\Session Storage/MANIFEST-000001
+2025/06/19-17:55:44.905 3ebc Recovering log #3
+2025/06/19-17:55:44.932 3ebc Reusing old log C:\Users\evotech\AppData\Local\Temp\flutter_tools.d68d4305\flutter_tools_chrome_device.c30e7d9a\Default\Session Storage/000003.log 
+>>>>>>> f64aacf7325a363285f0c5b7d99c6e08b5c3cc59

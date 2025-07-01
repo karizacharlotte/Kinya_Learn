@@ -10,12 +10,13 @@ import 'pages/auth/auth_choice_screen.dart';
 import 'pages/splash_screen.dart';
 import 'pages/certificate_screen.dart';
 import 'theme/app_theme.dart';
-
 import 'models/lesson.dart';
 import 'pages/auth/register_screen.dart';
 import 'pages/payment_screen.dart';
 import 'pages/final_quiz_screen.dart';
 import 'pages/about_screen.dart';
+import 'pages/lesson_detail_screen.dart';
+import 'pages/practice_quiz_screen.dart' as practice_quiz;
 
 void main() {
   runApp(const KinyaLearnApp());
@@ -37,27 +38,79 @@ class KinyaLearnApp extends StatelessWidget {
         '/auth-choice': (context) => const AuthChoiceScreen(),
         '/login': (context) => const LoginScreen(),
         '/lessons': (context) => const LessonsScreen(),
-        '/lesson-detail': (context) {
-          final lesson = ModalRoute.of(context)!.settings.arguments as Lesson;
-          return LessonPage(lesson: lesson);
-        },
         '/practice': (context) => const PracticeScreen(),
         '/culture': (context) => const CultureScreen(),
         '/profile': (context) => const ProfileScreen(),
-        '/certificate': (context) {
-          final lesson = ModalRoute.of(context)!.settings.arguments as Lesson;
-          return CertificateScreen(lesson: lesson);
-        },
         '/register': (context) => const RegisterScreen(),
-        '/payment': (context) {
-          final lesson = ModalRoute.of(context)!.settings.arguments as Lesson;
-          return PaymentScreen(lesson: lesson);
-        },
-        '/final-quiz': (context) {
-          final lesson = ModalRoute.of(context)!.settings.arguments as Lesson;
-          return FinalQuizScreen(lesson: lesson);
-        },
         '/about': (context) => const AboutScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/lesson-detail') {
+          final lesson = settings.arguments as Lesson?;
+          if (lesson == null) {
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(child: Text('No lesson data provided!')),
+              ),
+            );
+          }
+          return MaterialPageRoute(
+            builder: (_) => LessonDetailScreen(lesson: lesson),
+          );
+        }
+        if (settings.name == '/certificate') {
+          final lesson = settings.arguments as Lesson?;
+          if (lesson == null) {
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(child: Text('No lesson data provided!')),
+              ),
+            );
+          }
+          return MaterialPageRoute(
+            builder: (_) => CertificateScreen(lesson: lesson),
+          );
+        }
+        if (settings.name == '/payment') {
+          final lesson = settings.arguments as Lesson?;
+          if (lesson == null) {
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(child: Text('No lesson data provided!')),
+              ),
+            );
+          }
+          return MaterialPageRoute(
+            builder: (_) => PaymentScreen(lesson: lesson),
+          );
+        }
+        if (settings.name == '/final-quiz') {
+          final lesson = settings.arguments as Lesson?;
+          if (lesson == null) {
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(child: Text('No lesson data provided!')),
+              ),
+            );
+          }
+          return MaterialPageRoute(
+            builder: (_) => FinalQuizScreen(lesson: lesson),
+          );
+        }
+        if (settings.name == '/practice-quiz') {
+          final lesson = settings.arguments as Lesson?;
+          if (lesson == null) {
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Center(child: Text('No lesson data provided!')),
+              ),
+            );
+          }
+          return MaterialPageRoute(
+            builder: (_) => practice_quiz.PracticeQuizScreen(lesson: lesson),
+          );
+        }
+        return null;
       },
     );
   }
