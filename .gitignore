@@ -31,4 +31,16 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts 
+next-env.d.ts
+
+# flutter
+.dart_tool/
+build/
+.packages
+.pub-cache/
+.pub/
+*.lock
+*.log
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
