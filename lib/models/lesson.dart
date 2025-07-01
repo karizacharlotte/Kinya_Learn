@@ -12,35 +12,32 @@ class Lesson {
     required this.title,
     required this.description,
     required this.exercises,
-    required this.order,
+    this.order = 0, // Add default value
     this.isCompleted = false,
     this.isUnlocked = false,
   });
 }
 
 class Exercise {
-  final String id;
-  final ExerciseType type;
+  final String? id;
+  final ExerciseType? type;
   final String question;
   final String correctAnswer;
   final List<String> options;
-  final String? audioUrl;
-  final String? imageUrl;
 
   Exercise({
-    required this.id,
-    required this.type,
+    this.id,
+    this.type,
     required this.question,
     required this.correctAnswer,
     required this.options,
-    this.audioUrl,
-    this.imageUrl,
   });
 }
 
 enum ExerciseType {
   multipleChoice,
   translation,
+  fillInBlank,
   listening,
   speaking,
   matching,
