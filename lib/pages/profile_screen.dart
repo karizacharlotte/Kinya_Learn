@@ -53,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: isTablet ? 16 : 12),
                         // User Name
                         Text(
-                          'Aubert BIHIBINDI',
+                          'Aubertine BIHIBINDI',
                           style: TextStyle(
                             fontSize: isTablet ? 24 : 20,
                             fontWeight: FontWeight.bold,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../components/navigation.dart';
 import '../theme/app_theme.dart';
+import '../data/kinyarwanda_lessons.dart';
+import '../models/lesson.dart';
 
 class CultureScreen extends StatelessWidget {
   const CultureScreen({super.key});
@@ -10,7 +12,6 @@ class CultureScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
-    final orientation = MediaQuery.of(context).orientation;
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -51,15 +52,15 @@ class CultureScreen extends StatelessWidget {
           // Cultural Content Sections
           Expanded(
             child: isDesktop
-                ? _buildDesktopGrid(isTablet)
-                : _buildMobileList(isTablet),
+                ? _buildDesktopGrid(isTablet, context)
+                : _buildMobileList(isTablet, context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDesktopGrid(bool isTablet) {
+  Widget _buildDesktopGrid(bool isTablet, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: GridView.count(
@@ -73,7 +74,16 @@ class CultureScreen extends StatelessWidget {
             'Imigani n\'Amazina',
             'Learn wisdom through traditional Rwandan sayings',
             Icons.format_quote,
+<<<<<<< HEAD
           AppTheme.primaryOrange,
+=======
+            const Color.fromARGB(255, 78, 42, 147),
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/lesson-detail',
+              arguments: _getProverbsLesson(),
+            ),
+>>>>>>> origin/main
             isTablet: true,
           ),
           _buildCultureCard(
@@ -90,7 +100,7 @@ class CultureScreen extends StatelessWidget {
             'Ibyishimo by\'Igihugu',
             'Understand Rwandan festivals and ceremonies',
             Icons.celebration,
-            const Color.fromARGB(255, 70, 121, 95),
+            const Color(0xFF00A651),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -98,7 +108,7 @@ class CultureScreen extends StatelessWidget {
             'Ubwiyunge bw\'Umuco',
             'Learn respectful behavior and social customs',
             Icons.handshake,
-            const Color.fromARGB(255, 111, 102, 56),
+            const Color(0xFFFAD201),
             isTablet: true,
           ),
           _buildCultureCard(
@@ -122,7 +132,7 @@ class CultureScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileList(bool isTablet) {
+  Widget _buildMobileList(bool isTablet, BuildContext context) {
     return ListView(
       padding: EdgeInsets.all(isTablet ? 20 : 16),
       children: [
@@ -131,7 +141,16 @@ class CultureScreen extends StatelessWidget {
           'Imigani n\'Amazina',
           'Learn wisdom through traditional Rwandan sayings',
           Icons.format_quote,
+<<<<<<< HEAD
         AppTheme.primaryOrange,
+=======
+          const Color.fromARGB(255, 78, 42, 147),
+          onTap: () => Navigator.pushNamed(
+            context,
+            '/lesson-detail',
+            arguments: _getProverbsLesson(),
+          ),
+>>>>>>> origin/main
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -180,7 +199,7 @@ class CultureScreen extends StatelessWidget {
 
   Widget _buildCultureCard(String title, String kinyarwandaTitle,
       String description, IconData icon, Color color,
-      {bool isTablet = false}) {
+      {bool isTablet = false, VoidCallback? onTap}) {
     return Container(
       margin: EdgeInsets.only(bottom: isTablet ? 20 : 16),
       child: Card(
@@ -188,7 +207,7 @@ class CultureScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
         child: InkWell(
-          onTap: () {
+          onTap: onTap ?? () {
             // Navigate to specific cultural content
           },
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
@@ -252,4 +271,10 @@ class CultureScreen extends StatelessWidget {
       ),
     );
   }
+
+  Lesson _getProverbsLesson() {
+    return KinyarwandaLessons.getLessons()
+        .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
+  }
 }
+
