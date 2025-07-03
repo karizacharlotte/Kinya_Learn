@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../components/navigation.dart';
 import '../data/kinyarwanda_lessons.dart';
 import '../models/lesson.dart';
-import '../theme/app_theme.dart';
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({super.key});
@@ -15,7 +14,7 @@ class LessonsScreen extends StatelessWidget {
     final isDesktop = screenWidth > 1200;
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: Colors.grey[50],
       body: SafeArea(
         child: Column(
           children: [
@@ -92,34 +91,6 @@ class LessonsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLessonsGrid(BuildContext context, List<Lesson> lessons,
-      bool isTablet, bool isDesktop) {
-    return Padding(
-      padding: EdgeInsets.all(isDesktop ? 32 : (isTablet ? 24 : 20)),
-      child: isDesktop
-          ? GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 24,
-                mainAxisSpacing: 20,
-                childAspectRatio: 3.5,
-              ),
-              itemCount: lessons.length,
-              itemBuilder: (context, index) => _buildLessonCard(
-                  context, lessons[index], index,
-                  isTablet: true),
-            )
-          : ListView.builder(
-              itemCount: lessons.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _buildLessonCard(context, lessons[index], index,
-                    isTablet: isTablet),
-              ),
-            ),
-    );
-  }
-
   Widget _buildLessonCard(BuildContext context, Lesson lesson, int index,
       {bool isTablet = false}) {
     final colors = [
@@ -153,9 +124,9 @@ class LessonsScreen extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(isTablet ? 24 : 20),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardBackground,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.border, width: 1),
+                  border: Border.all(color: Colors.grey[300]!, width: 1),
                 ),
                 child: Row(
                   children: [
@@ -186,7 +157,7 @@ class LessonsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: isTablet ? 18 : 16,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.textPrimary,
+                              color: Colors.black87,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -194,24 +165,24 @@ class LessonsScreen extends StatelessWidget {
                             lesson.description,
                             style: TextStyle(
                               fontSize: isTablet ? 14 : 13,
-                              color: AppTheme.textSecondary,
+                              color: Colors.grey[600],
                             ),
                           ),
                           if (lesson.isCompleted) ...[
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.star_rounded,
-                                  color: const Color(0xFFFAD201),
+                                  color: Color(0xFFFAD201),
                                   size: 16,
                                 ),
                                 const SizedBox(width: 4),
-                                Text(
+                                const Text(
                                   'Completed',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: const Color(0xFFFAD201),
+                                    color: Color(0xFFFAD201),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -224,7 +195,7 @@ class LessonsScreen extends StatelessWidget {
                     if (lesson.isUnlocked)
                       Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: AppTheme.textMuted,
+                        color: Colors.grey[400],
                         size: 16,
                       ),
                   ],
@@ -247,3 +218,4 @@ class LessonsScreen extends StatelessWidget {
     );
   }
 }
+                   

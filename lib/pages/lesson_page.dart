@@ -21,6 +21,20 @@ class _LessonPageState extends State<LessonPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Add null safety check
+    if (widget.lesson.exercises.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+          foregroundColor: Colors.white,
+          title: Text(widget.lesson.title),
+        ),
+        body: const Center(
+          child: Text('No exercises available for this lesson.'),
+        ),
+      );
+    }
+
     final exercise = widget.lesson.exercises[currentExerciseIndex];
     final progress =
         (currentExerciseIndex + 1) / widget.lesson.exercises.length;
@@ -54,90 +68,101 @@ class _LessonPageState extends State<LessonPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
-              // Options with highlight and hover
-              ...exercise.options.map((option) {
-                final isSelected = selectedAnswer == option;
-                final isCorrectAnswer = option == exercise.correctAnswer;
-                final showFeedback = showResult && isSelected;
-                Color? borderColor;
-                Color? fillColor;
-                if (showResult) {
-                  if (isSelected && isCorrectAnswer) {
-                    borderColor = Colors.green;
-                    fillColor = Colors.green.withOpacity(0.1);
-                  } else if (isSelected && !isCorrectAnswer) {
-                    borderColor = Colors.red;
-                    fillColor = Colors.red.withOpacity(0.1);
-                  } else if (isCorrectAnswer) {
-                    borderColor = Colors.green;
-                    fillColor = Colors.green.withOpacity(0.05);
+              // Add null safety check for options
+              if (exercise.options.isNotEmpty)
+                ...exercise.options.map((option) {
+                  final isSelected = selectedAnswer == option;
+                  final isCorrectAnswer = option == exercise.correctAnswer;
+                  final showFeedback = showResult && isSelected;
+                  Color? borderColor;
+                  Color? fillColor;
+                  if (showResult) {
+                    if (isSelected && isCorrectAnswer) {
+                      borderColor = Colors.green;
+                      fillColor = Colors.green.withOpacity(0.1);
+                    } else if (isSelected && !isCorrectAnswer) {
+                      borderColor = Colors.red;
+                      fillColor = Colors.red.withOpacity(0.1);
+                    } else if (isCorrectAnswer) {
+                      borderColor = Colors.green;
+                      fillColor = Colors.green.withOpacity(0.05);
+                    }
+                  } else if (hoveredOption == option) {
+                    borderColor = Colors.deepPurple.withOpacity(0.5);
+                    fillColor = Colors.deepPurple.withOpacity(0.05);
                   }
-                } else if (hoveredOption == option) {
-                  borderColor = Colors.deepPurple.withOpacity(0.5);
-                  fillColor = Colors.deepPurple.withOpacity(0.05);
-                }
 
-                Widget optionChild = Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        option,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    if (showResult && isSelected)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
+                  Widget optionChild = Row(
+                    children: [
+                      Expanded(
                         child: Text(
-                          isCorrectAnswer ? 'Correct' : 'Incorrect',
-                          style: TextStyle(
-                            color: isCorrectAnswer ? Colors.green : Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          option,
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
-                    if (showResult && !isSelected && isCorrectAnswer)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: const Text(
-                          'Correct',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
+                      if (showResult && isSelected)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            isCorrectAnswer ? 'Correct' : 'Incorrect',
+                            style: TextStyle(
+                              color:
+                                  isCorrectAnswer ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                );
+                      if (showResult && !isSelected && isCorrectAnswer)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            'Correct',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
 
-                Widget button = OutlinedButton(
-                  onPressed: showResult ? null : () => _selectAnswer(option),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: borderColor != null
-                        ? BorderSide(color: borderColor, width: 2)
-                        : null,
-                    backgroundColor: fillColor,
-                  ),
-                  child: optionChild,
-                );
+                  Widget button = OutlinedButton(
+                    onPressed: showResult ? null : () => _selectAnswer(option),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      side: borderColor != null
+                          ? BorderSide(color: borderColor, width: 2)
+                          : null,
+                      backgroundColor: fillColor,
+                    ),
+                    child: optionChild,
+                  );
 
-                if (kIsWeb || defaultTargetPlatform == TargetPlatform.macOS || defaultTargetPlatform == TargetPlatform.windows || defaultTargetPlatform == TargetPlatform.linux) {
-                  button = MouseRegion(
-                    onEnter: (_) {
-                      if (!showResult) setState(() => hoveredOption = option);
-                    },
-                    onExit: (_) {
-                      if (!showResult) setState(() => hoveredOption = null);
-                    },
+                  if (kIsWeb ||
+                      defaultTargetPlatform == TargetPlatform.macOS ||
+                      defaultTargetPlatform == TargetPlatform.windows ||
+                      defaultTargetPlatform == TargetPlatform.linux) {
+                    button = MouseRegion(
+                      onEnter: (_) {
+                        if (!showResult) setState(() => hoveredOption = option);
+                      },
+                      onExit: (_) {
+                        if (!showResult) setState(() => hoveredOption = null);
+                      },
+                      child: button,
+                    );
+                  }
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
                     child: button,
                   );
-                }
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: button,
-                );
-              }),
+                })
+              else
+                const Text(
+                  'No options available for this exercise.',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
               // Feedback below options
               if (showResult)
                 Padding(
@@ -190,11 +215,11 @@ class _LessonPageState extends State<LessonPage> {
   }
 
   void _selectAnswer(String answer) {
+    final exercise = widget.lesson.exercises[currentExerciseIndex];
     setState(() {
       selectedAnswer = answer;
       showResult = true;
-      isCorrect =
-          answer == widget.lesson.exercises[currentExerciseIndex].correctAnswer;
+      isCorrect = answer == exercise.correctAnswer;
     });
   }
 
@@ -263,7 +288,8 @@ class _LessonPageState extends State<LessonPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 78, 42, 147),
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 ),
                 child: const Text('Continue'),
               ),
