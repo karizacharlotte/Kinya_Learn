@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'pages/home_page.dart';
 import 'pages/lessons_screen.dart';
 import 'pages/lesson_page.dart';
@@ -19,11 +20,13 @@ import 'pages/lesson_detail_screen.dart';
 import 'pages/practice_quiz_screen.dart' as practice_quiz;
 
 void main() {
+  debugPaintSizeEnabled = false; // Highlights layout issues
   runApp(const KinyaLearnApp());
 }
 
 class KinyaLearnApp extends StatelessWidget {
   const KinyaLearnApp({super.key});
+    final videoUrl = "https://www.youtube.com/watch?v=1k9UcU-5tc8&list"; // Example video
 
   @override
   Widget build(BuildContext context) {

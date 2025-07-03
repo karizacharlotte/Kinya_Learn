@@ -33,8 +33,8 @@ class HomePage extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 78, 42, 147),
-                          Color.fromARGB(255, 78, 42, 147),
+                          AppTheme.primaryOrange,
+                          AppTheme.primaryOrange,
                         ],
                       ),
                     ),

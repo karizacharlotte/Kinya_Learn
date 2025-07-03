@@ -1,0 +1,1 @@
+ /home/kariza/Downloads/Kinya_Learn/.dart_tool/flutter_build/0fc5c346957f8db2fd872bba0cf226f2/native_assets.json: 

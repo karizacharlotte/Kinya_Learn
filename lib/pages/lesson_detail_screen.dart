@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kinya_learn/video.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
 
@@ -13,11 +14,39 @@ class LessonDetailScreen extends StatefulWidget {
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   bool isContentCompleted = false;
+  bool isVideoFullscreen = false;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
+
+    // If video is in fullscreen mode, show only the video
+    if (isVideoFullscreen) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: [
+            VideoPlayerScreen(
+              videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
+              // autoPlay: true,
+            ),
+            Positioned(
+              top: 40,
+              right: 20,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white, size: 30),
+                onPressed: () {
+                  setState(() {
+                    isVideoFullscreen = false;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -126,6 +155,49 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Video Section with Fullscreen Button
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 24),
+              child: Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoPlayerScreen(
+                        videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
+                      ),
+                      Positioned.fill(
+                        child: Center(
+                          child: IconButton(
+                            icon: const Icon(Icons.fullscreen,
+                                color: Colors.white, size: 50),
+                            onPressed: () {
+                              setState(() {
+                                isVideoFullscreen = true;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.fullscreen),
+                      label: const Text('Open Video in Fullscreen'),
+                      onPressed: () {
+                        setState(() {
+                          isVideoFullscreen = true;
+                        });
+                      },
                     ),
                   ),
                 ],

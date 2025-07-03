@@ -28,8 +28,8 @@ class ProfileScreen extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(255, 78, 42, 147),
-                          Color.fromARGB(255, 78, 42, 147),
+                          AppTheme.primaryOrange,
+                          AppTheme.primaryOrange,
                         ],
                       ),
                     ),
@@ -222,12 +222,12 @@ class ProfileScreen extends StatelessWidget {
                 height: isTablet ? 40 : 36,
                 decoration: BoxDecoration(
                   color:
-                      const Color.fromARGB(255, 78, 42, 147).withOpacity(0.1),
+                    AppTheme.primaryOrange.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   icon,
-                  color: const Color.fromARGB(255, 78, 42, 147),
+                  color:AppTheme.primaryOrange,
                   size: isTablet ? 20 : 18,
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kinya_learn/theme/app_theme.dart';
 import '../models/lesson.dart';
 import '../data/kinyarwanda_lessons.dart';
 
@@ -27,7 +28,7 @@ class _LessonPageState extends State<LessonPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+        backgroundColor: const Color.fromRGBO(234, 88, 12, 1),
         foregroundColor: Colors.white,
         title: Text(widget.lesson.title),
         bottom: PreferredSize(
@@ -158,7 +159,7 @@ class _LessonPageState extends State<LessonPage> {
                 ElevatedButton(
                   onPressed: _nextExercise,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+                    backgroundColor:AppTheme.primaryOrange,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -261,7 +262,7 @@ class _LessonPageState extends State<LessonPage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+                  backgroundColor:AppTheme.primaryOrange,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 ),

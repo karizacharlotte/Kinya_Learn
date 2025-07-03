@@ -7,16 +7,16 @@ class AppTheme {
   static const Color cardBackground = Color(0xFFFFFFFF);
 
   // Primary brand colors from Figma
-  static const Color primaryPurple = Color(0xFF7C3AED);
-  static const Color primaryBlue = Color(0xFF8B5CF6); // Light purple
-  static const Color primaryGreen = Color(0xFF800020); // Maroon color
   static const Color primaryOrange = Color(0xFFEA580C);
+  static const Color primaryPurple = primaryOrange;
+  static const Color primaryBlue = primaryOrange; // Light purple
+  static const Color primaryGreen = Color(0xFF800020); // Maroon color
   static const Color primaryRed = Color(0xFFDC2626);
-  static const Color primaryTeal = Color(0xFF0891B2);
+  static const Color primaryTeal = primaryOrange;
 
   // Accent colors from design
   static const Color accentPink = Color(0xFFEC4899);
-  static const Color accentIndigo = Color(0xFF6366F1); // Medium purple
+  static const Color accentIndigo = primaryOrange; // Medium purple
   static const Color accentEmerald = Color(0xFF800020); // Maroon color
 
   // Neutral colors from Figma
@@ -30,7 +30,7 @@ class AppTheme {
   static const Color success = Color(0xFF22C55E);
   static const Color warning = Color(0xFFF59E0B);
   static const Color error = Color(0xFFEF4444);
-  static const Color info = Color(0xFF3B82F6);
+  static const Color info = primaryOrange;
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -43,7 +43,7 @@ class AppTheme {
         onPrimary: Colors.white,
         secondary: primaryGreen,
         onSecondary: Colors.white,
-        tertiary: Color(0xFF8B5CF6), // Light purple instead of blue
+        tertiary: primaryOrange, // Light purple instead of blue
         onTertiary: Colors.white,
         error: error,
         onError: Colors.white,
@@ -128,7 +128,7 @@ class AppTheme {
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [primaryPurple, Color(0xFF8B5CF6)], // Purple to light purple
+    colors: [primaryPurple, Color.fromARGB(255, 199, 77, 11)], // Purple to light purple
   );
 
   static const LinearGradient successGradient = LinearGradient(

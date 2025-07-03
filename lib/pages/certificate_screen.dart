@@ -51,8 +51,8 @@ class CertificateScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [
-                                Color.fromARGB(255, 78, 42, 147),
-                                Color.fromARGB(255, 78, 42, 147),
+                                AppTheme.primaryOrange,
+                                AppTheme.primaryOrange,
                               ],
                             ),
                             borderRadius: BorderRadius.circular(12),
@@ -69,7 +69,7 @@ class CertificateScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: const Color.fromARGB(255, 78, 42, 147),
+                                color:AppTheme.primaryOrange,
                               ),
                             ),
                             Text(
@@ -101,7 +101,7 @@ class CertificateScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 78, 42, 147),
+                        color: AppTheme.primaryOrange,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -113,8 +113,8 @@ class CertificateScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [
-                            Color.fromARGB(255, 78, 42, 147),
-                            Color.fromARGB(255, 78, 42, 147),
+                            AppTheme.primaryOrange,
+                            AppTheme.primaryOrange,
                           ],
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -169,7 +169,7 @@ class CertificateScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+                    backgroundColor:AppTheme.primaryOrange,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: const Text('Download PDF Certificate'),
