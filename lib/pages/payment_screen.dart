@@ -38,8 +38,8 @@ class PaymentScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 78, 42, 147),
-                    Color.fromARGB(255, 78, 42, 147),
+                    AppTheme.primaryOrange,
+                    AppTheme.primaryOrange,
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
@@ -115,7 +115,7 @@ class PaymentScreen extends StatelessWidget {
                     barrierDismissible: false,
                     builder: (context) => const Center(
                       child: CircularProgressIndicator(
-                          color: Color.fromARGB(255, 78, 42, 147)),
+                          color: AppTheme.primaryOrange),
                     ),
                   );
 
@@ -129,7 +129,7 @@ class PaymentScreen extends StatelessWidget {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 78, 42, 147),
+                  backgroundColor:AppTheme.primaryOrange,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: const Text('Purchase Access - \$9.99'),

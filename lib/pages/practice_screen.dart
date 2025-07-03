@@ -24,8 +24,8 @@ class PracticeScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 78, 42, 147),
-                  Color.fromARGB(255, 78, 42, 147),
+                  AppTheme.primaryOrange,
+                  AppTheme.primaryOrange,
                 ],
               ),
             ),
@@ -73,7 +73,7 @@ class PracticeScreen extends StatelessWidget {
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
-                    const Color.fromARGB(255, 78, 42, 147),
+                  AppTheme.primaryOrange,
                     isTablet,
                   ),
                   _buildPracticeCard(
@@ -101,7 +101,7 @@ class PracticeScreen extends StatelessWidget {
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
-                    const Color.fromARGB(255, 78, 42, 147),
+                  AppTheme.primaryOrange,
                     isTablet,
                   ),
                   _buildPracticeCard(
@@ -124,8 +124,8 @@ class PracticeScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 78, 42, 147),
-                  Color.fromARGB(255, 78, 42, 147),
+                  AppTheme.primaryOrange,
+                  AppTheme.primaryOrange,
                 ],
               ),
               borderRadius: BorderRadius.circular(isTablet ? 16 : 12),

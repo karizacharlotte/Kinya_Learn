@@ -26,8 +26,8 @@ class CultureScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 78, 42, 147),
-                  Color.fromARGB(255, 78, 42, 147),
+                  AppTheme.primaryOrange,
+                  AppTheme.primaryOrange,
                 ],
               ),
             ),
@@ -74,12 +74,16 @@ class CultureScreen extends StatelessWidget {
             'Imigani n\'Amazina',
             'Learn wisdom through traditional Rwandan sayings',
             Icons.format_quote,
+<<<<<<< HEAD
+          AppTheme.primaryOrange,
+=======
             const Color.fromARGB(255, 78, 42, 147),
             onTap: () => Navigator.pushNamed(
               context,
               '/lesson-detail',
               arguments: _getProverbsLesson(),
             ),
+>>>>>>> origin/main
             isTablet: true,
           ),
           _buildCultureCard(
@@ -89,6 +93,7 @@ class CultureScreen extends StatelessWidget {
             Icons.menu_book,
             const Color(0xFF00A1DE),
             isTablet: true,
+            
           ),
           _buildCultureCard(
             'Traditional Celebrations',
@@ -111,7 +116,7 @@ class CultureScreen extends StatelessWidget {
             'Amateka y\'u Rwanda',
             'Understand Rwanda\'s rich history and heritage',
             Icons.account_balance,
-            const Color.fromARGB(255, 78, 42, 147),
+          AppTheme.primaryOrange,
             isTablet: true,
           ),
           _buildCultureCard(
@@ -136,12 +141,16 @@ class CultureScreen extends StatelessWidget {
           'Imigani n\'Amazina',
           'Learn wisdom through traditional Rwandan sayings',
           Icons.format_quote,
+<<<<<<< HEAD
+        AppTheme.primaryOrange,
+=======
           const Color.fromARGB(255, 78, 42, 147),
           onTap: () => Navigator.pushNamed(
             context,
             '/lesson-detail',
             arguments: _getProverbsLesson(),
           ),
+>>>>>>> origin/main
           isTablet: isTablet,
         ),
         _buildCultureCard(
@@ -173,7 +182,7 @@ class CultureScreen extends StatelessWidget {
           'Amateka y\'u Rwanda',
           'Understand Rwanda\'s rich history and heritage',
           Icons.account_balance,
-          const Color.fromARGB(255, 78, 42, 147),
+        AppTheme.primaryOrange,
           isTablet: isTablet,
         ),
         _buildCultureCard(
