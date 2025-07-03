@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final isTablet = screenWidth > 768;
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: Colors.grey[50],
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -38,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.arrow_back),
                   style: IconButton.styleFrom(
-                    backgroundColor: AppTheme.surface,
+                    backgroundColor: Colors.white,
                     padding: const EdgeInsets.all(12),
                   ),
                 ),
@@ -49,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(
                     fontSize: isTablet ? 32 : 28,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -57,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   'Join KinyaLearn and start your language learning journey',
                   style: TextStyle(
                     fontSize: isTablet ? 16 : 14,
-                    color: AppTheme.textSecondary,
+                    color: Colors.grey[600],
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -178,29 +177,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 _acceptTerms = value ?? false;
                               });
                             },
-                            activeColor: AppTheme.primaryPurple,
+                            activeColor: const Color.fromARGB(255, 78, 42, 147),
                           ),
                           Expanded(
                             child: RichText(
                               text: TextSpan(
                                 style: TextStyle(
-                                  color: AppTheme.textSecondary,
+                                  color: Colors.grey[600],
                                   fontSize: 14,
                                 ),
                                 children: [
                                   const TextSpan(text: 'I agree to the '),
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Terms of Service',
                                     style: TextStyle(
-                                      color: AppTheme.primaryPurple,
+                                      color: Color.fromARGB(255, 78, 42, 147),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   const TextSpan(text: ' and '),
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'Privacy Policy',
                                     style: TextStyle(
-                                      color: AppTheme.primaryPurple,
+                                      color: Color.fromARGB(255, 78, 42, 147),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -235,7 +234,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               'or',
-                              style: TextStyle(color: AppTheme.textMuted),
+                              style: TextStyle(color: Colors.grey[400]),
                             ),
                           ),
                           const Expanded(child: Divider()),
@@ -247,13 +246,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         'Continue with Google',
                         Icons.g_mobiledata,
                         Colors.white,
-                        AppTheme.textPrimary,
+                        Colors.black87,
                       ),
                       const SizedBox(height: 12),
                       _buildSocialButton(
                         'Continue with Apple',
                         Icons.apple,
-                        AppTheme.textPrimary,
+                        Colors.black87,
                         Colors.white,
                       ),
                     ],
@@ -267,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(
                         'Already have an account? ',
-                        style: TextStyle(color: AppTheme.textSecondary),
+                        style: TextStyle(color: Colors.grey[600]),
                       ),
                       TextButton(
                         onPressed: () {
@@ -298,7 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          side: const BorderSide(color: AppTheme.border),
+          side: BorderSide(color: Colors.grey[300]!),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
