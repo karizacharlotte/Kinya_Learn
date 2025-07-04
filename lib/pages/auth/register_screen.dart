@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final isTablet = screenWidth > 768;
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(
                     fontSize: isTablet ? 32 : 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: const Color.fromARGB(221, 13, 12, 12),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   'Join KinyaLearn and start your language learning journey',
                   style: TextStyle(
                     fontSize: isTablet ? 16 : 14,
-                    color: Colors.grey[600],
+                    color: const Color.fromARGB(166, 13, 12, 12),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -177,13 +177,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 _acceptTerms = value ?? false;
                               });
                             },
-                            activeColor: const Color.fromARGB(255, 78, 42, 147),
+                            activeColor: const Color.fromARGB(255, 8, 8, 8),
                           ),
                           Expanded(
                             child: RichText(
                               text: TextSpan(
                                 style: TextStyle(
-                                  color: Colors.grey[600],
+                                  color: const Color.fromARGB(255, 13, 12, 12),
                                   fontSize: 14,
                                 ),
                                 children: [
@@ -191,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const TextSpan(
                                     text: 'Terms of Service',
                                     style: TextStyle(
-                                      color: Color.fromARGB(255, 78, 42, 147),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -199,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   const TextSpan(
                                     text: 'Privacy Policy',
                                     style: TextStyle(
-                                      color: Color.fromARGB(255, 78, 42, 147),
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -214,14 +214,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         width: double.infinity,
                         height: 48,
-                        child: ElevatedButton(
+                        child: OutlinedButton(
                           onPressed: _acceptTerms ? _handleRegister : null,
-                          child: const Text(
-                            'Create Account',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black87,
+                            side: BorderSide(color: Colors.grey[300]!),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
                             ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Create Account',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -234,7 +247,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               'or',
-                              style: TextStyle(color: Colors.grey[400]),
+                              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                           ),
                           const Expanded(child: Divider()),
@@ -266,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(
                         'Already have an account? ',
-                        style: TextStyle(color: Colors.grey[600]),
+                        style: TextStyle(color: const Color.fromARGB(255, 12, 11, 11)),
                       ),
                       TextButton(
                         onPressed: () {

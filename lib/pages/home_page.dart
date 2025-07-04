@@ -12,8 +12,10 @@ class HomePage extends StatelessWidget {
     final isDesktop = screenWidth > 1200;
     final isMobile = screenWidth < 768; // Fix: Use local context instead
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           const Navigation(),
@@ -28,14 +30,13 @@ class HomePage extends StatelessWidget {
                       horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
                       vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
                     ),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          AppTheme.primaryOrange,
-                          AppTheme.primaryOrange,
-                        ],
+                        colors: isDark
+                            ? [theme.colorScheme.background, theme.colorScheme.background]
+                            : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                       ),
                     ),
                     child: Column(
@@ -50,10 +51,9 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Learn Kinyarwanda\nwith KinyaLearn',
                                     style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 48 : (isTablet ? 36 : 28),
+                                      fontSize: isDesktop ? 48 : (isTablet ? 36 : 28),
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      color: isDark ? Colors.white : Colors.white,
                                       height: 1.2,
                                     ),
                                   ),
@@ -61,23 +61,17 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Master Rwanda\'s beautiful language through interactive lessons, cultural insights, and certified achievements.',
                                     style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 20 : (isTablet ? 18 : 16),
-                                      color: Colors.white.withOpacity(0.9),
+                                      fontSize: isDesktop ? 20 : (isTablet ? 18 : 16),
+                                      color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
                                       height: 1.5,
                                     ),
                                   ),
                                   SizedBox(height: isTablet ? 32 : 24),
                                   ElevatedButton(
-                                    onPressed: () => Navigator.pushNamed(
-                                        context, '/lessons'),
+                                    onPressed: () => Navigator.pushNamed(context, '/lessons'),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: const Color.fromARGB(
-                                          255,
-                                          78,
-                                          42,
-                                          147), // changed from 158,74,21
+                                      backgroundColor: isDark ? Colors.white : Colors.white,
+                                      foregroundColor: isDark ? Colors.black : const Color.fromARGB(255, 78, 42, 147),
                                       padding: EdgeInsets.symmetric(
                                         horizontal: isTablet ? 32 : 24,
                                         vertical: isTablet ? 20 : 16,
@@ -91,6 +85,7 @@ class HomePage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.w600,
+                                        color: isDark ? Colors.black : const Color.fromARGB(255, 78, 42, 147),
                                       ),
                                     ),
                                   ),
@@ -160,7 +155,7 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: isDark ? Colors.white : AppTheme.textPrimary,
                           ),
                           textAlign: TextAlign.center,
                         ),

@@ -17,6 +17,7 @@ class Navigation extends StatelessWidget {
     NavigationItem(name: 'Practice', route: '/practice'),
     NavigationItem(name: 'Culture', route: '/culture'),
     NavigationItem(name: 'Profile', route: '/profile'),
+    NavigationItem(name: 'Settings', route: '/settings'),
   ];
 
   @override
@@ -26,12 +27,14 @@ class Navigation extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isMobile = screenWidth < 600;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
+        color: theme.cardColor,
         border: Border(
           bottom: BorderSide(
-            color: AppTheme.border,
+            color: isDark ? Colors.grey[800]! : AppTheme.border,
             width: 1,
           ),
         ),
@@ -70,7 +73,7 @@ class Navigation extends StatelessWidget {
                         style: TextStyle(
                           fontSize: isMobile ? 20 : 24,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.primaryPurple,
+                          color: isDark ? Colors.white : AppTheme.textPrimary,
                           letterSpacing: -0.5,
                         ),
                       ),
@@ -80,8 +83,8 @@ class Navigation extends StatelessWidget {
                 const SizedBox(width: 24),
                 Expanded(
                   child: isMobile
-                      ? _buildMobileNavigation(currentRoute)
-                      : _buildDesktopNavigation(currentRoute),
+                      ? _buildMobileNavigation(context, currentRoute)
+                      : _buildDesktopNavigation(context, currentRoute),
                 ),
               ],
             ),
@@ -91,38 +94,40 @@ class Navigation extends StatelessWidget {
     );
   }
 
-  Widget _buildDesktopNavigation(String currentRoute) {
+  Widget _buildDesktopNavigation(BuildContext context, String currentRoute) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Row(
       children: navigation
           .map(
             (item) => Padding(
               padding: const EdgeInsets.only(right: 32),
-              child: Builder(
-                builder: (context) => GestureDetector(
-                  onTap: () => Navigator.pushReplacementNamed(
-                    context,
-                    item.route,
+              child: GestureDetector(
+                onTap: () => Navigator.pushReplacementNamed(
+                  context,
+                  item.route,
+                ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: currentRoute == item.route
-                          ? AppTheme.primaryPurple.withOpacity(0.1)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      item.name,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: currentRoute == item.route
-                            ? AppTheme.primaryPurple
-                            : AppTheme.textSecondary,
-                      ),
+                  decoration: BoxDecoration(
+                    color: currentRoute == item.route
+                        ? AppTheme.textPrimary.withOpacity(0.1)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: isDark
+                          ? Colors.white
+                          : (currentRoute == item.route
+                              ? AppTheme.textPrimary
+                              : AppTheme.textSecondary),
                     ),
                   ),
                 ),
@@ -133,36 +138,36 @@ class Navigation extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileNavigation(String currentRoute) {
-    return Builder(
-      builder: (context) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.menu, color: AppTheme.primaryPurple),
-            onSelected: (route) =>
-                Navigator.pushReplacementNamed(context, route),
-            itemBuilder: (context) => navigation
-                .map(
-                  (item) => PopupMenuItem<String>(
-                    value: item.route,
-                    child: Row(
-                      children: [
-                        Icon(
-                          _getIconForRoute(item.route),
-                          color: AppTheme.primaryPurple,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        Text(item.name),
-                      ],
-                    ),
+  Widget _buildMobileNavigation(BuildContext context, String currentRoute) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PopupMenuButton<String>(
+          icon: Icon(Icons.menu, color: isDark ? Colors.white : AppTheme.textPrimary),
+          onSelected: (route) =>
+              Navigator.pushReplacementNamed(context, route),
+          itemBuilder: (context) => navigation
+              .map(
+                (item) => PopupMenuItem<String>(
+                  value: item.route,
+                  child: Row(
+                    children: [
+                      Icon(
+                        _getIconForRoute(item.route),
+                        color: isDark ? Colors.white : AppTheme.textPrimary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(item.name),
+                    ],
                   ),
-                )
-                .toList(),
-          ),
-        ],
-      ),
+                ),
+              )
+              .toList(),
+        ),
+      ],
     );
   }
 

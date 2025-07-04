@@ -53,8 +53,8 @@ class CertificateScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
-                              AppTheme.primaryOrange,
-                              AppTheme.primaryOrange,
+                              Color(0xFFFFDBBB),
+                              Color(0xFFFFDBBB),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -71,7 +71,7 @@ class CertificateScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.primaryOrange,
+                              color: Color(0xFFFFDBBB),
                             ),
                           ),
                           Text(
@@ -115,8 +115,8 @@ class CertificateScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [
-                          AppTheme.primaryOrange,
-                          AppTheme.primaryOrange,
+                          Color(0xFFFFDBBB),
+                          Color(0xFFFFDBBB),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -171,7 +171,7 @@ class CertificateScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryOrange,
+                  backgroundColor: Color(0xFFFFDBBB),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),

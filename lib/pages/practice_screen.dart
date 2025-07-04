@@ -11,22 +11,23 @@ class PracticeScreen extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           const Navigation(),
           // Practice Header
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryOrange,
-                  AppTheme.primaryOrange,
-                ],
+                colors: isDark
+                    ? [theme.colorScheme.background, theme.colorScheme.background]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
             child: Row(
@@ -49,7 +50,7 @@ class PracticeScreen extends StatelessWidget {
                       Text(
                         'Strengthen your Kinyarwanda skills',
                         style: TextStyle(
-                          color: Colors.white70,
+                          color: isDark ? Colors.white70 : Colors.white70,
                           fontSize: isTablet ? 16 : 14,
                         ),
                       ),
@@ -161,7 +162,7 @@ class PracticeScreen extends StatelessWidget {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: AppTheme.primaryPurple,
+                    foregroundColor: AppTheme.primaryOrange,
                     padding: EdgeInsets.symmetric(
                       horizontal: isTablet ? 24 : 16,
                       vertical: isTablet ? 12 : 8,
