@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
+// Removed unused import
+
 
 class CertificateScreen extends StatelessWidget {
   final Lesson lesson;
@@ -182,136 +184,5 @@ class CertificateScreen extends StatelessWidget {
     );
   }
 }
-                    const SizedBox(height: 8),
-                    const Text(
-                      'SARAH JOHNSON',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.primaryOrange,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('has successfully completed'),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            AppTheme.primaryOrange,
-                            AppTheme.primaryOrange,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        lesson.title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                                width: 80, height: 1, color: AppTheme.border),
-                            const SizedBox(height: 4),
-                            const Text('Date', style: TextStyle(fontSize: 10)),
-                            Text(DateTime.now().toString().split(' ')[0]),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                                width: 80, height: 1, color: AppTheme.border),
-                            const SizedBox(height: 4),
-                            const Text('Signature',
-                                style: TextStyle(fontSize: 10)),
-                            const Text('KinyaLearn',
-                                style: TextStyle(fontStyle: FontStyle.italic)),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              // Download buttons
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Certificate downloaded!')),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:AppTheme.primaryOrange,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-=======
->>>>>>> origin/main
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                              width: 80, height: 1, color: Colors.grey[300]),
-                          const SizedBox(height: 4),
-                          const Text('Date', style: TextStyle(fontSize: 10)),
-                          Text(DateTime.now().toString().split(' ')[0]),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                              width: 80, height: 1, color: Colors.grey[300]),
-                          const SizedBox(height: 4),
-                          const Text('Signature',
-                              style: TextStyle(fontSize: 10)),
-                          const Text('KinyaLearn',
-                              style: TextStyle(fontStyle: FontStyle.italic)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Download buttons
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Certificate downloaded!')),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 113, 44, 12),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: const Text('Download PDF Certificate'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// ...existing code...
 
