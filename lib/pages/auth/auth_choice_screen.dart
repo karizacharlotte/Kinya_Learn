@@ -9,18 +9,19 @@ class AuthChoiceScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              AppTheme.primaryOrange,
-              AppTheme.primaryOrange, // changed from 95, 72, 60
-            ],
+            colors: isDark
+                ? [theme.colorScheme.surface, theme.colorScheme.surface]
+                : [AppTheme.primaryOrange, AppTheme.primaryOrange],
           ),
         ),
         child: SafeArea(
@@ -80,7 +81,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isTablet ? 48 : 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                     letterSpacing: -1,
                   ),
                 ),
@@ -91,7 +92,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   'Learn Kinyarwanda with confidence',
                   style: TextStyle(
                     fontSize: isTablet ? 20 : 18,
-                    color: Colors.white.withOpacity(0.9),
+                    color: theme.colorScheme.onPrimary.withOpacity(0.9),
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
@@ -106,9 +107,9 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: theme.cardColor,
                       foregroundColor:
-                          AppTheme.primaryOrange, // changed from 158, 74, 21
+                          theme.textTheme.bodyLarge?.color ?? Colors.black,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -119,6 +120,7 @@ class AuthChoiceScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: isTablet ? 18 : 16,
                         fontWeight: FontWeight.w600,
+                        color: theme.textTheme.bodyLarge?.color ?? Colors.black,
                       ),
                     ),
                   ),
@@ -133,8 +135,9 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () => Navigator.pushNamed(context, '/register'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.white, width: 2),
+                      foregroundColor: theme.colorScheme.onPrimary,
+                      side: BorderSide(
+                          color: theme.colorScheme.onPrimary, width: 2),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -144,6 +147,7 @@ class AuthChoiceScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: isTablet ? 18 : 16,
                         fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -156,7 +160,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: Text(
                     'Continue as Guest',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: theme.colorScheme.onPrimary.withOpacity(0.8),
                       fontSize: isTablet ? 16 : 14,
                       fontWeight: FontWeight.w500,
                     ),
