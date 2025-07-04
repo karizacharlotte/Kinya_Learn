@@ -83,7 +83,7 @@ class _PracticeQuizScreenState extends State<PracticeQuizScreen> {
             value: (currentQuestionIndex + 1) / questions.length,
             backgroundColor: AppTheme.border,
             valueColor:
-                const AlwaysStoppedAnimation<Color>(AppTheme.primaryPurple),
+                const AlwaysStoppedAnimation<Color>(AppTheme.primaryOrange),
           ),
 
           const SizedBox(height: 20),
@@ -142,12 +142,12 @@ class _PracticeQuizScreenState extends State<PracticeQuizScreen> {
                       padding: EdgeInsets.all(isTablet ? 20 : 16),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppTheme.primaryPurple.withOpacity(0.1)
+                            ? AppTheme.primaryOrange.withOpacity(0.1)
                             : AppTheme.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
-                              ? AppTheme.primaryPurple
+                              ? AppTheme.primaryOrange
                               : AppTheme.border,
                           width: isSelected ? 2 : 1,
                         ),
@@ -159,7 +159,7 @@ class _PracticeQuizScreenState extends State<PracticeQuizScreen> {
                           fontWeight:
                               isSelected ? FontWeight.w600 : FontWeight.normal,
                           color: isSelected
-                              ? AppTheme.primaryPurple
+                              ? AppTheme.primaryOrange
                               : AppTheme.textPrimary,
                         ),
                       ),

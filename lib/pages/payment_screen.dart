@@ -96,7 +96,7 @@ class PaymentScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.primaryPurple,
+                      color: AppTheme.primaryOrange,
                     ),
                   ),
                 ],
