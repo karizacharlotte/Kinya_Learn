@@ -14,8 +14,10 @@ class LessonsScreen extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -27,14 +29,13 @@ class LessonsScreen extends StatelessWidget {
                 horizontal: isDesktop ? 40 : (isTablet ? 32 : 20),
                 vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
               ),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [
-                    AppTheme.primaryOrange,
-                    AppTheme.primaryOrange,
-                  ],
+                  colors: isDark
+                      ? [theme.colorScheme.background, theme.colorScheme.background]
+                      : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                 ),
               ),
               child: Column(
@@ -52,7 +53,7 @@ class LessonsScreen extends StatelessWidget {
                   Text(
                     'Master Kinyarwanda step by step',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
                       fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
                     ),
                   ),

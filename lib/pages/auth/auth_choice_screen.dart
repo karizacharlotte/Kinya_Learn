@@ -19,9 +19,18 @@ class AuthChoiceScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+<<<<<<< HEAD
             colors: isDark
                 ? [theme.colorScheme.surface, theme.colorScheme.surface]
                 : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+=======
+
+            colors: isDark
+                ? [theme.colorScheme.surface, theme.colorScheme.surface]
+                : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+
+          
+>>>>>>> cd93ff76ad06ceea873f7d098bc4d8f010cbb529
           ),
         ),
         child: SafeArea(
@@ -107,9 +116,15 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
                       backgroundColor: theme.cardColor,
                       foregroundColor:
                           theme.textTheme.bodyLarge?.color ?? Colors.black,
+=======
+
+                      backgroundColor: theme.cardColor,
+                      foregroundColor: theme.textTheme.bodyLarge?.color ?? Colors.black,
+>>>>>>> cd93ff76ad06ceea873f7d098bc4d8f010cbb529
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -136,8 +151,12 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/register'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: theme.colorScheme.onPrimary,
+<<<<<<< HEAD
                       side: BorderSide(
                           color: theme.colorScheme.onPrimary, width: 2),
+=======
+                      side: BorderSide(color: theme.colorScheme.onPrimary, width: 2),
+>>>>>>> cd93ff76ad06ceea873f7d098bc4d8f010cbb529
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

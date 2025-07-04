@@ -1,15 +1,106 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      fontFamily: 'Inter',
+      colorScheme: ColorScheme.dark(
+        surface: const Color(0xFF181A20),
+        onSurface: Colors.white,
+        primary: AppTheme.primaryOrange,
+        onPrimary: Colors.white,
+        secondary: AppTheme.primaryGreen,
+        onSecondary: Colors.white,
+        tertiary: AppTheme.primaryOrange,
+        onTertiary: Colors.white,
+        error: AppTheme.error,
+        onError: Colors.white,
+      ),
+      scaffoldBackgroundColor: const Color(0xFF181A20),
+      cardTheme: CardTheme(
+        color: const Color(0xFF23262F),
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: AppTheme.border, width: 1),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppTheme.primaryOrange,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF23262F),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppTheme.border),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppTheme.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppTheme.primaryOrange, width: 2),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          letterSpacing: -0.5,
+        ),
+        headlineMedium: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.25,
+        ),
+        titleLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+        bodyMedium: TextStyle(
+          color: Color(0xFFB0B3B8),
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+        bodySmall: TextStyle(
+          color: Color(0xFF888888),
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
   // Colors from Figma design
-  static const Color background = Color(0xFFF8FAFC);
+  static const Color background = Colors.white;
   static const Color foreground = Color(0xFF0F172A);
-  static const Color cardBackground = Color(0xFFFFFFFF);
+  static const Color cardBackground = Colors.white;
 
   // Primary brand colors from Figma
-  static const Color primaryOrange = Color(0xFFEA580C);
-  static const Color primaryPurple = primaryOrange;
-  static const Color primaryBlue = primaryOrange; // Light purple
+  static const Color primaryOrange = Color(0xFFB55208);
+  static const Color primaryPurple = Color(0xFF0F172A); // dark text for contrast
+  static const Color primaryBlue = Color(0xFF0F172A); // dark text for contrast
   static const Color primaryGreen = Color(0xFF800020); // Maroon color
   static const Color primaryRed = Color(0xFFDC2626);
   static const Color primaryTeal = primaryOrange;
@@ -43,7 +134,7 @@ class AppTheme {
         onPrimary: Colors.white,
         secondary: primaryGreen,
         onSecondary: Colors.white,
-        tertiary: primaryOrange, // Light purple instead of blue
+        tertiary: primaryOrange,
         onTertiary: Colors.white,
         error: error,
         onError: Colors.white,
@@ -128,7 +219,7 @@ class AppTheme {
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [primaryPurple, Color.fromARGB(255, 199, 77, 11)], // Purple to light purple
+    colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 199, 77, 11)], // Purple to light purple
   );
 
   static const LinearGradient successGradient = LinearGradient(
@@ -159,8 +250,8 @@ class AppTheme {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFF8C42), // Orange from your splash screen
-      Color(0xFFFF6B1A), // Deeper orange
+      Color(0xFFB55208), // Orange
+      Color(0xFFB55208), // Orange
     ],
   );
 
