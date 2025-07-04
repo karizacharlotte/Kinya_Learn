@@ -102,7 +102,7 @@ class KinyaLearnApp extends StatelessWidget {
         if (settings.name == '/practice-quiz') {
           final lesson = settings.arguments as Lesson?;
           if (lesson == null) {
-            return MaterialPageRoute(
+            return MaterialPageRoute(  
               builder: (_) => Scaffold(
                 body: Center(child: const Text('No lesson data provided!')),
               ),

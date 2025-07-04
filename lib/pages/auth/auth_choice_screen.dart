@@ -18,7 +18,7 @@ class AuthChoiceScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppTheme.primaryOrange, 
+              AppTheme.primaryOrange,
               AppTheme.primaryOrange, // changed from 95, 72, 60
             ],
           ),
@@ -107,7 +107,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor:  AppTheme.primaryOrange, // changed from 158, 74, 21
+                      foregroundColor:
+                          AppTheme.primaryOrange, // changed from 158, 74, 21
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
