@@ -19,9 +19,12 @@ class AuthChoiceScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+
             colors: isDark
                 ? [theme.colorScheme.surface, theme.colorScheme.surface]
                 : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+
+          
           ),
         ),
         child: SafeArea(
@@ -107,6 +110,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
+
                       backgroundColor: theme.cardColor,
                       foregroundColor: theme.textTheme.bodyLarge?.color ?? Colors.black,
                       elevation: 0,
