@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/navigation.dart';
 import '../data/kinyarwanda_lessons.dart';
 import '../models/lesson.dart';
+import '../theme/app_theme.dart';
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({super.key});

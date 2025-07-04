@@ -26,7 +26,6 @@ void main() {
 
 class KinyaLearnApp extends StatelessWidget {
   const KinyaLearnApp({super.key});
-    final videoUrl = "https://www.youtube.com/watch?v=1k9UcU-5tc8&list"; // Example video
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class KinyaLearnApp extends StatelessWidget {
           if (lesson == null) {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Center(child: Text('No lesson data provided!')),
+                body: Center(child: const Text('No lesson data provided!')),
               ),
             );
           }
@@ -66,7 +65,7 @@ class KinyaLearnApp extends StatelessWidget {
           if (lesson == null) {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Center(child: Text('No lesson data provided!')),
+                body: Center(child: const Text('No lesson data provided!')),
               ),
             );
           }
@@ -79,7 +78,7 @@ class KinyaLearnApp extends StatelessWidget {
           if (lesson == null) {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Center(child: Text('No lesson data provided!')),
+                body: Center(child: const Text('No lesson data provided!')),
               ),
             );
           }
@@ -92,7 +91,7 @@ class KinyaLearnApp extends StatelessWidget {
           if (lesson == null) {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Center(child: Text('No lesson data provided!')),
+                body: Center(child: const Text('No lesson data provided!')),
               ),
             );
           }
@@ -105,7 +104,7 @@ class KinyaLearnApp extends StatelessWidget {
           if (lesson == null) {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Center(child: Text('No lesson data provided!')),
+                body: Center(child: const Text('No lesson data provided!')),
               ),
             );
           }
