@@ -203,16 +203,7 @@ class HomePage extends StatelessWidget {
                     padding:
                         EdgeInsets.all(isDesktop ? 60 : (isTablet ? 40 : 24)),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromARGB(
-                              255, 78, 42, 147), // changed from 95,72,60
-                          Color.fromARGB(
-                              255, 78, 42, 147), // changed from 158,74,21
-                        ],
-                      ),
+                      color: isDark ? theme.colorScheme.surface : const Color.fromARGB(255, 78, 42, 147),
                     ),
                     child: Column(
                       children: [
@@ -221,7 +212,7 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: isDesktop ? 32 : (isTablet ? 24 : 20),
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: isDark ? Colors.white : Colors.white,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -230,7 +221,7 @@ class HomePage extends StatelessWidget {
                           'Join thousands of learners mastering Kinyarwanda',
                           style: TextStyle(
                             fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                            color: Colors.white.withOpacity(0.9),
+                            color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -242,9 +233,8 @@ class HomePage extends StatelessWidget {
                               onPressed: () =>
                                   Navigator.pushNamed(context, '/lessons'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: const Color.fromARGB(
-                                    255, 78, 42, 147), // changed from 158,74,21
+                                backgroundColor: isDark ? theme.cardColor : Colors.white,
+                                foregroundColor: isDark ? Colors.white : const Color.fromARGB(255, 78, 42, 147),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: isTablet ? 32 : 24,
                                   vertical: isTablet ? 20 : 16,
@@ -255,6 +245,7 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: isTablet ? 18 : 16,
                                   fontWeight: FontWeight.w600,
+                                  color: isDark ? Colors.white : const Color.fromARGB(255, 78, 42, 147),
                                 ),
                               ),
                             ),

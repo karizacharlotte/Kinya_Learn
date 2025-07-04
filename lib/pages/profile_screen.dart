@@ -10,8 +10,10 @@ class ProfileScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           const Navigation(),
@@ -23,19 +25,67 @@ class ProfileScreen extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(isTablet ? 32 : 24),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          AppTheme.primaryOrange,
-                          AppTheme.primaryOrange,
-                        ],
+                        colors: isDark
+                            ? [theme.colorScheme.background, theme.colorScheme.background]
+                            : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                       ),
                     ),
-                    child: Column(
+                    child: Row(
                       children: [
-                        // Profile Avatar
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // User Name
+                              Text(
+                                'Aubertine BIHIBINDI',
+                                style: TextStyle(
+                                  fontSize: isTablet ? 24 : 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              // User Level
+                              Text(
+                                'Intermediate Level • 45 day streak',
+                                style: TextStyle(
+                                  fontSize: isTablet ? 16 : 14,
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                              ),
+                              SizedBox(height: isTablet ? 20 : 16),
+                              // Edit Button
+                              OutlinedButton(
+                                onPressed: () {},
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  side: const BorderSide(color: Colors.white, width: 2),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: isTablet ? 24 : 20,
+                                    vertical: isTablet ? 12 : 10,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.edit, size: 16),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Edit Profile',
+                                      style: TextStyle(fontSize: isTablet ? 16 : 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Profile Avatar (moved to right)
                         Container(
                           width: isTablet ? 100 : 80,
                           height: isTablet ? 100 : 80,
@@ -48,50 +98,6 @@ class ProfileScreen extends StatelessWidget {
                             Icons.person,
                             size: isTablet ? 50 : 40,
                             color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: isTablet ? 16 : 12),
-                        // User Name
-                        Text(
-                          'Aubertine BIHIBINDI',
-                          style: TextStyle(
-                            fontSize: isTablet ? 24 : 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        // User Level
-                        Text(
-                          'Intermediate Level • 45 day streak',
-                          style: TextStyle(
-                            fontSize: isTablet ? 16 : 14,
-                            color: Colors.white.withOpacity(0.9),
-                          ),
-                        ),
-                        SizedBox(height: isTablet ? 20 : 16),
-                        // Edit Button
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            side:
-                                const BorderSide(color: Colors.white, width: 2),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: isTablet ? 24 : 20,
-                              vertical: isTablet ? 12 : 10,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.edit, size: 16),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Edit Profile',
-                                style: TextStyle(fontSize: isTablet ? 16 : 14),
-                              ),
-                            ],
                           ),
                         ),
                       ],
@@ -109,7 +115,7 @@ class ProfileScreen extends StatelessWidget {
                                 'Total XP',
                                 Icons.star_rounded,
                                 const Color(0xFFFAD201),
-                                isTablet)),
+                                isTablet, theme)),
                         SizedBox(width: isTablet ? 16 : 12),
                         Expanded(
                             child: _buildStatCard(
@@ -117,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                                 'Lessons',
                                 Icons.book_rounded,
                                 const Color(0xFF00A1DE),
-                                isTablet)),
+                                isTablet, theme)),
                         SizedBox(width: isTablet ? 16 : 12),
                         Expanded(
                             child: _buildStatCard(
@@ -125,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                                 'Accuracy',
                                 Icons.check_circle_rounded,
                                 const Color(0xFF00A651),
-                                isTablet)),
+                                isTablet, theme)),
                       ],
                     ),
                   ),
@@ -137,23 +143,23 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         _buildMenuItem('Learning Goals', Icons.flag_rounded,
-                            () {}, isTablet),
+                            () {}, isTablet, theme),
                         _buildMenuItem('Achievement Badges',
-                            Icons.emoji_events_rounded, () {}, isTablet),
+                            Icons.emoji_events_rounded, () {}, isTablet, theme),
                         _buildMenuItem('Learning Statistics',
-                            Icons.bar_chart_rounded, () {}, isTablet),
+                            Icons.bar_chart_rounded, () {}, isTablet, theme),
                         _buildMenuItem('Cultural Preferences',
-                            Icons.language_rounded, () {}, isTablet),
+                            Icons.language_rounded, () {}, isTablet, theme),
                         _buildMenuItem('Offline Downloads',
-                            Icons.download_rounded, () {}, isTablet),
+                            Icons.download_rounded, () {}, isTablet, theme),
                         _buildMenuItem('Notification Settings',
-                            Icons.notifications_rounded, () {}, isTablet),
+                            Icons.notifications_rounded, () {}, isTablet, theme),
                         _buildMenuItem('Privacy & Data', Icons.security_rounded,
-                            () {}, isTablet),
+                            () {}, isTablet, theme),
                         _buildMenuItem('Help & Support', Icons.help_rounded,
-                            () {}, isTablet),
+                            () {}, isTablet, theme),
                         _buildMenuItem('About KinyaLearn', Icons.info_rounded,
-                            () {}, isTablet),
+                            () {}, isTablet, theme),
                       ],
                     ),
                   ),
@@ -169,13 +175,14 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildStatCard(
-      String value, String label, IconData icon, Color color, bool isTablet) {
+      String value, String label, IconData icon, Color color, bool isTablet, ThemeData theme) {
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       padding: EdgeInsets.all(isTablet ? 16 : 12),
       decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.border),
+        border: Border.all(color: theme.dividerColor),
       ),
       child: Column(
         children: [
@@ -186,14 +193,14 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: isTablet ? 20 : 16,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: theme.textTheme.bodyLarge?.color ?? Colors.white,
             ),
           ),
           Text(
             label,
             style: TextStyle(
               fontSize: isTablet ? 12 : 10,
-              color: AppTheme.textSecondary,
+              color: theme.textTheme.bodyMedium?.color ?? Colors.white70,
             ),
           ),
         ],
@@ -202,7 +209,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildMenuItem(
-      String title, IconData icon, VoidCallback onTap, bool isTablet) {
+      String title, IconData icon, VoidCallback onTap, bool isTablet, ThemeData theme) {
     return Container(
       margin: EdgeInsets.only(bottom: isTablet ? 12 : 8),
       child: InkWell(
@@ -211,9 +218,9 @@ class ProfileScreen extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(isTablet ? 16 : 14),
           decoration: BoxDecoration(
-            color: AppTheme.cardBackground,
+            color: theme.cardColor,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.border),
+            border: Border.all(color: theme.dividerColor),
           ),
           child: Row(
             children: [
@@ -221,13 +228,12 @@ class ProfileScreen extends StatelessWidget {
                 width: isTablet ? 40 : 36,
                 height: isTablet ? 40 : 36,
                 decoration: BoxDecoration(
-                  color:
-                    AppTheme.primaryOrange.withOpacity(0.1),
+                  color: AppTheme.primaryOrange.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   icon,
-                  color:AppTheme.primaryOrange,
+                  color: AppTheme.primaryOrange,
                   size: isTablet ? 20 : 18,
                 ),
               ),
@@ -238,14 +244,14 @@ class ProfileScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isTablet ? 16 : 14,
                     fontWeight: FontWeight.w500,
-                    color: AppTheme.textPrimary,
+                    color: theme.textTheme.bodyLarge?.color ?? Colors.white,
                   ),
                 ),
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: isTablet ? 16 : 14,
-                color: AppTheme.textMuted,
+                color: theme.textTheme.bodySmall?.color ?? Colors.white54,
               ),
             ],
           ),

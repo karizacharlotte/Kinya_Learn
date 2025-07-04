@@ -38,25 +38,32 @@ class LessonsScreen extends StatelessWidget {
                       : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Text(
-                    'Kinyarwanda Lessons',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Kinyarwanda Lessons',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Master Kinyarwanda step by step',
+                          style: TextStyle(
+                            color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
+                            fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Master Kinyarwanda step by step',
-                    style: TextStyle(
-                      color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
-                      fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                    ),
-                  ),
+                  Icon(Icons.menu_book, color: Colors.white, size: isTablet ? 36 : 28),
                 ],
               ),
             ),

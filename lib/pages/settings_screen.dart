@@ -59,8 +59,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 if (screenWidth <= 700)
                                   IconButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => SafeArea(
+                                          child: SideNavigation(
+                                            selected: 'Settings',
+                                            onNavigate: (route) {
+                                              Navigator.pop(context);
+                                              if (route != '/settings') {
+                                                Navigator.pushReplacementNamed(context, route);
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.menu, color: Colors.white),
                                     style: IconButton.styleFrom(
                                       backgroundColor: Colors.white.withOpacity(0.15),
                                       padding: const EdgeInsets.all(10),

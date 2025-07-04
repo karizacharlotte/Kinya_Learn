@@ -30,6 +30,24 @@ class AuthChoiceScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Header Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'KinyaLearn',
+                        style: TextStyle(
+                          fontSize: isTablet ? 40 : 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: -1,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.menu, color: Colors.white, size: isTablet ? 32 : 28),
+                  ],
+                ),
+                SizedBox(height: isTablet ? 32 : 24),
                 // Logo and Brand
                 Container(
                   width: isTablet ? 120 : 100,
@@ -73,33 +91,17 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                SizedBox(height: isTablet ? 40 : 32),
-
-                Text(
-                  'KinyaLearn',
-                  style: TextStyle(
-                    fontSize: isTablet ? 48 : 40,
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onPrimary,
-                    letterSpacing: -1,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
+                SizedBox(height: isTablet ? 32 : 24),
                 Text(
                   'Learn Kinyarwanda with confidence',
                   style: TextStyle(
                     fontSize: isTablet ? 20 : 18,
-                    color: theme.colorScheme.onPrimary.withOpacity(0.9),
+                    color: Colors.white.withOpacity(0.9),
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
-
-                SizedBox(height: isTablet ? 60 : 48),
-
+                SizedBox(height: isTablet ? 48 : 36),
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
@@ -124,9 +126,7 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 16),
-
                 // Sign Up Button
                 SizedBox(
                   width: double.infinity,
@@ -150,9 +150,7 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 32),
-
                 TextButton(
                   onPressed: () => Navigator.pushNamed(context, '/'),
                   child: Text(

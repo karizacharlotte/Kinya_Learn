@@ -32,9 +32,6 @@ class PracticeScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.fitness_center,
-                    color: Colors.white, size: isTablet ? 36 : 32),
-                SizedBox(width: isTablet ? 20 : 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,6 +54,7 @@ class PracticeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                Icon(Icons.fitness_center, color: Colors.white, size: isTablet ? 36 : 32),
               ],
             ),
           ),
@@ -117,64 +115,63 @@ class PracticeScreen extends StatelessWidget {
             ),
           ),
           // Daily Challenge
-          Container(
-            margin: EdgeInsets.all(isTablet ? 20 : 16),
-            padding: EdgeInsets.all(isTablet ? 20 : 16),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryOrange,
-                  AppTheme.primaryOrange,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.local_fire_department,
-                    color: Colors.white, size: isTablet ? 36 : 32),
-                SizedBox(width: isTablet ? 20 : 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Daily Challenge',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: isTablet ? 20 : 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Complete today\'s challenge for bonus XP!',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: isTablet ? 16 : 14,
-                        ),
-                      ),
-                    ],
-                  ),
+          Builder(
+            builder: (context) {
+              final theme = Theme.of(context);
+              final isDark = theme.brightness == Brightness.dark;
+              return Container(
+                margin: EdgeInsets.all(isTablet ? 20 : 16),
+                padding: EdgeInsets.all(isTablet ? 20 : 16),
+                decoration: BoxDecoration(
+                  color: isDark ? theme.colorScheme.surface : AppTheme.primaryOrange,
+                  borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppTheme.primaryOrange,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isTablet ? 24 : 16,
-                      vertical: isTablet ? 12 : 8,
+                child: Row(
+                  children: [
+                    Icon(Icons.local_fire_department,
+                        color: Colors.white, size: isTablet ? 36 : 32),
+                    SizedBox(width: isTablet ? 20 : 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Daily Challenge',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: isTablet ? 20 : 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Complete today\'s challenge for bonus XP!',
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: isTablet ? 16 : 14,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Start',
-                    style: TextStyle(fontSize: isTablet ? 16 : 14),
-                  ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isDark ? theme.cardColor : Colors.white,
+                        foregroundColor: isDark ? Colors.white : AppTheme.primaryOrange,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 24 : 16,
+                          vertical: isTablet ? 12 : 8,
+                        ),
+                      ),
+                      child: Text(
+                        'Start',
+                        style: TextStyle(fontSize: isTablet ? 16 : 14),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),

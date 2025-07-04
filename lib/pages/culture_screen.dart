@@ -13,29 +13,21 @@ class CultureScreen extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           const Navigation(),
           // Cultural Header
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryOrange,
-                  AppTheme.primaryOrange,
-                ],
-              ),
+            decoration: BoxDecoration(
+              color: isDark ? theme.colorScheme.surface : AppTheme.primaryOrange,
             ),
             child: Row(
               children: [
-                Icon(Icons.language,
-                    color: Colors.white, size: isTablet ? 36 : 32),
-                SizedBox(width: isTablet ? 20 : 16),
                 Expanded(
                   child: Text(
                     'Rwandan Culture & Heritage',
@@ -46,6 +38,7 @@ class CultureScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                Icon(Icons.language, color: Colors.white, size: isTablet ? 36 : 32),
               ],
             ),
           ),
