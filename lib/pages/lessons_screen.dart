@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/navigation.dart';
 import '../data/kinyarwanda_lessons.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_provider.dart';
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({super.key});
@@ -15,7 +17,8 @@ class LessonsScreen extends StatelessWidget {
     final isDesktop = screenWidth > 1200;
 
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
@@ -33,8 +36,11 @@ class LessonsScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: isDark
-                      ? [theme.colorScheme.background, theme.colorScheme.background]
+                  colors: isDarkMode
+                      ? [
+                          Theme.of(context).colorScheme.background,
+                          Theme.of(context).colorScheme.background
+                        ]
                       : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                 ),
               ),
@@ -47,7 +53,7 @@ class LessonsScreen extends StatelessWidget {
                         Text(
                           'Kinyarwanda Lessons',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: isDarkMode ? theme.colorScheme.onSurface : Colors.white,
                             fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
                             fontWeight: FontWeight.bold,
                           ),
@@ -56,14 +62,18 @@ class LessonsScreen extends StatelessWidget {
                         Text(
                           'Master Kinyarwanda step by step',
                           style: TextStyle(
-                            color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
+                            color: isDarkMode
+                                ? theme.colorScheme.onSurface.withOpacity(0.7)
+                                : Colors.white.withOpacity(0.9),
                             fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Icon(Icons.menu_book, color: Colors.white, size: isTablet ? 36 : 28),
+                  Icon(Icons.menu_book,
+                      color: isDarkMode ? theme.colorScheme.onSurface : Colors.white, 
+                      size: isTablet ? 36 : 28),
                 ],
               ),
             ),
@@ -73,7 +83,8 @@ class LessonsScreen extends StatelessWidget {
                 padding: EdgeInsets.all(isDesktop ? 32 : (isTablet ? 24 : 20)),
                 child: isDesktop
                     ? GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 24,
                           mainAxisSpacing: 20,
@@ -88,7 +99,8 @@ class LessonsScreen extends StatelessWidget {
                         itemCount: lessons.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(bottom: 16),
-                          child: _buildLessonCard(context, lessons[index], index,
+                          child: _buildLessonCard(
+                              context, lessons[index], index,
                               isTablet: isTablet),
                         ),
                       ),
@@ -103,7 +115,7 @@ class LessonsScreen extends StatelessWidget {
   Widget _buildLessonCard(BuildContext context, Lesson lesson, int index,
       {bool isTablet = false}) {
     final colors = [
-    AppTheme.primaryOrange,
+      AppTheme.primaryOrange,
       const Color(0xFF00A1DE),
       const Color(0xFF00A651),
       const Color(0xFFFAD201),
@@ -227,4 +239,3 @@ class LessonsScreen extends StatelessWidget {
     );
   }
 }
-                   

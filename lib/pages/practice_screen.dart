@@ -26,7 +26,7 @@ class PracticeScreen extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: isDark
-                    ? [theme.colorScheme.background, theme.colorScheme.background]
+                    ? [theme.colorScheme.surface, theme.colorScheme.surface]
                     : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
@@ -39,7 +39,7 @@ class PracticeScreen extends StatelessWidget {
                       Text(
                         'Practice & Review',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: isDark ? theme.colorScheme.onSurface : Colors.white,
                           fontSize: isTablet ? 28 : 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -47,14 +47,16 @@ class PracticeScreen extends StatelessWidget {
                       Text(
                         'Strengthen your Kinyarwanda skills',
                         style: TextStyle(
-                          color: isDark ? Colors.white70 : Colors.white70,
+                          color: isDark ? theme.colorScheme.onSurface.withOpacity(0.7) : Colors.white70,
                           fontSize: isTablet ? 16 : 14,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.fitness_center, color: Colors.white, size: isTablet ? 36 : 32),
+                Icon(Icons.fitness_center,
+                    color: isDark ? theme.colorScheme.onSurface : Colors.white, 
+                    size: isTablet ? 36 : 32),
               ],
             ),
           ),
@@ -72,7 +74,7 @@ class PracticeScreen extends StatelessWidget {
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
-                  AppTheme.primaryOrange,
+                    AppTheme.primaryOrange,
                     isTablet,
                   ),
                   _buildPracticeCard(
@@ -100,7 +102,7 @@ class PracticeScreen extends StatelessWidget {
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
-                  AppTheme.primaryOrange,
+                    AppTheme.primaryOrange,
                     isTablet,
                   ),
                   _buildPracticeCard(
@@ -123,7 +125,9 @@ class PracticeScreen extends StatelessWidget {
                 margin: EdgeInsets.all(isTablet ? 20 : 16),
                 padding: EdgeInsets.all(isTablet ? 20 : 16),
                 decoration: BoxDecoration(
-                  color: isDark ? theme.colorScheme.surface : AppTheme.primaryOrange,
+                  color: isDark
+                      ? theme.colorScheme.surface
+                      : AppTheme.primaryOrange,
                   borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
                 ),
                 child: Row(
@@ -156,8 +160,10 @@ class PracticeScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isDark ? theme.cardColor : Colors.white,
-                        foregroundColor: isDark ? Colors.white : AppTheme.primaryOrange,
+                        backgroundColor:
+                            isDark ? theme.cardColor : Colors.white,
+                        foregroundColor:
+                            isDark ? Colors.white : AppTheme.primaryOrange,
                         padding: EdgeInsets.symmetric(
                           horizontal: isTablet ? 24 : 16,
                           vertical: isTablet ? 12 : 8,

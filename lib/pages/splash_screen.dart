@@ -63,18 +63,19 @@ class _SplashScreenState extends State<SplashScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              AppTheme.primaryOrange, // changed from 158, 74, 21
-              AppTheme.primaryOrange, // changed from 95, 72, 60
-            ],
+            colors: isDark
+                ? [theme.colorScheme.surface, theme.colorScheme.surface]
+                : [AppTheme.primaryOrange, AppTheme.primaryOrange],
           ),
         ),
         child: SafeArea(

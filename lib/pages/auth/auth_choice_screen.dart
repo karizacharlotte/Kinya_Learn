@@ -32,19 +32,19 @@ class AuthChoiceScreen extends StatelessWidget {
               children: [
                 // Header Row
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Text(
-                        'KinyaLearn',
-                        style: TextStyle(
-                          fontSize: isTablet ? 40 : 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: -1,
-                        ),
+                    Text(
+                      'KinyaLearn',
+                      style: TextStyle(
+                        fontSize: isTablet ? 40 : 32,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            isDark ? theme.colorScheme.onSurface : Colors.white,
+                        letterSpacing: -1,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Icon(Icons.menu, color: Colors.white, size: isTablet ? 32 : 28),
                   ],
                 ),
                 SizedBox(height: isTablet ? 32 : 24),
@@ -110,7 +110,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.cardColor,
-                      foregroundColor: theme.textTheme.bodyLarge?.color ?? Colors.black,
+                      foregroundColor:
+                          theme.textTheme.bodyLarge?.color ?? Colors.black,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -135,7 +136,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/register'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: theme.colorScheme.onPrimary,
-                      side: BorderSide(color: theme.colorScheme.onPrimary, width: 2),
+                      side: BorderSide(
+                          color: theme.colorScheme.onPrimary, width: 2),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

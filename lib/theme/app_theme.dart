@@ -92,6 +92,7 @@ class AppTheme {
       ),
     );
   }
+
   // Colors from Figma design
   static const Color background = Colors.white;
   static const Color foreground = Color(0xFF0F172A);
@@ -99,7 +100,8 @@ class AppTheme {
 
   // Primary brand colors from Figma
   static const Color primaryOrange = Color(0xFFB55208);
-  static const Color primaryPurple = Color(0xFF0F172A); // dark text for contrast
+  static const Color primaryPurple =
+      Color(0xFF0F172A); // dark text for contrast
   static const Color primaryBlue = Color(0xFF0F172A); // dark text for contrast
   static const Color primaryGreen = Color(0xFF800020); // Maroon color
   static const Color primaryRed = Color(0xFFDC2626);
@@ -219,7 +221,10 @@ class AppTheme {
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 199, 77, 11)], // Purple to light purple
+    colors: [
+      Color.fromARGB(255, 0, 0, 0),
+      Color.fromARGB(255, 199, 77, 11)
+    ], // Purple to light purple
   );
 
   static const LinearGradient successGradient = LinearGradient(

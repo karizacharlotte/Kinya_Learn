@@ -24,7 +24,16 @@ class CultureScreen extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
             decoration: BoxDecoration(
-              color: isDark ? theme.colorScheme.surface : AppTheme.primaryOrange,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: isDark
+                    ? [
+                        theme.colorScheme.background,
+                        theme.colorScheme.background
+                      ]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+              ),
             ),
             child: Row(
               children: [
@@ -38,7 +47,8 @@ class CultureScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Icon(Icons.language, color: Colors.white, size: isTablet ? 36 : 32),
+                Icon(Icons.language,
+                    color: Colors.white, size: isTablet ? 36 : 32),
               ],
             ),
           ),
@@ -82,7 +92,6 @@ class CultureScreen extends StatelessWidget {
             Icons.menu_book,
             const Color(0xFF00A1DE),
             isTablet: true,
-            
           ),
           _buildCultureCard(
             'Traditional Celebrations',
@@ -105,7 +114,7 @@ class CultureScreen extends StatelessWidget {
             'Amateka y\'u Rwanda',
             'Understand Rwanda\'s rich history and heritage',
             Icons.account_balance,
-          AppTheme.primaryOrange,
+            AppTheme.primaryOrange,
             isTablet: true,
           ),
           _buildCultureCard(
@@ -192,9 +201,10 @@ class CultureScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
         child: InkWell(
-          onTap: onTap ?? () {
-            // Navigate to specific cultural content
-          },
+          onTap: onTap ??
+              () {
+                // Navigate to specific cultural content
+              },
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           child: Padding(
             padding: EdgeInsets.all(isTablet ? 20 : 16),
@@ -262,10 +272,8 @@ class CultureScreen extends StatelessWidget {
         .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
   }
 }
-    
-  Lesson _getProverbsLesson() {
-    return KinyarwandaLessons.getLessons()
-        .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
-  }
 
-
+Lesson _getProverbsLesson() {
+  return KinyarwandaLessons.getLessons()
+      .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
+}
