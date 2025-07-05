@@ -35,7 +35,10 @@ class HomePage extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: isDark
-                            ? [theme.colorScheme.background, theme.colorScheme.background]
+                            ? [
+                                theme.colorScheme.background,
+                                theme.colorScheme.background
+                              ]
                             : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                       ),
                     ),
@@ -51,9 +54,11 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Learn Kinyarwanda\nwith KinyaLearn',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 48 : (isTablet ? 36 : 28),
+                                      fontSize:
+                                          isDesktop ? 48 : (isTablet ? 36 : 28),
                                       fontWeight: FontWeight.bold,
-                                      color: isDark ? Colors.white : Colors.white,
+                                      color:
+                                          isDark ? Colors.white : Colors.white,
                                       height: 1.2,
                                     ),
                                   ),
@@ -61,17 +66,24 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Master Rwanda\'s beautiful language through interactive lessons, cultural insights, and certified achievements.',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 20 : (isTablet ? 18 : 16),
-                                      color: isDark ? Colors.white70 : Colors.white.withOpacity(0.9),
+                                      fontSize:
+                                          isDesktop ? 20 : (isTablet ? 18 : 16),
+                                      color: isDark
+                                          ? Colors.white70
+                                          : Colors.white.withOpacity(0.9),
                                       height: 1.5,
                                     ),
                                   ),
                                   SizedBox(height: isTablet ? 32 : 24),
                                   ElevatedButton(
-                                    onPressed: () => Navigator.pushNamed(context, '/lessons'),
+                                    onPressed: () => Navigator.pushNamed(
+                                        context, '/lessons'),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: isDark ? Colors.white : Colors.white,
-                                      foregroundColor: isDark ? Colors.black : const Color.fromARGB(255, 78, 42, 147),
+                                      backgroundColor:
+                                          isDark ? Colors.white : Colors.white,
+                                      foregroundColor: isDark
+                                          ? Colors.black
+                                          : AppTheme.primaryOrange,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: isTablet ? 32 : 24,
                                         vertical: isTablet ? 20 : 16,
@@ -85,7 +97,9 @@ class HomePage extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: isTablet ? 18 : 16,
                                         fontWeight: FontWeight.w600,
-                                        color: isDark ? Colors.black : const Color.fromARGB(255, 78, 42, 147),
+                                        color: isDark
+                                            ? Colors.black
+                                            : AppTheme.primaryOrange,
                                       ),
                                     ),
                                   ),
@@ -122,14 +136,16 @@ class HomePage extends StatelessWidget {
                                         flex: 1,
                                         child: Container(
                                           width: double.infinity,
-                                          color: const Color.fromARGB(255, 162, 143, 49),
+                                          color: const Color.fromARGB(
+                                              255, 162, 143, 49),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 2,
                                         child: Container(
                                           width: double.infinity,
-                                          color: const Color.fromARGB(255, 59, 117, 87),
+                                          color: const Color.fromARGB(
+                                              255, 59, 117, 87),
                                         ),
                                       ),
                                     ],
@@ -142,7 +158,6 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-
 
                   // Features Section
                   Padding(
@@ -173,9 +188,9 @@ class HomePage extends StatelessWidget {
                               'Interactive Lessons',
                               'Learn through engaging exercises and real-world scenarios',
                               Icons.school_rounded,
-                              const Color.fromARGB(
-                                  255, 78, 42, 147), // changed from 158,74,21
+                              AppTheme.primaryOrange,
                               isTablet,
+                              context,
                             ),
                             _buildFeatureCard(
                               'Cultural Integration',
@@ -183,6 +198,7 @@ class HomePage extends StatelessWidget {
                               Icons.language_rounded,
                               const Color(0xFF00A1DE),
                               isTablet,
+                              context,
                             ),
                             _buildFeatureCard(
                               'Certified Learning',
@@ -190,6 +206,7 @@ class HomePage extends StatelessWidget {
                               Icons.emoji_events_rounded,
                               const Color(0xFF00A651),
                               isTablet,
+                              context,
                             ),
                           ],
                         ),
@@ -203,16 +220,9 @@ class HomePage extends StatelessWidget {
                     padding:
                         EdgeInsets.all(isDesktop ? 60 : (isTablet ? 40 : 24)),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromARGB(
-                              255, 78, 42, 147), // changed from 95,72,60
-                          Color.fromARGB(
-                              255, 78, 42, 147), // changed from 158,74,21
-                        ],
-                      ),
+                      color: isDark
+                          ? theme.colorScheme.surface
+                          : AppTheme.primaryOrange,
                     ),
                     child: Column(
                       children: [
@@ -221,7 +231,7 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: isDesktop ? 32 : (isTablet ? 24 : 20),
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: isDark ? Colors.white : Colors.white,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -230,7 +240,9 @@ class HomePage extends StatelessWidget {
                           'Join thousands of learners mastering Kinyarwanda',
                           style: TextStyle(
                             fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                            color: Colors.white.withOpacity(0.9),
+                            color: isDark
+                                ? Colors.white70
+                                : Colors.white.withOpacity(0.9),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -242,9 +254,11 @@ class HomePage extends StatelessWidget {
                               onPressed: () =>
                                   Navigator.pushNamed(context, '/lessons'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: const Color.fromARGB(
-                                    255, 78, 42, 147), // changed from 158,74,21
+                                backgroundColor:
+                                    isDark ? theme.cardColor : Colors.white,
+                                foregroundColor: isDark
+                                    ? Colors.white
+                                    : AppTheme.primaryOrange,
                                 padding: EdgeInsets.symmetric(
                                   horizontal: isTablet ? 32 : 24,
                                   vertical: isTablet ? 20 : 16,
@@ -255,6 +269,9 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: isTablet ? 18 : 16,
                                   fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? Colors.white
+                                      : AppTheme.primaryOrange,
                                 ),
                               ),
                             ),
@@ -296,13 +313,14 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildFeatureCard(String title, String description, IconData icon,
-      Color color, bool isTablet) {
+      Color color, bool isTablet, BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(isTablet ? 24 : 20),
       decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.border),
+        border: Border.all(color: theme.dividerColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -332,7 +350,7 @@ class HomePage extends StatelessWidget {
             style: TextStyle(
               fontSize: isTablet ? 20 : 18,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: theme.textTheme.bodyLarge?.color,
             ),
             textAlign: TextAlign.center,
           ),
@@ -341,7 +359,7 @@ class HomePage extends StatelessWidget {
             description,
             style: TextStyle(
               fontSize: isTablet ? 14 : 13,
-              color: AppTheme.textSecondary,
+              color: theme.textTheme.bodyMedium?.color,
               height: 1.4,
             ),
             textAlign: TextAlign.center,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
+import '../components/navigation.dart';
+import '../theme/app_theme.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -11,62 +13,292 @@ class SettingsScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     
     return Scaffold(
-      backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        backgroundColor: AppTheme.cardBackground,
-        elevation: 0,
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            color: AppTheme.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textPrimary),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Column(
         children: [
-          // Theme Section
-          _buildSectionTitle('Appearance'),
-          _buildSettingsTile(
-            title: 'Dark Mode',
-            subtitle: 'Toggle dark theme',
-            trailing: Switch(
-              value: themeProvider.isDarkMode,
-              onChanged: (value) => themeProvider.toggleTheme(),
-              activeColor: AppTheme.primaryOrange,
-            ),
-          ),
-          const SizedBox(height: 20),
-          
-          // Language Section
-          _buildSectionTitle('Language'),
-          _buildSettingsTile(
-            title: 'App Language',
-            subtitle: 'English',
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {
-              // TODO: Implement language selection
-            },
-          ),
-          const SizedBox(height: 20),
-          
-          // Notifications Section
-          _buildSectionTitle('Notifications'),
-          _buildSettingsTile(
-            title: 'Push Notifications',
-            subtitle: 'Receive lesson reminders',
-            trailing: Switch(
-              value: true,
-              onChanged: (value) {
-                // TODO: Implement notification settings
-              },
-              activeColor: AppTheme.primaryOrange,
+          const Navigation(),
+          Expanded(
+            child: Row(
+              children: [
+                // Navigation Drawer/Menu (permanent on wide screens, modal on mobile)
+                if (screenWidth > 700)
+                  Container(
+                    width: 120,
+                    color: Theme.of(context).cardColor,
+                    child: SideNavigation(
+                      selected: 'Settings',
+                      onNavigate: (route) {
+                        if (route != '/settings') {
+                          Navigator.pushReplacementNamed(context, route);
+                        }
+                      },
+                    ),
+                  ),
+                Expanded(
+                  child: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hero/Header Section (like lessons page)
+                        Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: headerHeight,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: isDarkMode
+                                      ? [
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .background,
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .background
+                                        ]
+                                      : [
+                                          AppTheme.primaryOrange,
+                                          AppTheme.primaryOrange
+                                        ],
+                                ),
+                              ),
+                              padding: EdgeInsets.only(
+                                  left: isTablet ? 40 : 20,
+                                  right: isTablet ? 40 : 20,
+                                  top: isTablet ? 36 : 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Settings',
+                                        style: TextStyle(
+                                          fontSize: isTablet ? 32 : 26,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'Manage your preferences and account',
+                                    style: TextStyle(
+                                      fontSize: isTablet ? 18 : 15,
+                                      color: Colors.white.withOpacity(0.95),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        // Settings Options below header
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: isTablet ? 40 : 20,
+                                  vertical: isTablet ? 32 : 20),
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  side: BorderSide(
+                                    color: Theme.of(context).dividerColor,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      leading: Icon(Icons.person_outline,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Account',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      subtitle: Text(
+                                          'Manage your account information',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.color)),
+                                      onTap: () {
+                                        // Navigate to account details
+                                      },
+                                    ),
+                                    SwitchListTile(
+                                      secondary: Icon(Icons.notifications_none,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Enable Notifications',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      value: _notificationsEnabled,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _notificationsEnabled = value;
+                                        });
+                                      },
+                                    ),
+                                    SwitchListTile(
+                                      secondary: Icon(Icons.dark_mode_outlined,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Dark Mode',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      value: isDarkMode,
+                                      onChanged: (value) {
+                                        themeProvider.toggleTheme(value);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.text_fields,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Text Size',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      subtitle: Text(
+                                          _textScale == 1.0
+                                              ? 'Normal'
+                                              : _textScale == 1.2
+                                                  ? 'Large'
+                                                  : 'Extra Large',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.color)),
+                                      trailing: DropdownButton<double>(
+                                        value: _textScale,
+                                        dropdownColor:
+                                            Theme.of(context).cardColor,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.color),
+                                        items: [
+                                          DropdownMenuItem(
+                                              value: 1.0,
+                                              child: Text('Normal',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.color))),
+                                          DropdownMenuItem(
+                                              value: 1.2,
+                                              child: Text('Large',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.color))),
+                                          DropdownMenuItem(
+                                              value: 1.4,
+                                              child: Text('Extra Large',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.color))),
+                                        ],
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _textScale = value ?? 1.0;
+                                            // You can use this value with MediaQuery or a provider for accessibility
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.language,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Language',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      subtitle: Text('Change app language',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.color)),
+                                      onTap: () {
+                                        // Show language selection dialog
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.privacy_tip_outlined,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Privacy Policy',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      onTap: () {
+                                        // Open privacy policy
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.logout,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Log Out',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      onTap: () {
+                                        _showLogoutConfirmation(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+
             ),
           ),
           const SizedBox(height: 20),
@@ -102,79 +334,122 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: AppTheme.textPrimary,
-        ),
-      ),
-    );
-  }
 
-  Widget _buildSettingsTile({
-    required String title,
-    required String subtitle,
-    Widget? trailing,
-    VoidCallback? onTap,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.border),
-      ),
-      child: ListTile(
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: AppTheme.textPrimary,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppTheme.textSecondary,
-          ),
-        ),
-        trailing: trailing,
-        onTap: onTap,
-      ),
-    );
-  }
-
-  void _showSignOutDialog(BuildContext context) {
+  void _showLogoutConfirmation(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Sign Out'),
-          content: const Text('Are you sure you want to sign out?'),
+          backgroundColor: Theme.of(context).cardColor,
+          title: Text(
+            'Log Out',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to log out? You will need to sign in again to access your account.',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+            ),
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/auth-choice',
-                  (route) => false,
-                );
+                Navigator.of(context).pop(); // Close the dialog
               },
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _performLogout(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryOrange,
+                foregroundColor: Colors.white,
+              ),
               child: const Text(
-                'Sign Out',
-                style: TextStyle(color: Colors.red),
+                'Log Out',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _performLogout(BuildContext context) {
+    // Clear any user session data here if you have any
+    // For example: SharedPreferences, secure storage, etc.
+
+    // Navigate to auth choice screen and clear the navigation stack
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/auth-choice',
+      (Route<dynamic> route) => false,
+    );
+
+    // Optional: Show a brief message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Successfully logged out'),
+        backgroundColor: AppTheme.primaryOrange,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+}
+
+// Side navigation widget for settings screen
+class SideNavigation extends StatelessWidget {
+  final String selected;
+  final void Function(String route)? onNavigate;
+  const SideNavigation({required this.selected, this.onNavigate, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final navItems = [
+      {'icon': Icons.home, 'label': 'Home', 'route': '/home'},
+      {'icon': Icons.menu_book, 'label': 'Lessons', 'route': '/lessons'},
+      {'icon': Icons.sports_kabaddi, 'label': 'Practice', 'route': '/practice'},
+      {'icon': Icons.language, 'label': 'Culture', 'route': '/culture'},
+      {'icon': Icons.person, 'label': 'Profile', 'route': '/profile'},
+      {'icon': Icons.circle, 'label': 'Settings', 'route': '/settings'},
+    ];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: navItems.map((item) {
+        final isSelected = item['label'] == selected;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: ListTile(
+            leading: Icon(
+              item['icon'] as IconData,
+              color: isSelected
+                  ? AppTheme.primaryOrange
+                  : Theme.of(context).iconTheme.color,
+              size: 28,
+            ),
+            title: Text(
+              item['label'] as String,
+              style: TextStyle(
+                color: isSelected
+                    ? AppTheme.primaryOrange
+                    : Theme.of(context).textTheme.bodyLarge?.color,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: 15,
+
               ),
             ),
           ],
