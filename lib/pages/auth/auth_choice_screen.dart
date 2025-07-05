@@ -31,6 +31,24 @@ class AuthChoiceScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Header Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'KinyaLearn',
+                      style: TextStyle(
+                        fontSize: isTablet ? 40 : 32,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            isDark ? theme.colorScheme.onSurface : Colors.white,
+                        letterSpacing: -1,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                SizedBox(height: isTablet ? 32 : 24),
                 // Logo and Brand
                 Container(
                   width: isTablet ? 120 : 100,
@@ -74,33 +92,17 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                SizedBox(height: isTablet ? 40 : 32),
-
-                Text(
-                  'KinyaLearn',
-                  style: TextStyle(
-                    fontSize: isTablet ? 48 : 40,
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onPrimary,
-                    letterSpacing: -1,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
+                SizedBox(height: isTablet ? 32 : 24),
                 Text(
                   'Learn Kinyarwanda with confidence',
                   style: TextStyle(
                     fontSize: isTablet ? 20 : 18,
-                    color: theme.colorScheme.onPrimary.withOpacity(0.9),
+                    color: Colors.white.withOpacity(0.9),
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
                 ),
-
-                SizedBox(height: isTablet ? 60 : 48),
-
+                SizedBox(height: isTablet ? 48 : 36),
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
@@ -109,7 +111,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/login'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.cardColor,
-                      foregroundColor: theme.textTheme.bodyLarge?.color ?? Colors.black,
+                      foregroundColor:
+                          theme.textTheme.bodyLarge?.color ?? Colors.black,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -125,9 +128,7 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 16),
-
                 // Sign Up Button
                 SizedBox(
                   width: double.infinity,
@@ -136,7 +137,8 @@ class AuthChoiceScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushNamed(context, '/register'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: theme.colorScheme.onPrimary,
-                      side: BorderSide(color: theme.colorScheme.onPrimary, width: 2),
+                      side: BorderSide(
+                          color: theme.colorScheme.onPrimary, width: 2),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -151,9 +153,7 @@ class AuthChoiceScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 32),
-
                 TextButton(
                   onPressed: () => Navigator.pushNamed(context, '/'),
                   child: Text(

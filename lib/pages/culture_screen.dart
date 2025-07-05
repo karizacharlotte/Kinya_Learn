@@ -13,29 +13,30 @@ class CultureScreen extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1200;
 
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           const Navigation(),
           // Cultural Header
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryOrange,
-                  AppTheme.primaryOrange,
-                ],
+                colors: isDark
+                    ? [
+                        theme.colorScheme.background,
+                        theme.colorScheme.background
+                      ]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
             child: Row(
               children: [
-                Icon(Icons.language,
-                    color: Colors.white, size: isTablet ? 36 : 32),
-                SizedBox(width: isTablet ? 20 : 16),
                 Expanded(
                   child: Text(
                     'Rwandan Culture & Heritage',
@@ -46,6 +47,8 @@ class CultureScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                Icon(Icons.language,
+                    color: Colors.white, size: isTablet ? 36 : 32),
               ],
             ),
           ),
@@ -89,7 +92,6 @@ class CultureScreen extends StatelessWidget {
             Icons.menu_book,
             const Color(0xFF00A1DE),
             isTablet: true,
-            
           ),
           _buildCultureCard(
             'Traditional Celebrations',
@@ -112,7 +114,7 @@ class CultureScreen extends StatelessWidget {
             'Amateka y\'u Rwanda',
             'Understand Rwanda\'s rich history and heritage',
             Icons.account_balance,
-          AppTheme.primaryOrange,
+            AppTheme.primaryOrange,
             isTablet: true,
           ),
           _buildCultureCard(
@@ -199,9 +201,10 @@ class CultureScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
         child: InkWell(
-          onTap: onTap ?? () {
-            // Navigate to specific cultural content
-          },
+          onTap: onTap ??
+              () {
+                // Navigate to specific cultural content
+              },
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           child: Padding(
             padding: EdgeInsets.all(isTablet ? 20 : 16),
@@ -269,10 +272,8 @@ class CultureScreen extends StatelessWidget {
         .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
   }
 }
-    
-  Lesson _getProverbsLesson() {
-    return KinyarwandaLessons.getLessons()
-        .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
-  }
 
-
+Lesson _getProverbsLesson() {
+  return KinyarwandaLessons.getLessons()
+      .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
+}
