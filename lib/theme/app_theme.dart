@@ -1,97 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static ThemeData get darkTheme {
-    return ThemeData(
-      useMaterial3: true,
-      fontFamily: 'Inter',
-      colorScheme: ColorScheme.dark(
-        surface: const Color(0xFF181A20),
-        onSurface: Colors.white,
-        primary: AppTheme.primaryOrange,
-        onPrimary: Colors.white,
-        secondary: AppTheme.primaryGreen,
-        onSecondary: Colors.white,
-        tertiary: AppTheme.primaryOrange,
-        onTertiary: Colors.white,
-        error: AppTheme.error,
-        onError: Colors.white,
-      ),
-      scaffoldBackgroundColor: const Color(0xFF181A20),
-      cardTheme: CardTheme(
-        color: const Color(0xFF23262F),
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppTheme.border, width: 1),
-        ),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppTheme.primaryOrange,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: const Color(0xFF23262F),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppTheme.border),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppTheme.border),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppTheme.primaryOrange, width: 2),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      ),
-      textTheme: const TextTheme(
-        headlineLarge: TextStyle(
-          color: Colors.white,
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          letterSpacing: -0.5,
-        ),
-        headlineMedium: TextStyle(
-          color: Colors.white,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          letterSpacing: -0.25,
-        ),
-        titleLarge: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        bodyLarge: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-        ),
-        bodyMedium: TextStyle(
-          color: Color(0xFFB0B3B8),
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
-        bodySmall: TextStyle(
-          color: Color(0xFF888888),
-          fontSize: 12,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-    );
-  }
   // Colors from Figma design
   static const Color background = Colors.white;
   static const Color foreground = Color(0xFF0F172A);
@@ -254,4 +163,104 @@ class AppTheme {
       Color(0xFFB55208), // Orange
     ],
   );
+
+  // Dark theme colors
+  static const Color darkBackground = Color(0xFF0F172A);
+  static const Color darkForeground = Color(0xFFF8FAFC);
+  static const Color darkCardBackground = Color(0xFF1E293B);
+  static const Color darkBorder = Color(0xFF334155);
+  static const Color darkSurface = Color(0xFF475569);
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      fontFamily: 'Inter',
+      brightness: Brightness.dark,
+      colorScheme: const ColorScheme.dark(
+        surface: darkBackground,
+        onSurface: darkForeground,
+        primary: primaryOrange,
+        onPrimary: Colors.white,
+        secondary: primaryGreen,
+        onSecondary: Colors.white,
+        tertiary: primaryOrange,
+        onTertiary: Colors.white,
+        error: error,
+        onError: Colors.white,
+      ),
+      scaffoldBackgroundColor: darkBackground,
+      cardTheme: CardTheme(
+        color: darkCardBackground,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: darkBorder, width: 1),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryOrange,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: darkCardBackground,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: darkBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: darkBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: primaryOrange, width: 2),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      ),
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+          color: darkForeground,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          letterSpacing: -0.5,
+        ),
+        headlineMedium: TextStyle(
+          color: darkForeground,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.25,
+        ),
+        titleLarge: TextStyle(
+          color: darkForeground,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: TextStyle(
+          color: darkForeground,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+        bodyMedium: TextStyle(
+          color: Color(0xFFCBD5E1),
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
+        bodySmall: TextStyle(
+          color: Color(0xFF94A3B8),
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
 }
