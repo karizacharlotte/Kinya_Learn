@@ -37,10 +37,6 @@ class KinyaLearnApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-=======
-
->>>>>>> cd93ff76ad06ceea873f7d098bc4d8f010cbb529
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return MaterialApp(
@@ -132,11 +128,7 @@ class KinyaLearnApp extends StatelessWidget {
             return null;
           },
         );
-<<<<<<< HEAD
       },
     );
   }
 }
-=======
-
->>>>>>> cd93ff76ad06ceea873f7d098bc4d8f010cbb529
