@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
 import '../components/navigation.dart';
 import '../theme/app_theme.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
-  double _textScale = 1.0;
-
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-    final headerHeight = isTablet ? 180.0 : 140.0;
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
@@ -308,12 +298,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ],
+
             ),
+          ),
+          const SizedBox(height: 20),
+          
+          // Account Section
+          _buildSectionTitle('Account'),
+          _buildSettingsTile(
+            title: 'Privacy Policy',
+            subtitle: 'Read our privacy policy',
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              // TODO: Navigate to privacy policy
+            },
+          ),
+          _buildSettingsTile(
+            title: 'Terms of Service',
+            subtitle: 'Read our terms of service',
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              // TODO: Navigate to terms of service
+            },
+          ),
+          _buildSettingsTile(
+            title: 'Sign Out',
+            subtitle: 'Sign out of your account',
+            trailing: const Icon(Icons.exit_to_app, color: Colors.red),
+            onTap: () {
+              _showSignOutDialog(context);
+            },
           ),
         ],
       ),
     );
   }
+
 
   void _showLogoutConfirmation(BuildContext context) {
     showDialog(
@@ -429,23 +449,12 @@ class SideNavigation extends StatelessWidget {
                     : Theme.of(context).textTheme.bodyLarge?.color,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 15,
+
               ),
             ),
-            selected: isSelected,
-            onTap: isSelected
-                ? null
-                : () {
-                    if (onNavigate != null) {
-                      onNavigate!(item['route'] as String);
-                    } else {
-                      Navigator.pushNamed(context, item['route'] as String);
-                    }
-                  },
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            horizontalTitleGap: 0,
-          ),
+          ],
         );
-      }).toList(),
+      },
     );
   }
 }

@@ -22,6 +22,7 @@ class AuthChoiceScreen extends StatelessWidget {
             colors: isDark
                 ? [theme.colorScheme.surface, theme.colorScheme.surface]
                 : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+
           ),
         ),
         child: SafeArea(
