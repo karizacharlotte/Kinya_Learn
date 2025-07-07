@@ -36,8 +36,8 @@ class HomePage extends StatelessWidget {
                         end: Alignment.bottomCenter,
                         colors: isDark
                             ? [
-                                theme.colorScheme.background,
-                                theme.colorScheme.background
+                                theme.colorScheme.surface,
+                                theme.colorScheme.surface
                               ]
                             : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                       ),
@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
                                           isDesktop ? 20 : (isTablet ? 18 : 16),
                                       color: isDark
                                           ? Colors.white70
-                                          : Colors.white.withOpacity(0.9),
+                                          : Colors.white.withValues(alpha: 0.9),
                                       height: 1.5,
                                     ),
                                   ),
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
+                                      color: Colors.black.withValues(alpha: 0.2),
                                       blurRadius: 20,
                                       offset: const Offset(0, 10),
                                     ),
@@ -242,7 +242,7 @@ class HomePage extends StatelessWidget {
                             fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
                             color: isDark
                                 ? Colors.white70
-                                : Colors.white.withOpacity(0.9),
+                                : Colors.white.withValues(alpha: 0.9),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -323,7 +323,7 @@ class HomePage extends StatelessWidget {
         border: Border.all(color: theme.dividerColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -335,7 +335,7 @@ class HomePage extends StatelessWidget {
             width: isTablet ? 64 : 56,
             height: isTablet ? 64 : 56,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(

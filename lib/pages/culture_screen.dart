@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../components/navigation.dart';
 import '../theme/app_theme.dart';
 import '../data/kinyarwanda_lessons.dart';
-import '../models/lesson.dart';
 
 class CultureScreen extends StatelessWidget {
   const CultureScreen({super.key});
@@ -29,8 +28,8 @@ class CultureScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: isDark
                     ? [
-                        theme.colorScheme.background,
-                        theme.colorScheme.background
+                        theme.colorScheme.surface,
+                        theme.colorScheme.surface
                       ]
                     : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
@@ -81,7 +80,8 @@ class CultureScreen extends StatelessWidget {
             onTap: () => Navigator.pushNamed(
               context,
               '/lesson-detail',
-              arguments: _getProverbsLesson(),
+              arguments: KinyarwandaLessons.getLessons()
+                  .firstWhere((lesson) => lesson.id == 'traditional-proverbs'),
             ),
             isTablet: true,
           ),
@@ -143,7 +143,8 @@ class CultureScreen extends StatelessWidget {
           onTap: () => Navigator.pushNamed(
             context,
             '/lesson-detail',
-            arguments: _getProverbsLesson(),
+            arguments: KinyarwandaLessons.getLessons()
+                .firstWhere((lesson) => lesson.id == 'traditional-proverbs'),
           ),
           isTablet: isTablet,
         ),
@@ -267,13 +268,4 @@ class CultureScreen extends StatelessWidget {
     );
   }
 
-  Lesson _getProverbsLesson() {
-    return KinyarwandaLessons.getLessons()
-        .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
-  }
-}
-
-Lesson _getProverbsLesson() {
-  return KinyarwandaLessons.getLessons()
-      .firstWhere((lesson) => lesson.id == 'traditional-proverbs');
 }

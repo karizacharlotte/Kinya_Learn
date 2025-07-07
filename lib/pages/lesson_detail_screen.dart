@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kinya_learn/video.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
+import '../components/reliable_video_widget.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
-  const LessonDetailScreen({super.key, required this.lesson})
-      : assert(lesson != null);
+  const LessonDetailScreen({super.key, required this.lesson});
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -14,42 +13,14 @@ class LessonDetailScreen extends StatefulWidget {
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   bool isContentCompleted = false;
-  bool isVideoFullscreen = false;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth > 768;
 
-    // If video is in fullscreen mode, show only the video
-    if (isVideoFullscreen) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            VideoPlayerScreen(
-              videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-              // autoPlay: true,
-            ),
-            Positioned(
-              top: 40,
-              right: 20,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white, size: 30),
-                onPressed: () {
-                  setState(() {
-                    isVideoFullscreen = false;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: AppTheme.cardBackground,
         elevation: 0,
@@ -94,7 +65,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                       fontSize: isTablet ? 16 : 14,
                     ),
                   ),
@@ -102,9 +73,40 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            // Video Section 
+            if (widget.lesson.videoUrl != null) ...[
+              const SizedBox(height: 24),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(isTablet ? 24 : 20),
+                decoration: BoxDecoration(
+                  color: AppTheme.cardBackground,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Lesson Video',
+                      style: TextStyle(
+                        fontSize: isTablet ? 20 : 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ReliableVideoWidget(
+                      videoUrl: widget.lesson.videoUrl!,
+                      videoTitle: widget.lesson.videoTitle,
+                    ),
+                  ],
+                ),
+              ),
+            ],
 
             // Lesson Content
+            const SizedBox(height: 24),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(isTablet ? 24 : 20),
@@ -155,49 +157,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Video Section with Fullscreen Button
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 24),
-              child: Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      VideoPlayerScreen(
-                        videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-                      ),
-                      Positioned.fill(
-                        child: Center(
-                          child: IconButton(
-                            icon: const Icon(Icons.fullscreen,
-                                color: Colors.white, size: 50),
-                            onPressed: () {
-                              setState(() {
-                                isVideoFullscreen = true;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.fullscreen),
-                      label: const Text('Open Video in Fullscreen'),
-                      onPressed: () {
-                        setState(() {
-                          isVideoFullscreen = true;
-                        });
-                      },
                     ),
                   ),
                 ],

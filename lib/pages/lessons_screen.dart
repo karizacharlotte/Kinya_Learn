@@ -38,8 +38,8 @@ class LessonsScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: isDarkMode
                       ? [
-                          Theme.of(context).colorScheme.background,
-                          Theme.of(context).colorScheme.background
+                          Theme.of(context).colorScheme.surface,
+                          Theme.of(context).colorScheme.surface
                         ]
                       : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                 ),
@@ -63,8 +63,8 @@ class LessonsScreen extends StatelessWidget {
                           'Master Kinyarwanda step by step',
                           style: TextStyle(
                             color: isDarkMode
-                                ? theme.colorScheme.onSurface.withOpacity(0.7)
-                                : Colors.white.withOpacity(0.9),
+                                ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
+                                : Colors.white.withValues(alpha: 0.9),
                             fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
                           ),
                         ),
@@ -155,7 +155,7 @@ class LessonsScreen extends StatelessWidget {
                       width: isTablet ? 64 : 56,
                       height: isTablet ? 64 : 56,
                       decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
+                        color: color.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Icon(

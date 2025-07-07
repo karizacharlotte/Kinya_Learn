@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kinya_learn/theme/app_theme.dart';
 import '../models/lesson.dart';
 import '../data/kinyarwanda_lessons.dart';
+import '../components/reliable_video_widget.dart';
 
 class LessonPage extends StatefulWidget {
   final Lesson lesson;
@@ -60,6 +61,16 @@ class _LessonPageState extends State<LessonPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Add video if lesson has video URL and it's the first exercise
+              if (widget.lesson.videoUrl != null && currentExerciseIndex == 0) ...[
+                ReliableVideoWidget(
+                  videoUrl: widget.lesson.videoUrl!,
+                  videoTitle: widget.lesson.videoTitle,
+                ),
+                const SizedBox(height: 24),
+                const Divider(),
+                const SizedBox(height: 24),
+              ],
               Text(
                 exercise.question,
                 style: const TextStyle(
@@ -74,23 +85,22 @@ class _LessonPageState extends State<LessonPage> {
                 ...exercise.options.map((option) {
                   final isSelected = selectedAnswer == option;
                   final isCorrectAnswer = option == exercise.correctAnswer;
-                  final showFeedback = showResult && isSelected;
                   Color? borderColor;
                   Color? fillColor;
                   if (showResult) {
                     if (isSelected && isCorrectAnswer) {
                       borderColor = Colors.green;
-                      fillColor = Colors.green.withOpacity(0.1);
+                      fillColor = Colors.green.withValues(alpha: 0.1);
                     } else if (isSelected && !isCorrectAnswer) {
                       borderColor = Colors.red;
-                      fillColor = Colors.red.withOpacity(0.1);
+                      fillColor = Colors.red.withValues(alpha: 0.1);
                     } else if (isCorrectAnswer) {
                       borderColor = Colors.green;
-                      fillColor = Colors.green.withOpacity(0.05);
+                      fillColor = Colors.green.withValues(alpha: 0.05);
                     }
                   } else if (hoveredOption == option) {
-                    borderColor = Colors.deepPurple.withOpacity(0.5);
-                    fillColor = Colors.deepPurple.withOpacity(0.05);
+                    borderColor = Colors.deepPurple.withValues(alpha: 0.5);
+                    fillColor = Colors.deepPurple.withValues(alpha: 0.05);
                   }
 
                   Widget optionChild = Row(
