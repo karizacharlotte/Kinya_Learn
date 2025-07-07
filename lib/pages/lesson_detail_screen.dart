@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:kinya_learn/video.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_provider.dart';
+import '../utils/responsive_helper.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
-  const LessonDetailScreen({super.key, required this.lesson})
-      : assert(lesson != null);
+  const LessonDetailScreen({super.key, required this.lesson});
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -18,8 +20,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
+    final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
 
     // If video is in fullscreen mode, show only the video
     if (isVideoFullscreen) {
@@ -49,34 +52,46 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: AppTheme.cardBackground,
+        backgroundColor: theme.appBarTheme.backgroundColor,
         elevation: 0,
         title: Text(
           widget.lesson.title,
           style: TextStyle(
-            color: AppTheme.textPrimary,
-            fontSize: isTablet ? 20 : 18,
+            color: theme.appBarTheme.titleTextStyle?.color ??
+                theme.colorScheme.onSurface,
+            fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
             fontWeight: FontWeight.w600,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textPrimary),
+          icon: Icon(Icons.arrow_back,
+              color: theme.appBarTheme.iconTheme?.color ??
+                  theme.colorScheme.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(isTablet ? 24 : 20),
+        padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Lesson Header
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(isTablet ? 24 : 20),
+              padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
               decoration: BoxDecoration(
-                gradient: AppTheme.primaryGradient,
+                gradient: isDarkMode
+                    ? LinearGradient(
+                        colors: [
+                          theme.colorScheme.surface,
+                          theme.colorScheme.surface.withValues(alpha: 0.8),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : AppTheme.primaryGradient,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -85,33 +100,43 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     widget.lesson.title,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isTablet ? 28 : 24,
+                      color: isDarkMode
+                          ? theme.colorScheme.onSurface
+                          : Colors.white,
+                      fontSize:
+                          ResponsiveHelper.getResponsiveHeaderFontSize(context),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                      height:
+                          ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: isTablet ? 16 : 14,
+                      color: isDarkMode
+                          ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
+                          : Colors.white.withValues(alpha: 0.9),
+                      fontSize:
+                          ResponsiveHelper.getResponsiveBodyFontSize(context),
                     ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 24),
+            SizedBox(
+                height: ResponsiveHelper.getResponsiveSpacing(context,
+                    factor: 1.5)),
 
             // Lesson Content
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(isTablet ? 24 : 20),
+              padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
               decoration: BoxDecoration(
-                color: AppTheme.cardBackground,
+                color: theme.cardColor,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.border),
+                border: Border.all(color: theme.dividerColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,23 +144,25 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     'Lesson Content',
                     style: TextStyle(
-                      fontSize: isTablet ? 20 : 18,
+                      fontSize:
+                          ResponsiveHelper.getResponsiveTitleFontSize(context),
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
-                  const SizedBox(height: 16),
-
+                  SizedBox(
+                      height: ResponsiveHelper.getResponsiveSpacing(context)),
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      fontSize: isTablet ? 16 : 14,
-                      color: AppTheme.textSecondary,
+                      fontSize:
+                          ResponsiveHelper.getResponsiveBodyFontSize(context),
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
+                  SizedBox(
+                      height: ResponsiveHelper.getResponsiveSpacing(context,
+                          factor: 1.25)),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -146,12 +173,24 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                 isContentCompleted = true;
                               });
                             },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            isDarkMode ? Colors.white : AppTheme.primaryOrange,
+                        foregroundColor:
+                            isDarkMode ? AppTheme.primaryOrange : Colors.white,
+                        padding: ResponsiveHelper.getResponsiveButtonPadding(
+                            context),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                       child: Text(
                         isContentCompleted
                             ? '✓ Content Completed'
                             : 'Mark as Complete',
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: ResponsiveHelper.getResponsiveBodyFontSize(
+                              context),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -163,7 +202,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
             // Video Section with Fullscreen Button
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 24),
+              margin: EdgeInsets.symmetric(
+                  vertical: ResponsiveHelper.getResponsiveSpacing(context,
+                      factor: 1.5)),
               child: Column(
                 children: [
                   Stack(
@@ -187,12 +228,23 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(
+                      height:
+                          ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.fullscreen),
                       label: const Text('Open Video in Fullscreen'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.secondary,
+                        foregroundColor: theme.colorScheme.onSecondary,
+                        padding: ResponsiveHelper.getResponsiveButtonPadding(
+                            context),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                       onPressed: () {
                         setState(() {
                           isVideoFullscreen = true;
@@ -204,7 +256,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               ),
             ),
 
-            const SizedBox(height: 24),
+            SizedBox(
+                height: ResponsiveHelper.getResponsiveSpacing(context,
+                    factor: 1.5)),
 
             // Action Buttons
             Column(
@@ -222,15 +276,23 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryBlue,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: isDarkMode
+                          ? theme.colorScheme.primary
+                          : AppTheme.primaryBlue,
+                      foregroundColor: isDarkMode
+                          ? theme.colorScheme.onPrimary
+                          : Colors.white,
+                      padding:
+                          ResponsiveHelper.getResponsiveButtonPadding(context),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: const Text('Take Practice Quiz'),
                   ),
                 ),
-
-                const SizedBox(height: 12),
-
+                SizedBox(
+                    height: ResponsiveHelper.getResponsiveSpacing(context)),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -244,8 +306,15 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryOrange,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor:
+                          isDarkMode ? Colors.white : AppTheme.primaryOrange,
+                      foregroundColor:
+                          isDarkMode ? AppTheme.primaryOrange : Colors.white,
+                      padding:
+                          ResponsiveHelper.getResponsiveButtonPadding(context),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: const Text('Final Quiz & Certificate - \$9.99'),
                   ),
