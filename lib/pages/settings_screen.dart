@@ -15,7 +15,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
   double _textScale = 1.0;
 
-  // Helper getters for responsive design
   double get screenWidth => MediaQuery.of(context).size.width;
   double get headerHeight => screenWidth > 700 ? 200 : 160;
   bool get isTablet => screenWidth > 600;
@@ -168,20 +167,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         });
                                       },
                                     ),
-                                    SwitchListTile(
-                                      secondary: Icon(Icons.dark_mode_outlined,
+                                    // Theme Selection
+                                    ListTile(
+                                      leading: Icon(Icons.palette_outlined,
                                           color: Theme.of(context)
                                               .iconTheme
                                               .color),
-                                      title: Text('Dark Mode',
+                                      title: Text('Theme',
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge
                                                   ?.color)),
-                                      value: isDarkMode,
-                                      onChanged: (value) {
-                                        themeProvider.toggleTheme(value);
+                                      subtitle: Text(
+                                          _getThemeModeName(
+                                              themeProvider.themeMode),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.color)),
+                                      trailing: PopupMenuButton(
+                                        icon: Icon(Icons.more_vert,
+                                            color: Theme.of(context)
+                                                .iconTheme
+                                                .color),
+                                        itemBuilder: (context) => [
+                                          PopupMenuItem(
+                                            child: ListTile(
+                                              leading: const Icon(Icons.edit),
+                                              title: const Text('Change Theme'),
+                                              contentPadding: EdgeInsets.zero,
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                                _showThemeDialog(
+                                                    context, themeProvider);
+                                              },
+                                            ),
+                                          ),
+                                          PopupMenuItem(
+                                            child: ListTile(
+                                              leading:
+                                                  const Icon(Icons.refresh),
+                                              title: const Text(
+                                                  'Reset Theme Choice'),
+                                              contentPadding: EdgeInsets.zero,
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                                _showResetThemeDialog(
+                                                    context, themeProvider);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      onTap: () {
+                                        _showThemeDialog(
+                                            context, themeProvider);
                                       },
                                     ),
                                     ListTile(
@@ -388,6 +430,107 @@ class _SettingsScreenState extends State<SettingsScreen> {
         content: const Text('Successfully logged out'),
         backgroundColor: AppTheme.primaryOrange,
         duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  String _getThemeModeName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return 'Follow System';
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+    }
+  }
+
+  void _showThemeDialog(BuildContext context, ThemeProvider themeProvider) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Choose Theme'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile<ThemeMode>(
+              title: const Text('Follow System'),
+              value: ThemeMode.system,
+              groupValue: themeProvider.themeMode,
+              onChanged: (ThemeMode? value) {
+                if (value != null) {
+                  themeProvider.setThemeMode(value);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+            RadioListTile<ThemeMode>(
+              title: const Text('Light'),
+              value: ThemeMode.light,
+              groupValue: themeProvider.themeMode,
+              onChanged: (ThemeMode? value) {
+                if (value != null) {
+                  themeProvider.setThemeMode(value);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+            RadioListTile<ThemeMode>(
+              title: const Text('Dark'),
+              value: ThemeMode.dark,
+              groupValue: themeProvider.themeMode,
+              onChanged: (ThemeMode? value) {
+                if (value != null) {
+                  themeProvider.setThemeMode(value);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showResetThemeDialog(
+      BuildContext context, ThemeProvider themeProvider) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset Theme Choice'),
+        content: const Text(
+          'This will reset your theme preference and ask you to choose again next time you restart the app. Continue?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              themeProvider.resetToFirstTime();
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text(
+                      'Theme preference reset. You\'ll be asked to choose again on next app start.'),
+                  backgroundColor: AppTheme.primaryOrange,
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryOrange,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Reset'),
+          ),
+        ],
       ),
     );
   }
