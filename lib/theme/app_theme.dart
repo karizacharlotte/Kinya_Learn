@@ -255,8 +255,8 @@ class AppTheme {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFB55208), // Orange
-      Color(0xFFB55208), // Orange
+      Color(0xFFB55208), 
+      Color(0xFFB55208), 
     ],
   );
 

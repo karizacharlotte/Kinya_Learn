@@ -285,21 +285,16 @@ class HomePage extends StatelessWidget {
       padding: ResponsiveHelper.getResponsivePadding(context),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           colors: isDark
-              ? [AppTheme.darkCardBackground, AppTheme.darkSurface]
-              : [
-                  AppTheme.primaryOrange.withOpacity(0.1),
-                  AppTheme.primaryOrange.withOpacity(0.2)
-                ],
+              ? [
+                  Theme.of(context).colorScheme.background,
+                  Theme.of(context).colorScheme.background
+                ]
+              : [AppTheme.primaryOrange, AppTheme.primaryOrange],
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isDark
-              ? AppTheme.darkBorder
-              : AppTheme.primaryOrange.withOpacity(0.3),
-        ),
       ),
       child: Column(
         children: [
@@ -308,7 +303,7 @@ class HomePage extends StatelessWidget {
             style: TextStyle(
               fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
               fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : AppTheme.textPrimary,
+              color: isDark ? Colors.white : Colors.white,
             ),
             textAlign: TextAlign.center,
           ),
@@ -317,7 +312,8 @@ class HomePage extends StatelessWidget {
             'Join thousands of students learning Kinyarwanda with KinyaLearn',
             style: TextStyle(
               fontSize: ResponsiveHelper.getResponsiveBodyFontSize(context),
-              color: isDark ? Colors.white70 : AppTheme.textSecondary,
+              color:
+                  isDark ? Colors.white70 : Colors.white.withValues(alpha: 0.9),
             ),
             textAlign: TextAlign.center,
           ),
@@ -327,12 +323,13 @@ class HomePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () => Navigator.pushNamed(context, '/lessons'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryOrange,
-              foregroundColor: Colors.white,
+              backgroundColor: isDark ? Colors.white : Colors.white,
+              foregroundColor: isDark ? Colors.black : AppTheme.primaryOrange,
               padding: ResponsiveHelper.getResponsiveButtonPadding(context),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
+              elevation: isDark ? 2 : 0,
             ),
             child: Text(
               'Start Your Journey',

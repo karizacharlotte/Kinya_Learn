@@ -4,7 +4,6 @@ import 'theme/theme_provider.dart';
 import 'package:flutter/rendering.dart';
 import 'pages/home_page.dart';
 import 'pages/lessons_screen.dart';
-import 'pages/lesson_page.dart';
 import 'pages/practice_screen.dart';
 import 'pages/culture_screen.dart';
 import 'pages/profile_screen.dart';
@@ -122,7 +121,8 @@ class KinyaLearnApp extends StatelessWidget {
                 );
               }
               return MaterialPageRoute(
-                builder: (_) => practice_quiz.PracticeQuizScreen(lesson: lesson),
+                builder: (_) =>
+                    practice_quiz.PracticeQuizScreen(lesson: lesson),
               );
             }
             return null;
