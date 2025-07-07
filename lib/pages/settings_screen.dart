@@ -65,10 +65,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ? [
                                           Theme.of(context)
                                               .colorScheme
-                                              .background,
+                                              .surface,
                                           Theme.of(context)
                                               .colorScheme
-                                              .background
+                                              .surface
                                         ]
                                       : [
                                           AppTheme.primaryOrange,
@@ -101,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     'Manage your preferences and account',
                                     style: TextStyle(
                                       fontSize: isTablet ? 18 : 15,
-                                      color: Colors.white.withOpacity(0.95),
+                                      color: Colors.white.withValues(alpha: 0.95),
                                     ),
                                   ),
                                 ],

@@ -20,27 +20,62 @@ class LessonsScreen extends StatelessWidget {
 
     return ResponsiveScaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: Column(
-        children: [
-          const Navigation(),
-          // Header
-          Container(
-            width: double.infinity,
-            padding: ResponsiveHelper.getResponsiveHorizontalPadding(context)
-                .copyWith(
-              top: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-              bottom: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: isDarkMode
-                    ? [
-                        Theme.of(context).colorScheme.background,
-                        Theme.of(context).colorScheme.background
-                      ]
-                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Navigation(),
+            // Header
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: isDesktop ? 40 : (isTablet ? 32 : 20),
+                vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: isDarkMode
+                      ? [
+                          Theme.of(context).colorScheme.surface,
+                          Theme.of(context).colorScheme.surface
+                        ]
+                      : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Kinyarwanda Lessons',
+                          style: TextStyle(
+                            color: isDarkMode ? theme.colorScheme.onSurface : Colors.white,
+                            fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Master Kinyarwanda step by step',
+                          style: TextStyle(
+                            color: isDarkMode
+                                ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
+                                : Colors.white.withValues(alpha: 0.9),
+                            fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.menu_book,
+                      color: isDarkMode ? theme.colorScheme.onSurface : Colors.white, 
+                      size: isTablet ? 36 : 28),
+                ],
+
               ),
             ),
             child: _buildHeader(context, isDarkMode),
@@ -177,12 +212,24 @@ class LessonsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ResponsiveText(
-                      lesson.title,
-                      type: ResponsiveTextType.title,
-                      fontWeight: FontWeight.bold,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+
+                    Container(
+                      width: isTablet ? 64 : 56,
+                      height: isTablet ? 64 : 56,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        lesson.isCompleted
+                            ? Icons.check_circle_rounded
+                            : lesson.isUnlocked
+                                ? Icons.play_circle_rounded
+                                : Icons.lock_rounded,
+                        color: color,
+                        size: isTablet ? 32 : 28,
+                      ),
+
                     ),
                     SizedBox(
                         height: ResponsiveHelper.getResponsiveSpacing(context) *

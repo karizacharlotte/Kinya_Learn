@@ -35,16 +35,18 @@ class AuthChoiceScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'KinyaLearn',
-                      style: TextStyle(
-                        fontSize: isTablet ? 40 : 32,
-                        fontWeight: FontWeight.bold,
-                        color:
-                            isDark ? theme.colorScheme.onSurface : Colors.white,
-                        letterSpacing: -1,
+                    Flexible(
+                      child: Text(
+                        'KinyaLearn',
+                        style: TextStyle(
+                          fontSize: isTablet ? 40 : 32,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              isDark ? theme.colorScheme.onSurface : Colors.white,
+                          letterSpacing: -1,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -57,7 +59,7 @@ class AuthChoiceScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -97,7 +99,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   'Learn Kinyarwanda with confidence',
                   style: TextStyle(
                     fontSize: isTablet ? 20 : 18,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.center,
@@ -159,7 +161,7 @@ class AuthChoiceScreen extends StatelessWidget {
                   child: Text(
                     'Continue as Guest',
                     style: TextStyle(
-                      color: theme.colorScheme.onPrimary.withOpacity(0.8),
+                      color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
                       fontSize: isTablet ? 16 : 14,
                       fontWeight: FontWeight.w500,
                     ),

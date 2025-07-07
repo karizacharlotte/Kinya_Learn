@@ -47,7 +47,7 @@ class _PracticeQuizScreenState extends State<PracticeQuizScreen> {
     final isTablet = screenWidth > 768;
 
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: AppTheme.cardBackground,
         elevation: 0,
@@ -142,7 +142,7 @@ class _PracticeQuizScreenState extends State<PracticeQuizScreen> {
                       padding: EdgeInsets.all(isTablet ? 20 : 16),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppTheme.primaryOrange.withOpacity(0.1)
+                            ? AppTheme.primaryOrange.withValues(alpha: 0.1)
                             : AppTheme.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(

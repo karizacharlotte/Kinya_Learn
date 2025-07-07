@@ -6,6 +6,8 @@ class Lesson {
   final int order;
   bool isCompleted;
   bool isUnlocked;
+  final String? videoUrl; // Add video URL support
+  final String? videoTitle; // Optional video title
 
   Lesson({
     required this.id,
@@ -15,6 +17,8 @@ class Lesson {
     this.order = 0, // Add default value
     this.isCompleted = false,
     this.isUnlocked = false,
+    this.videoUrl,
+    this.videoTitle,
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
@@ -27,6 +31,8 @@ class Lesson {
         order: json['order'],
         isCompleted: json['isCompleted'] ?? false,
         isUnlocked: json['isUnlocked'] ?? false,
+        videoUrl: json['videoUrl'],
+        videoTitle: json['videoTitle'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +43,8 @@ class Lesson {
         'order': order,
         'isCompleted': isCompleted,
         'isUnlocked': isUnlocked,
+        'videoUrl': videoUrl,
+        'videoTitle': videoTitle,
       };
 }
 

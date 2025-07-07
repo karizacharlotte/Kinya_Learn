@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:kinya_learn/video.dart';
+
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_provider.dart';
-import '../utils/responsive_helper.dart';
+import '../components/reliable_video_widget.dart';
+
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
@@ -16,7 +15,6 @@ class LessonDetailScreen extends StatefulWidget {
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   bool isContentCompleted = false;
-  bool isVideoFullscreen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,35 +22,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
 
-    // If video is in fullscreen mode, show only the video
-    if (isVideoFullscreen) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            VideoPlayerScreen(
-              videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-              // autoPlay: true,
-            ),
-            Positioned(
-              top: 40,
-              right: 20,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white, size: 30),
-                onPressed: () {
-                  setState(() {
-                    isVideoFullscreen = false;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+
+      backgroundColor: AppTheme.surface,
+
       appBar: AppBar(
         backgroundColor: theme.appBarTheme.backgroundColor,
         elevation: 0,
@@ -114,22 +87,50 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      color: isDarkMode
-                          ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
-                          : Colors.white.withValues(alpha: 0.9),
-                      fontSize:
-                          ResponsiveHelper.getResponsiveBodyFontSize(context),
+
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontSize: isTablet ? 16 : 14,
                     ),
                   ),
                 ],
               ),
             ),
 
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 1.5)),
+            // Video Section 
+            if (widget.lesson.videoUrl != null) ...[
+              const SizedBox(height: 24),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(isTablet ? 24 : 20),
+                decoration: BoxDecoration(
+                  color: AppTheme.cardBackground,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Lesson Video',
+                      style: TextStyle(
+                        fontSize: isTablet ? 20 : 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ReliableVideoWidget(
+                      videoUrl: widget.lesson.videoUrl!,
+                      videoTitle: widget.lesson.videoTitle,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
 
             // Lesson Content
+            const SizedBox(height: 24),
             Container(
               width: double.infinity,
               padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
@@ -200,65 +201,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               ),
             ),
 
-            // Video Section with Fullscreen Button
-            Container(
-              margin: EdgeInsets.symmetric(
-                  vertical: ResponsiveHelper.getResponsiveSpacing(context,
-                      factor: 1.5)),
-              child: Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      VideoPlayerScreen(
-                        videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-                      ),
-                      Positioned.fill(
-                        child: Center(
-                          child: IconButton(
-                            icon: const Icon(Icons.fullscreen,
-                                color: Colors.white, size: 50),
-                            onPressed: () {
-                              setState(() {
-                                isVideoFullscreen = true;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                      height:
-                          ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.fullscreen),
-                      label: const Text('Open Video in Fullscreen'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.secondary,
-                        foregroundColor: theme.colorScheme.onSecondary,
-                        padding: ResponsiveHelper.getResponsiveButtonPadding(
-                            context),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isVideoFullscreen = true;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 1.5)),
+            const SizedBox(height: 24),
 
             // Action Buttons
             Column(

@@ -192,7 +192,7 @@ class _SplashScreenState extends State<SplashScreen>
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -245,7 +245,7 @@ class _SplashScreenState extends State<SplashScreen>
                           letterSpacing: -1,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(0, 2),
                               blurRadius: 4,
                             ),
@@ -260,7 +260,7 @@ class _SplashScreenState extends State<SplashScreen>
                         'Kinyarwanda wiga neza',
                         style: TextStyle(
                           fontSize: isTablet ? 20 : 18,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.5,
                         ),
@@ -279,7 +279,7 @@ class _SplashScreenState extends State<SplashScreen>
                               'Tangira Kwiga • Start Learning',
                               style: TextStyle(
                                 fontSize: isTablet ? 18 : 16,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1,
                               ),
@@ -291,7 +291,7 @@ class _SplashScreenState extends State<SplashScreen>
                               height: 40,
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white.withOpacity(0.8),
+                                  Colors.white.withValues(alpha: 0.8),
                                 ),
                                 strokeWidth: 3,
                               ),

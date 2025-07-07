@@ -50,7 +50,7 @@ class _FinalQuizScreenState extends State<FinalQuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: AppTheme.cardBackground,
         elevation: 0,
@@ -103,7 +103,7 @@ class _FinalQuizScreenState extends State<FinalQuizScreen> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? const Color.fromARGB(255, 158, 74, 21)
-                                .withOpacity(0.1)
+                                .withValues(alpha: 0.1)
                             : AppTheme.cardBackground,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(

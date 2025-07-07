@@ -18,11 +18,287 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
                   // Hero Section
-                  _buildHeroSection(context),
+
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
+                      vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: isDark
+                            ? [
+                                theme.colorScheme.surface,
+                                theme.colorScheme.surface
+                              ]
+                            : [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Learn Kinyarwanda\nwith KinyaLearn',
+                                    style: TextStyle(
+                                      fontSize:
+                                          isDesktop ? 48 : (isTablet ? 36 : 28),
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          isDark ? Colors.white : Colors.white,
+                                      height: 1.2,
+                                    ),
+                                  ),
+                                  SizedBox(height: isTablet ? 20 : 16),
+                                  Text(
+                                    'Master Rwanda\'s beautiful language through interactive lessons, cultural insights, and certified achievements.',
+                                    style: TextStyle(
+                                      fontSize:
+                                          isDesktop ? 20 : (isTablet ? 18 : 16),
+                                      color: isDark
+                                          ? Colors.white70
+                                          : Colors.white.withValues(alpha: 0.9),
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                  SizedBox(height: isTablet ? 32 : 24),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pushNamed(
+                                        context, '/lessons'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          isDark ? Colors.white : Colors.white,
+                                      foregroundColor: isDark
+                                          ? Colors.black
+                                          : AppTheme.primaryOrange,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: isTablet ? 32 : 24,
+                                        vertical: isTablet ? 20 : 16,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Start Learning',
+                                      style: TextStyle(
+                                        fontSize: isTablet ? 18 : 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: isDark
+                                            ? Colors.black
+                                            : AppTheme.primaryOrange,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (!isMobile) ...[
+                              const SizedBox(width: 40),
+                              Container(
+                                width: isDesktop ? 300 : 200,
+                                height: isDesktop ? 200 : 133,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.2),
+                                      blurRadius: 20,
+                                      offset: const Offset(0, 10),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: const Color(0xFF00A1DE),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: const Color.fromARGB(
+                                              255, 162, 143, 49),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: const Color.fromARGB(
+                                              255, 59, 117, 87),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                   // Features Section
-                  _buildFeaturesSection(context),
-                  // Call to Action Section
-                  _buildCallToActionSection(context),
+                  Padding(
+                    padding:
+                        EdgeInsets.all(isDesktop ? 60 : (isTablet ? 40 : 24)),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Why Choose KinyaLearn?',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : AppTheme.textPrimary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: isTablet ? 40 : 32),
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
+                          crossAxisSpacing: 24,
+                          mainAxisSpacing: 24,
+                          childAspectRatio:
+                              isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                          children: [
+                            _buildFeatureCard(
+                              'Interactive Lessons',
+                              'Learn through engaging exercises and real-world scenarios',
+                              Icons.school_rounded,
+                              AppTheme.primaryOrange,
+                              isTablet,
+                              context,
+                            ),
+                            _buildFeatureCard(
+                              'Cultural Integration',
+                              'Understand Rwandan culture and context behind the language',
+                              Icons.language_rounded,
+                              const Color(0xFF00A1DE),
+                              isTablet,
+                              context,
+                            ),
+                            _buildFeatureCard(
+                              'Certified Learning',
+                              'Earn certificates and showcase your achievements',
+                              Icons.emoji_events_rounded,
+                              const Color(0xFF00A651),
+                              isTablet,
+                              context,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // CTA Section
+                  Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.all(isDesktop ? 60 : (isTablet ? 40 : 24)),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? theme.colorScheme.surface
+                          : AppTheme.primaryOrange,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Ready to Start Learning?',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 32 : (isTablet ? 24 : 20),
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: isTablet ? 20 : 16),
+                        Text(
+                          'Join thousands of learners mastering Kinyarwanda',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
+                            color: isDark
+                                ? Colors.white70
+                                : Colors.white.withValues(alpha: 0.9),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: isTablet ? 32 : 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, '/lessons'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    isDark ? theme.cardColor : Colors.white,
+                                foregroundColor: isDark
+                                    ? Colors.white
+                                    : AppTheme.primaryOrange,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: isTablet ? 32 : 24,
+                                  vertical: isTablet ? 20 : 16,
+                                ),
+                              ),
+                              child: Text(
+                                'Start Learning',
+                                style: TextStyle(
+                                  fontSize: isTablet ? 18 : 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark
+                                      ? Colors.white
+                                      : AppTheme.primaryOrange,
+                                ),
+                              ),
+                            ),
+                            if (!isMobile) ...[
+                              const SizedBox(width: 16),
+                              OutlinedButton(
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, '/culture'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  side: const BorderSide(
+                                      color: Colors.white, width: 2),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: isTablet ? 32 : 24,
+                                    vertical: isTablet ? 20 : 16,
+                                  ),
+                                ),
+                                child: Text(
+                                  'Explore Culture',
+                                  style: TextStyle(
+                                    fontSize: isTablet ? 18 : 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
             ),
@@ -177,9 +453,11 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+
           ),
         ],
       ),
@@ -223,15 +501,19 @@ class HomePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
-            'Why Choose KinyaLearn?',
-            style: TextStyle(
-              fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : AppTheme.textPrimary,
+
+          Container(
+            width: isTablet ? 64 : 56,
+            height: isTablet ? 64 : 56,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
             ),
+            child: Icon(
+              icon,
+              color: color,
+              size: isTablet ? 32 : 28,
+ ),
             textAlign: TextAlign.center,
           ),
           SizedBox(

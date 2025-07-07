@@ -133,9 +133,10 @@ class Navigation extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: currentRoute == item.route
-                        ? (isDark
-                            ? AppTheme.primaryOrange.withOpacity(0.2)
-                            : AppTheme.textPrimary.withOpacity(0.1))
+
+                        ? AppTheme.textPrimary.withValues(alpha: 0.1)
+
+         
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: currentRoute == item.route

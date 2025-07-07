@@ -47,7 +47,7 @@ class PracticeScreen extends StatelessWidget {
                       Text(
                         'Strengthen your Kinyarwanda skills',
                         style: TextStyle(
-                          color: isDark ? theme.colorScheme.onSurface.withOpacity(0.7) : Colors.white70,
+                          color: isDark ? theme.colorScheme.onSurface.withValues(alpha: 0.7) : Colors.white70,
                           fontSize: isTablet ? 16 : 14,
                         ),
                       ),
@@ -213,7 +213,7 @@ class PracticeScreen extends StatelessWidget {
                   width: isTablet ? 60 : 50,
                   height: isTablet ? 60 : 50,
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(icon, color: color, size: isTablet ? 28 : 24),
