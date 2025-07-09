@@ -167,6 +167,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         });
                                       },
                                     ),
+                                    // Language & Audio Settings
+                                    ListTile(
+                                      leading: Icon(Icons.language,
+                                          color: Theme.of(context)
+                                              .iconTheme
+                                              .color),
+                                      title: Text('Language & Audio',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color)),
+                                      subtitle: Text(
+                                          'Configure Kinyarwanda pronunciation and TTS',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.color)),
+                                      onTap: () {
+                                        Navigator.pushNamed(context, '/language-settings');
+                                      },
+                                    ),
                                     // Theme Selection
                                     ListTile(
                                       leading: Icon(Icons.palette_outlined,

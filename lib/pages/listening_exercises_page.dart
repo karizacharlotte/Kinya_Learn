@@ -183,7 +183,7 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
           await flutterTts.setSpeechRate(0.3);
           await flutterTts.speak(text);
         } catch (e3) {
-          throw e3;
+          rethrow;
         }
       }
     }

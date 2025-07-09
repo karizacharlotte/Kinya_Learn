@@ -18,8 +18,10 @@ import 'pages/payment_screen.dart';
 import 'pages/final_quiz_screen.dart';
 import 'pages/about_screen.dart';
 import 'pages/settings_screen.dart';
-import 'pages/lesson_detail_screen.dart';
-import 'pages/practice_quiz_screen.dart' as practice_quiz;
+import 'pages/language_settings_screen.dart';
+import 'pages/enhanced_lesson_detail_screen.dart';
+import 'pages/enhanced_practice_quiz_screen.dart';
+import 'data/kinyarwanda_lessons.dart';
 
 void main() {
   debugPaintSizeEnabled = false; // Highlights layout issues
@@ -57,6 +59,7 @@ class KinyaLearnApp extends StatelessWidget {
             '/register': (context) => const RegisterScreen(),
             '/about': (context) => const AboutScreen(),
             '/settings': (context) => const SettingsScreen(),
+            '/language-settings': (context) => const LanguageSettingsScreen(),
           },
           onGenerateRoute: (settings) {
             if (settings.name == '/lesson-detail') {
@@ -69,7 +72,25 @@ class KinyaLearnApp extends StatelessWidget {
                 );
               }
               return MaterialPageRoute(
-                builder: (_) => LessonDetailScreen(lesson: lesson),
+                builder: (_) => EnhancedLessonDetailScreen(lesson: lesson),
+              );
+            }
+            if (settings.name == '/lesson') {
+              final lessonId = settings.arguments as String?;
+              if (lessonId == null) {
+                return MaterialPageRoute(
+                  builder: (_) => Scaffold(
+                    body: Center(child: const Text('No lesson ID provided!')),
+                  ),
+                );
+              }
+              // Find lesson by ID
+              final lesson = KinyarwandaLessons.getLessons().firstWhere(
+                (l) => l.id == lessonId,
+                orElse: () => KinyarwandaLessons.getLessons().first,
+              );
+              return MaterialPageRoute(
+                builder: (_) => EnhancedLessonDetailScreen(lesson: lesson),
               );
             }
             if (settings.name == '/certificate') {
@@ -121,8 +142,7 @@ class KinyaLearnApp extends StatelessWidget {
                 );
               }
               return MaterialPageRoute(
-                builder: (_) =>
-                    practice_quiz.PracticeQuizScreen(lesson: lesson),
+                builder: (_) => EnhancedPracticeQuizScreen(lesson: lesson),
               );
             }
             return null;

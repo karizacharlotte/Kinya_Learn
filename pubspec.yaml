@@ -26,6 +26,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  
+  assets:
+    - assets/videos/
+    - assets/images/
 
 # Enable platforms
 platforms:

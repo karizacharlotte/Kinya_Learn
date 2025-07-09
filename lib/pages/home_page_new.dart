@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: isDark
-              ? [theme.colorScheme.background, theme.colorScheme.background]
+              ? [theme.colorScheme.surface, theme.colorScheme.surface]
               : [AppTheme.primaryOrange, AppTheme.primaryOrange],
         ),
       ),
@@ -289,8 +289,8 @@ class HomePage extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: isDark
               ? [
-                  Theme.of(context).colorScheme.background,
-                  Theme.of(context).colorScheme.background
+                  Theme.of(context).colorScheme.surface,
+                  Theme.of(context).colorScheme.surface
                 ]
               : [AppTheme.primaryOrange, AppTheme.primaryOrange],
         ),
