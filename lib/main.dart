@@ -121,7 +121,8 @@ class KinyaLearnApp extends StatelessWidget {
                 );
               }
               return MaterialPageRoute(
-                builder: (_) => practice_quiz.PracticeQuizScreen(lesson: lesson),
+                builder: (_) =>
+                    practice_quiz.PracticeQuizScreen(lesson: lesson),
               );
             }
             return null;

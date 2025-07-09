@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:app/main.dart';
+import 'package:kinya_learn/main.dart';
 
 void main() {
   testWidgets('KinyaLearn app smoke test', (WidgetTester tester) async {
@@ -17,5 +17,6 @@ void main() {
 
     // Verify that our app loads
     expect(find.byType(MaterialApp), findsOneWidget);
+
   });
 }
