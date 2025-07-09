@@ -5,6 +5,8 @@ import 'speaking_practice_page.dart';
 import 'listening_exercises_page.dart';
 import 'quick_review_page.dart';
 import 'translation_practice_page.dart';
+import 'grammar_drills_page.dart';
+import 'daily_scenarios_page.dart';
 
 class PracticeScreen extends StatelessWidget {
   const PracticeScreen({super.key});
@@ -129,12 +131,10 @@ class PracticeScreen extends StatelessWidget {
                     Icons.school,
                     AppTheme.primaryOrange,
                     isTablet,
-                    () {
-                      // TODO: Implement Grammar Drills navigation
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Grammar Drills coming soon!')),
-                      );
-                    },
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GrammarDrillsPage()),
+                    ),
                   ),
                   _buildPracticeCard(
                     context,
@@ -143,12 +143,10 @@ class PracticeScreen extends StatelessWidget {
                     Icons.chat_bubble,
                     const Color(0xFF00A1DE),
                     isTablet,
-                    () {
-                      // TODO: Implement Daily Scenarios navigation
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Daily Scenarios coming soon!')),
-                      );
-                    },
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const DailyScenariosPage()),
+                    ),
                   ),
                 ],
               ),

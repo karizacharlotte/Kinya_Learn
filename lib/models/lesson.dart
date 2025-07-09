@@ -56,6 +56,7 @@ class Exercise {
   final List<String> options;
   final String? audioUrl;
   final String? imageUrl;
+  final String? explanation;
 
   Exercise({
     this.id,
@@ -65,6 +66,7 @@ class Exercise {
     required this.options,
     this.audioUrl,
     this.imageUrl,
+    this.explanation,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
@@ -75,6 +77,7 @@ class Exercise {
         options: List<String>.from(json['options']),
         audioUrl: json['audioUrl'],
         imageUrl: json['imageUrl'],
+        explanation: json['explanation'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,6 +88,7 @@ class Exercise {
         'options': options,
         'audioUrl': audioUrl,
         'imageUrl': imageUrl,
+        'explanation': explanation,
       };
 }
 

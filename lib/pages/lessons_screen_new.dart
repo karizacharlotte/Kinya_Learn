@@ -37,8 +37,8 @@ class LessonsScreen extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: isDarkMode
                     ? [
-                        Theme.of(context).colorScheme.background,
-                        Theme.of(context).colorScheme.background
+                        Theme.of(context).colorScheme.surface,
+                        Theme.of(context).colorScheme.surface
                       ]
                     : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
@@ -166,7 +166,7 @@ class LessonsScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: ResponsiveText(
-                    '${lesson.id}',
+                    lesson.id,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),

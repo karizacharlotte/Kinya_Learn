@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_provider.dart';
 import '../components/reliable_video_widget.dart';
+import '../utils/responsive_helper.dart';
+import 'enhanced_practice_quiz_screen.dart';
 
 
 class LessonDetailScreen extends StatefulWidget {
@@ -24,7 +28,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
     return Scaffold(
 
-      backgroundColor: AppTheme.surface,
+      backgroundColor: theme.scaffoldBackgroundColor,
 
       appBar: AppBar(
         backgroundColor: theme.appBarTheme.backgroundColor,
@@ -88,8 +92,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                     widget.lesson.description,
                     style: TextStyle(
 
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: isTablet ? 16 : 14,
+                      color: isDarkMode
+                          ? theme.colorScheme.onSurface.withValues(alpha: 0.9)
+                          : Colors.white.withValues(alpha: 0.9),
+                      fontSize: ResponsiveHelper.isTablet(context) ? 16 : 14,
                     ),
                   ),
                 ],
@@ -101,11 +107,11 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               const SizedBox(height: 24),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(isTablet ? 24 : 20),
+                padding: EdgeInsets.all(ResponsiveHelper.isTablet(context) ? 24 : 20),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardBackground,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppTheme.border),
+                  border: Border.all(color: theme.dividerColor),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,9 +119,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                     Text(
                       'Lesson Video',
                       style: TextStyle(
-                        fontSize: isTablet ? 20 : 18,
+                        fontSize: ResponsiveHelper.isTablet(context) ? 20 : 18,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.textPrimary,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -211,10 +217,11 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   child: ElevatedButton(
                     onPressed: isContentCompleted
                         ? () {
-                            Navigator.pushNamed(
+                            Navigator.push(
                               context,
-                              '/practice-quiz',
-                              arguments: widget.lesson,
+                              MaterialPageRoute(
+                                builder: (context) => EnhancedPracticeQuizScreen(lesson: widget.lesson),
+                              ),
                             );
                           }
                         : null,

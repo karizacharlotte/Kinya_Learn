@@ -5,6 +5,7 @@ import '../data/kinyarwanda_lessons.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
+import '../theme/theme_helper.dart';
 import '../utils/responsive_helper.dart';
 import '../utils/responsive_layout.dart';
 
@@ -20,29 +21,18 @@ class LessonsScreen extends StatelessWidget {
 
     return ResponsiveScaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-
-      body: SafeArea(
-        child: Column(
-          children: [
+      body: Column(
+        children: [
             const Navigation(),
             // Header
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
-                horizontal: isDesktop ? 40 : (isTablet ? 32 : 20),
-                vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
+                horizontal: ResponsiveHelper.isDesktop(context) ? 40 : (ResponsiveHelper.isTablet(context) ? 32 : 20),
+                vertical: ResponsiveHelper.isDesktop(context) ? 40 : (ResponsiveHelper.isTablet(context) ? 32 : 24),
               ),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: isDarkMode
-                      ? [
-                          Theme.of(context).colorScheme.surface,
-                          Theme.of(context).colorScheme.surface
-                        ]
-                      : [AppTheme.primaryOrange, AppTheme.primaryOrange],
-                ),
+                gradient: ThemeHelper.getHeroGradient(context),
               ),
               child: Row(
                 children: [
@@ -53,8 +43,8 @@ class LessonsScreen extends StatelessWidget {
                         Text(
                           'Kinyarwanda Lessons',
                           style: TextStyle(
-                            color: isDarkMode ? theme.colorScheme.onSurface : Colors.white,
-                            fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
+                            color: ThemeHelper.getAppBarForegroundColor(context),
+                            fontSize: ResponsiveHelper.isDesktop(context) ? 32 : (ResponsiveHelper.isTablet(context) ? 28 : 24),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -62,24 +52,19 @@ class LessonsScreen extends StatelessWidget {
                         Text(
                           'Master Kinyarwanda step by step',
                           style: TextStyle(
-                            color: isDarkMode
-                                ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
-                                : Colors.white.withValues(alpha: 0.9),
-                            fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
+                            color: ThemeHelper.getAppBarForegroundColor(context).withValues(alpha: 0.9),
+                            fontSize: ResponsiveHelper.isDesktop(context) ? 18 : (ResponsiveHelper.isTablet(context) ? 16 : 14),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Icon(Icons.menu_book,
-                      color: isDarkMode ? theme.colorScheme.onSurface : Colors.white, 
-                      size: isTablet ? 36 : 28),
+                      color: ThemeHelper.getAppBarForegroundColor(context), 
+                      size: ResponsiveHelper.isTablet(context) ? 36 : 28),
                 ],
-
               ),
             ),
-            child: _buildHeader(context, isDarkMode),
-          ),
           // Lessons Grid
           Expanded(
             child: SingleChildScrollView(
@@ -102,209 +87,148 @@ class LessonsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, bool isDarkMode) {
-    return ResponsiveLayout(
-      mobilePortrait: _buildHeaderContent(context, isDarkMode, false),
-      mobileLandscape: _buildHeaderContent(context, isDarkMode, true),
-      tabletPortrait: _buildHeaderContent(context, isDarkMode, false),
-      tabletLandscape: _buildHeaderContent(context, isDarkMode, true),
-      desktop: _buildHeaderContent(context, isDarkMode, true),
-      fallback: _buildHeaderContent(context, isDarkMode, false),
-    );
-  }
 
-  Widget _buildHeaderContent(
-      BuildContext context, bool isDarkMode, bool isHorizontal) {
-    final theme = Theme.of(context);
-
-    final titleWidget = ResponsiveText(
-      'Kinyarwanda Lessons',
-      type: ResponsiveTextType.header,
-      color: isDarkMode ? theme.colorScheme.onSurface : Colors.white,
-      fontWeight: FontWeight.bold,
-    );
-
-    final subtitleWidget = ResponsiveText(
-      'Master Kinyarwanda step by step',
-      type: ResponsiveTextType.body,
-      color: isDarkMode
-          ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
-          : Colors.white.withValues(alpha: 0.9),
-    );
-
-    final iconWidget = Icon(
-      Icons.menu_book,
-      color: isDarkMode ? theme.colorScheme.onSurface : Colors.white,
-      size: ResponsiveHelper.getResponsiveIconSize(context) * 1.2,
-    );
-
-    if (isHorizontal) {
-      return Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                titleWidget,
-                SizedBox(
-                    height:
-                        ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-                subtitleWidget,
-              ],
-            ),
-          ),
-          SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
-          iconWidget,
-        ],
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(child: titleWidget),
-              iconWidget,
-            ],
-          ),
-          SizedBox(
-              height: ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-          subtitleWidget,
-        ],
-      );
-    }
-  }
 
   Widget _buildLessonCard(BuildContext context, Lesson lesson) {
     final theme = Theme.of(context);
+    
+    // Define color based on lesson state
+    final Color color = lesson.isCompleted
+        ? AppTheme.success
+        : lesson.isUnlocked
+            ? AppTheme.primaryOrange
+            : theme.disabledColor;
 
-    return ResponsiveCard(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/lesson',
-          arguments: lesson.id,
-        );
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Lesson Header
-          Row(
+    return Card(
+      margin: EdgeInsets.all(ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),        child: InkWell(
+          onTap: lesson.isUnlocked
+              ? () {
+                  Navigator.pushNamed(
+                    context,
+                    '/lesson-detail',
+                    arguments: lesson,
+                  );
+                }
+              : null,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: EdgeInsets.all(ResponsiveHelper.getResponsiveSpacing(context)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: ResponsiveHelper.getResponsiveIconSize(context) * 1.5,
-                height: ResponsiveHelper.getResponsiveIconSize(context) * 1.5,
-                decoration: BoxDecoration(
-                  gradient: AppTheme.primaryGradient,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: ResponsiveText(
-                    '${lesson.id}',
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    Container(
-                      width: isTablet ? 64 : 56,
-                      height: isTablet ? 64 : 56,
-                      decoration: BoxDecoration(
-                        color: color.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(
-                        lesson.isCompleted
-                            ? Icons.check_circle_rounded
-                            : lesson.isUnlocked
-                                ? Icons.play_circle_rounded
-                                : Icons.lock_rounded,
-                        color: color,
-                        size: isTablet ? 32 : 28,
-                      ),
-
+              // Lesson Header
+              Row(
+                children: [
+                  Container(
+                    width: ResponsiveHelper.isTablet(context) ? 64 : 56,
+                    height: ResponsiveHelper.isTablet(context) ? 64 : 56,
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    SizedBox(
-                        height: ResponsiveHelper.getResponsiveSpacing(context) *
-                            0.25),
-                    ResponsiveText(
-                      lesson.description,
-                      color: theme.textTheme.bodyMedium?.color,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: Icon(
+                      lesson.isCompleted
+                          ? Icons.check_circle_rounded
+                          : lesson.isUnlocked
+                              ? Icons.play_circle_rounded
+                              : Icons.lock_rounded,
+                      color: color,
+                      size: ResponsiveHelper.isTablet(context) ? 32 : 28,
+                    ),
+                  ),
+                  SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          lesson.title,
+                          style: TextStyle(
+                            fontSize: ResponsiveHelper.isTablet(context) ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context) * 0.25),
+                        Text(
+                          lesson.description,
+                          style: TextStyle(
+                            fontSize: ResponsiveHelper.isTablet(context) ? 14 : 12,
+                            color: theme.textTheme.bodyMedium?.color,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+
+              // Progress Bar
+              if (lesson.isCompleted) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: LinearProgressIndicator(
+                        value: 1.0,
+                        backgroundColor: theme.colorScheme.surface,
+                        valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.success),
+                      ),
+                    ),
+                    SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
+                    Text(
+                      'Complete',
+                      style: TextStyle(
+                        fontSize: ResponsiveHelper.isTablet(context) ? 12 : 10,
+                        color: theme.textTheme.bodySmall?.color,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
-
-          // Progress Bar
-          if (lesson.isCompleted) ...[
-            Row(
-              children: [
-                Expanded(
-                  child: LinearProgressIndicator(
-                    value: 1.0,
-                    backgroundColor: theme.colorScheme.surface,
-                    valueColor:
-                        const AlwaysStoppedAnimation<Color>(AppTheme.success),
-                  ),
-                ),
-                SizedBox(
-                    width:
-                        ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-                ResponsiveText(
-                  'Complete',
-                  color: theme.textTheme.bodySmall?.color,
-                ),
+                SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
               ],
-            ),
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-          ],
 
-          // Lesson Stats
-          Row(
-            children: [
-              Icon(
-                Icons.quiz,
-                size: ResponsiveHelper.getResponsiveIconSize(context) * 0.8,
-                color: theme.textTheme.bodySmall?.color,
-              ),
-              SizedBox(
-                  width: ResponsiveHelper.getResponsiveSpacing(context) * 0.25),
-              ResponsiveText(
-                '${lesson.exercises.length} exercises',
-                color: theme.textTheme.bodySmall?.color,
-              ),
-              SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
-              Icon(
-                lesson.isUnlocked ? Icons.lock_open : Icons.lock,
-                size: ResponsiveHelper.getResponsiveIconSize(context) * 0.8,
-                color: lesson.isUnlocked
-                    ? AppTheme.success
-                    : theme.textTheme.bodySmall?.color,
-              ),
-              SizedBox(
-                  width: ResponsiveHelper.getResponsiveSpacing(context) * 0.25),
-              ResponsiveText(
-                lesson.isUnlocked ? 'Available' : 'Locked',
-                color: lesson.isUnlocked
-                    ? AppTheme.success
-                    : theme.textTheme.bodySmall?.color,
+              // Lesson Stats
+              Row(
+                children: [
+                  Icon(
+                    Icons.quiz,
+                    size: ResponsiveHelper.isTablet(context) ? 16 : 14,
+                    color: theme.textTheme.bodySmall?.color,
+                  ),
+                  SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context) * 0.25),
+                  Text(
+                    '${lesson.exercises.length} exercises',
+                    style: TextStyle(
+                      fontSize: ResponsiveHelper.isTablet(context) ? 12 : 10,
+                      color: theme.textTheme.bodySmall?.color,
+                    ),
+                  ),
+                  SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
+                  Icon(
+                    lesson.isUnlocked ? Icons.lock_open : Icons.lock,
+                    size: ResponsiveHelper.isTablet(context) ? 16 : 14,
+                    color: lesson.isUnlocked ? AppTheme.success : theme.textTheme.bodySmall?.color,
+                  ),
+                  SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context) * 0.25),
+                  Text(
+                    lesson.isUnlocked ? 'Available' : 'Locked',
+                    style: TextStyle(
+                      fontSize: ResponsiveHelper.isTablet(context) ? 12 : 10,
+                      color: lesson.isUnlocked ? AppTheme.success : theme.textTheme.bodySmall?.color,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
