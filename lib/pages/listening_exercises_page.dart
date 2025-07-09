@@ -15,6 +15,7 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
   bool showResult = false;
   bool isPlaying = false;
   late FlutterTts flutterTts;
+  String currentLanguage = "fr-FR"; // Start with French for better Kinyarwanda sounds
 
   @override
   void initState() {
@@ -31,11 +32,9 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
   void initTts() {
     flutterTts = FlutterTts();
     
-    // Configure TTS settings
-    flutterTts.setLanguage("en-US"); // We'll use English for now since Kinyarwanda may not be supported
-    flutterTts.setSpeechRate(0.6); // Slower speech rate for learning
-    flutterTts.setVolume(1.0);
-    flutterTts.setPitch(1.0);
+    // Try different language settings for better Kinyarwanda pronunciation
+    // We'll try French first as it has similar vowel sounds to Kinyarwanda
+    _configureTtsForKinyarwanda();
     
     // Set up completion handler
     flutterTts.setCompletionHandler(() {
@@ -54,38 +53,85 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
     });
   }
 
+  void _configureTtsForKinyarwanda() async {
+    // Try French first (better vowel pronunciation for Kinyarwanda)
+    try {
+      await flutterTts.setLanguage("fr-FR");
+      await flutterTts.setSpeechRate(0.5); // Even slower for clarity
+      await flutterTts.setVolume(1.0);
+      await flutterTts.setPitch(0.9); // Slightly lower pitch
+    } catch (e) {
+      // Fallback to English if French fails
+      try {
+        await flutterTts.setLanguage("en-US");
+        await flutterTts.setSpeechRate(0.4); // Very slow
+        await flutterTts.setPitch(0.8);
+      } catch (e2) {
+        print('TTS configuration failed: $e2');
+      }
+    }
+  }
+
+  void _configureTtsLanguage(String language) async {
+    try {
+      await flutterTts.setLanguage(language);
+      // Adjust settings based on language
+      switch (language) {
+        case "fr-FR":
+          await flutterTts.setSpeechRate(0.5);
+          await flutterTts.setPitch(0.9);
+          break;
+        case "it-IT":
+          await flutterTts.setSpeechRate(0.6);
+          await flutterTts.setPitch(1.0);
+          break;
+        case "en-US":
+          await flutterTts.setSpeechRate(0.3);
+          await flutterTts.setPitch(0.8);
+          break;
+      }
+    } catch (e) {
+      print('Failed to set language $language: $e');
+    }
+  }
+
   final List<Map<String, dynamic>> exercises = [
     {
       'audio': 'Muraho, witwa gute?',
-      'phonetic': 'Moo-rah-ho, wee-twa goo-teh?',
+      'phonetic': 'Mourahho, ouitoua gouteh?', // French-like spelling for better pronunciation
+      'phoneticDisplay': 'Moo-rah-ho, wee-twa goo-teh?', // What user sees
       'question': 'What does this phrase mean?',
       'options': ['Hello, what is your name?', 'Good morning', 'How are you?', 'Goodbye'],
       'correct': 0,
     },
     {
       'audio': 'Mwaramutse ho',
-      'phonetic': 'Mwa-rah-moot-seh ho',
+      'phonetic': 'Mouaramoutsé ho', // Better French-style phonetics
+      'phoneticDisplay': 'Mwa-rah-moot-seh ho',
       'question': 'When would you say this?',
       'options': ['Evening', 'Morning', 'Afternoon', 'Night'],
       'correct': 1,
     },
     {
       'audio': 'Murakoze cyane',
-      'phonetic': 'Moo-rah-ko-zeh cha-neh',
+      'phonetic': 'Mourakozé tchané', // French 'tch' for 'cy' sound
+      'phoneticDisplay': 'Moo-rah-ko-zeh cha-neh',
       'question': 'This expression means:',
       'options': ['You\'re welcome', 'Thank you very much', 'Excuse me', 'I\'m sorry'],
       'correct': 1,
     },
     {
       'audio': 'Urabeho neza',
-      'phonetic': 'Oo-rah-beh-ho neh-za',
+      'phonetic': 'Ourabého néza', // French accent marks for tone
+      'phoneticDisplay': 'Oo-rah-beh-ho neh-za',
       'question': 'This is used when:',
       'options': ['Greeting someone', 'Saying goodbye', 'Asking for help', 'Ordering food'],
       'correct': 1,
     },
     {
       'audio': 'Amakuru yawe?',
-      'phonetic': 'Ah-mah-koo-roo ya-weh?',
+      'phonetic': 'Amakouroù yaouè?', // French-style vowel combinations
+      'phoneticDisplay': 'Ah-mah-koo-roo ya-weh?',
       'question': 'The correct response would be:',
       'options': ['Ni meza', 'Murakoze', 'Urabeho', 'Nyabuneka'],
       'correct': 0,
@@ -104,11 +150,12 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
       // Get the current exercise
       final currentExercise = exercises[currentExerciseIndex];
       
-      // Try to speak the phonetic version first (more likely to be pronounced correctly)
-      // Since most TTS engines don't support Kinyarwanda, the phonetic version will sound better
+      // Use the French-style phonetic version for better Kinyarwanda pronunciation
       String textToSpeak = currentExercise['phonetic'] ?? currentExercise['audio'];
       
-      await flutterTts.speak(textToSpeak);
+      // Try to speak with French settings first for better vowel sounds
+      await _speakKinyarwandaText(textToSpeak);
+      
     } catch (e) {
       setState(() {
         isPlaying = false;
@@ -116,6 +163,29 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to play audio: $e')),
       );
+    }
+  }
+
+  Future<void> _speakKinyarwandaText(String text) async {
+    try {
+      // Use the currently selected language
+      await flutterTts.setLanguage(currentLanguage);
+      await flutterTts.speak(text);
+    } catch (e) {
+      try {
+        // If selected language fails, try French as backup
+        await flutterTts.setLanguage("fr-FR");
+        await flutterTts.speak(text);
+      } catch (e2) {
+        try {
+          // Final fallback to English with very slow speech
+          await flutterTts.setLanguage("en-US");
+          await flutterTts.setSpeechRate(0.3);
+          await flutterTts.speak(text);
+        } catch (e3) {
+          throw e3;
+        }
+      }
     }
   }
 
@@ -224,7 +294,7 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    currentExercise['phonetic'],
+                    currentExercise['phoneticDisplay'] ?? currentExercise['phonetic'],
                     style: TextStyle(
                       fontSize: isTablet ? 16 : 14,
                       color: AppTheme.textSecondary.withOpacity(0.7),
@@ -257,6 +327,42 @@ class _ListeningExercisesPageState extends State<ListeningExercisesPage> {
                         size: isTablet ? 50 : 40,
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 12),
+                  
+                  // Language mode selector
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Pronunciation: ',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppTheme.textSecondary,
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        value: currentLanguage,
+                        underline: Container(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppTheme.textPrimary,
+                        ),
+                        items: const [
+                          DropdownMenuItem(value: "fr-FR", child: Text("French-style")),
+                          DropdownMenuItem(value: "it-IT", child: Text("Italian-style")),
+                          DropdownMenuItem(value: "en-US", child: Text("English-style")),
+                        ],
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              currentLanguage = newValue;
+                            });
+                            _configureTtsLanguage(newValue);
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
