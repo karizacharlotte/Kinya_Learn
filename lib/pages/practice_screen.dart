@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../components/navigation.dart';
 import '../theme/app_theme.dart';
+import 'speaking_practice_page.dart';
+import 'listening_exercises_page.dart';
+import 'quick_review_page.dart';
+import 'translation_practice_page.dart';
 
 class PracticeScreen extends StatelessWidget {
   const PracticeScreen({super.key});
@@ -71,46 +75,80 @@ class PracticeScreen extends StatelessWidget {
                 childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.0),
                 children: [
                   _buildPracticeCard(
+                    context,
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
                     AppTheme.primaryOrange,
                     isTablet,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SpeakingPracticePage()),
+                    ),
                   ),
                   _buildPracticeCard(
+                    context,
                     'Listening Exercises',
                     'Comprehension Training',
                     Icons.headphones,
                     const Color(0xFF00A1DE),
                     isTablet,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ListeningExercisesPage()),
+                    ),
                   ),
                   _buildPracticeCard(
+                    context,
                     'Quick Review',
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
                     const Color(0xFF00A651),
                     isTablet,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const QuickReviewPage()),
+                    ),
                   ),
                   _buildPracticeCard(
+                    context,
                     'Translation Practice',
                     'English ↔ Kinyarwanda',
                     Icons.translate,
                     const Color(0xFFFAD201),
                     isTablet,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const TranslationPracticePage()),
+                    ),
                   ),
                   _buildPracticeCard(
+                    context,
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
                     AppTheme.primaryOrange,
                     isTablet,
+                    () {
+                      // TODO: Implement Grammar Drills navigation
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Grammar Drills coming soon!')),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Daily Scenarios',
                     'Real-life Conversations',
                     Icons.chat_bubble,
                     const Color(0xFF00A1DE),
                     isTablet,
+                    () {
+                      // TODO: Implement Daily Scenarios navigation
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Daily Scenarios coming soon!')),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -184,8 +222,15 @@ class PracticeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPracticeCard(String title, String subtitle, IconData icon,
-      Color color, bool isTablet) {
+  Widget _buildPracticeCard(
+    BuildContext context,
+    String title, 
+    String subtitle, 
+    IconData icon,
+    Color color, 
+    bool isTablet,
+    VoidCallback onTap,
+  ) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -200,9 +245,7 @@ class PracticeScreen extends StatelessWidget {
           ),
         ),
         child: InkWell(
-          onTap: () {
-            // Navigate to specific practice mode
-          },
+          onTap: onTap,
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           child: Padding(
             padding: EdgeInsets.all(isTablet ? 20 : 16),
