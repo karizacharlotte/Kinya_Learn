@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
-import '../components/navigation.dart';
+import '../components/bottom_nav_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -28,7 +28,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
-          const Navigation(),
           Expanded(
             child: Row(
               children: [
@@ -165,29 +164,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         setState(() {
                                           _notificationsEnabled = value;
                                         });
-                                      },
-                                    ),
-                                    // Language & Audio Settings
-                                    ListTile(
-                                      leading: Icon(Icons.language,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Language & Audio',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      subtitle: Text(
-                                          'Configure Kinyarwanda pronunciation and TTS',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.color)),
-                                      onTap: () {
-                                        Navigator.pushNamed(context, '/language-settings');
                                       },
                                     ),
                                     // Theme Selection
@@ -380,6 +356,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 5),
     );
   }
 
