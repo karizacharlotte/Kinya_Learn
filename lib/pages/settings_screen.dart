@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
 import '../components/bottom_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,7 +14,39 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
+  bool _offlineDownloadsEnabled = false;
   double _textScale = 1.0;
+  String _selectedLanguage = 'English';
+  int _dailyGoalMinutes = 15;
+  String _culturalPreference = 'General';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _notificationsEnabled = prefs.getBool('notifications_enabled') ?? true;
+      _offlineDownloadsEnabled = prefs.getBool('offline_downloads_enabled') ?? false;
+      _textScale = prefs.getDouble('text_scale') ?? 1.0;
+      _selectedLanguage = prefs.getString('selected_language') ?? 'English';
+      _dailyGoalMinutes = prefs.getInt('daily_goal_minutes') ?? 15;
+      _culturalPreference = prefs.getString('cultural_preference') ?? 'General';
+    });
+  }
+
+  Future<void> _saveSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notifications_enabled', _notificationsEnabled);
+    await prefs.setBool('offline_downloads_enabled', _offlineDownloadsEnabled);
+    await prefs.setDouble('text_scale', _textScale);
+    await prefs.setString('selected_language', _selectedLanguage);
+    await prefs.setInt('daily_goal_minutes', _dailyGoalMinutes);
+    await prefs.setString('cultural_preference', _culturalPreference);
+  }
 
   double get screenWidth => MediaQuery.of(context).size.width;
   double get headerHeight => screenWidth > 700 ? 200 : 160;
@@ -115,234 +148,113 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: isTablet ? 40 : 20,
                                   vertical: isTablet ? 32 : 20),
-                              child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  side: BorderSide(
-                                    color: Theme.of(context).dividerColor,
-                                    width: 1,
+                              child: Column(
+                                children: [
+                                  // Learning Goals
+                                  _buildSettingsTile(
+                                    icon: Icons.flag_outlined,
+                                    title: 'Learning Goals',
+                                    subtitle: 'Set your daily learning targets',
+                                    trailing: Text('$_dailyGoalMinutes min/day'),
+                                    onTap: () => _showLearningGoalsDialog(),
                                   ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                      leading: Icon(Icons.person_outline,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Account',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      subtitle: Text(
-                                          'Manage your account information',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.color)),
-                                      onTap: () {
-                                        // Navigate to account details
-                                      },
-                                    ),
-                                    SwitchListTile(
-                                      secondary: Icon(Icons.notifications_none,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Enable Notifications',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      value: _notificationsEnabled,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _notificationsEnabled = value;
-                                        });
-                                      },
-                                    ),
-                                    // Theme Selection
-                                    ListTile(
-                                      leading: Icon(Icons.palette_outlined,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Theme',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      subtitle: Text(
-                                          _getThemeModeName(
-                                              themeProvider.themeMode),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.color)),
-                                      trailing: PopupMenuButton(
-                                        icon: Icon(Icons.more_vert,
-                                            color: Theme.of(context)
-                                                .iconTheme
-                                                .color),
-                                        itemBuilder: (context) => [
-                                          PopupMenuItem(
-                                            child: ListTile(
-                                              leading: const Icon(Icons.edit),
-                                              title: const Text('Change Theme'),
-                                              contentPadding: EdgeInsets.zero,
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                                _showThemeDialog(
-                                                    context, themeProvider);
-                                              },
-                                            ),
-                                          ),
-                                          PopupMenuItem(
-                                            child: ListTile(
-                                              leading:
-                                                  const Icon(Icons.refresh),
-                                              title: const Text(
-                                                  'Reset Theme Choice'),
-                                              contentPadding: EdgeInsets.zero,
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                                _showResetThemeDialog(
-                                                    context, themeProvider);
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      onTap: () {
-                                        _showThemeDialog(
-                                            context, themeProvider);
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.text_fields,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Text Size',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      subtitle: Text(
-                                          _textScale == 1.0
-                                              ? 'Normal'
-                                              : _textScale == 1.2
-                                                  ? 'Large'
-                                                  : 'Extra Large',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.color)),
-                                      trailing: DropdownButton<double>(
-                                        value: _textScale,
-                                        dropdownColor:
-                                            Theme.of(context).cardColor,
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.color),
-                                        items: [
-                                          DropdownMenuItem(
-                                              value: 1.0,
-                                              child: Text('Normal',
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium
-                                                          ?.color))),
-                                          DropdownMenuItem(
-                                              value: 1.2,
-                                              child: Text('Large',
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium
-                                                          ?.color))),
-                                          DropdownMenuItem(
-                                              value: 1.4,
-                                              child: Text('Extra Large',
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium
-                                                          ?.color))),
-                                        ],
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _textScale = value ?? 1.0;
-                                            // You can use this value with MediaQuery or a provider for accessibility
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.language,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Language',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      subtitle: Text('Change app language',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.color)),
-                                      onTap: () {
-                                        // Show language selection dialog
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.privacy_tip_outlined,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Privacy Policy',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      onTap: () {
-                                        // Open privacy policy
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.logout,
-                                          color: Theme.of(context)
-                                              .iconTheme
-                                              .color),
-                                      title: Text('Log Out',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color)),
-                                      onTap: () {
-                                        _showLogoutConfirmation(context);
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Achievement Badges
+                                  _buildSettingsTile(
+                                    icon: Icons.emoji_events_outlined,
+                                    title: 'Achievement Badges',
+                                    subtitle: 'View your earned badges',
+                                    onTap: () => _showAchievementBadges(),
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Learning Statistics
+                                  _buildSettingsTile(
+                                    icon: Icons.bar_chart,
+                                    title: 'Learning Statistics',
+                                    subtitle: 'Detailed progress analytics',
+                                    onTap: () => _showLearningStatistics(),
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Cultural Preferences
+                                  _buildSettingsTile(
+                                    icon: Icons.public,
+                                    title: 'Cultural Preferences',
+                                    subtitle: 'Customize cultural content',
+                                    trailing: Text(_culturalPreference),
+                                    onTap: () => _showCulturalPreferencesDialog(),
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Offline Downloads
+                                  _buildSwitchTile(
+                                    icon: Icons.download_outlined,
+                                    title: 'Offline Downloads',
+                                    subtitle: _offlineDownloadsEnabled ? 'Enabled' : 'Disabled',
+                                    value: _offlineDownloadsEnabled,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _offlineDownloadsEnabled = value;
+                                      });
+                                      _saveSettings();
+                                      if (value) {
+                                        _showOfflineDownloadDialog();
+                                      }
+                                    },
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Notification Settings
+                                  _buildSwitchTile(
+                                    icon: Icons.notifications_outlined,
+                                    title: 'Notification Settings',
+                                    subtitle: _notificationsEnabled ? 'Enabled' : 'Disabled',
+                                    value: _notificationsEnabled,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _notificationsEnabled = value;
+                                      });
+                                      _saveSettings();
+                                    },
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Privacy & Data
+                                  _buildSettingsTile(
+                                    icon: Icons.privacy_tip_outlined,
+                                    title: 'Privacy & Data',
+                                    subtitle: 'Manage your privacy settings',
+                                    onTap: () => _showPrivacyDataDialog(),
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // Help & Support
+                                  _buildSettingsTile(
+                                    icon: Icons.help_outline,
+                                    title: 'Help & Support',
+                                    subtitle: 'Get help and contact support',
+                                    onTap: () => _showHelpSupportDialog(),
+                                  ),
+                                  
+                                  const Divider(height: 1),
+                                  
+                                  // About KinyaLearn
+                                  _buildSettingsTile(
+                                    icon: Icons.info_outline,
+                                    title: 'About KinyaLearn',
+                                    subtitle: 'App information and credits',
+                                    onTap: () => _showAboutDialog(),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -360,7 +272,371 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showLogoutConfirmation(BuildContext context) {
+  Widget _buildSettingsTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    Widget? trailing,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      leading: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryOrange.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, color: AppTheme.primaryOrange, size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          color: Theme.of(context).textTheme.bodyMedium?.color,
+        ),
+      ),
+      trailing: trailing ?? Icon(Icons.chevron_right, 
+        color: Theme.of(context).iconTheme.color),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildSwitchTile({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return ListTile(
+      leading: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryOrange.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, color: AppTheme.primaryOrange, size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
+        ),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          color: Theme.of(context).textTheme.bodyMedium?.color,
+        ),
+      ),
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
+        activeColor: AppTheme.primaryOrange,
+      ),
+    );
+  }
+
+  void _showLearningGoalsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Set Learning Goals'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Daily study time goal:'),
+            SizedBox(height: 16),
+            DropdownButton<int>(
+              value: _dailyGoalMinutes,
+              items: [5, 10, 15, 20, 30, 45, 60].map((minutes) {
+                return DropdownMenuItem(
+                  value: minutes,
+                  child: Text('$minutes minutes'),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _dailyGoalMinutes = value ?? 15;
+                });
+                _saveSettings();
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAchievementBadges() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Achievement Badges'),
+        content: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildBadge('🏆', 'First Lesson', 'Complete your first lesson', true),
+              _buildBadge('🔥', '7-Day Streak', 'Study for 7 days in a row', false),
+              _buildBadge('🎯', 'Perfect Score', 'Get 100% on a quiz', true),
+              _buildBadge('📚', 'Bookworm', 'Complete 10 lessons', false),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBadge(String emoji, String title, String description, bool earned) {
+    return ListTile(
+      leading: Text(emoji, style: TextStyle(fontSize: 24)),
+      title: Text(title, style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: earned ? AppTheme.primaryOrange : Colors.grey,
+      )),
+      subtitle: Text(description),
+      trailing: earned ? Icon(Icons.check_circle, color: Colors.green) : 
+                         Icon(Icons.lock, color: Colors.grey),
+    );
+  }
+
+  void _showLearningStatistics() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Learning Statistics'),
+        content: Container(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildStatItem('Total Study Time', '2h 45m'),
+              _buildStatItem('Lessons Completed', '12'),
+              _buildStatItem('Current Streak', '3 days'),
+              _buildStatItem('Average Score', '85%'),
+              _buildStatItem('Words Learned', '47'),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String label, String value) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Text(value, style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppTheme.primaryOrange,
+          )),
+        ],
+      ),
+    );
+  }
+
+  void _showCulturalPreferencesDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Cultural Preferences'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Choose your cultural learning focus:'),
+            SizedBox(height: 16),
+            DropdownButton<String>(
+              value: _culturalPreference,
+              isExpanded: true,
+              items: ['General', 'Traditional', 'Modern', 'Business'].map((pref) {
+                return DropdownMenuItem(
+                  value: pref,
+                  child: Text(pref),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _culturalPreference = value ?? 'General';
+                });
+                _saveSettings();
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showOfflineDownloadDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Offline Downloads'),
+        content: Text('Download lessons for offline study. This will use device storage.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Start download process
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Starting offline downloads...')),
+              );
+            },
+            child: Text('Download'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacyDataDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Privacy & Data'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('• We collect minimal data to improve your learning experience'),
+            SizedBox(height: 8),
+            Text('• Your progress is stored locally and synced securely'),
+            SizedBox(height: 8),
+            Text('• You can delete your data at any time'),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Clear user data
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('User data cleared')),
+                );
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: Text('Clear My Data'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showHelpSupportDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Help & Support'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.help_outline),
+              title: Text('FAQ'),
+              onTap: () {
+                Navigator.pop(context);
+                // Navigate to FAQ
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('Contact Support'),
+              onTap: () {
+                Navigator.pop(context);
+                // Open email
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.bug_report),
+              title: Text('Report Bug'),
+              onTap: () {
+                Navigator.pop(context);
+                // Open bug report
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAboutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('About KinyaLearn'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('KinyaLearn v1.0.0'),
+            SizedBox(height: 8),
+            Text('Learn Kinyarwanda with authentic African voices'),
+            SizedBox(height: 16),
+            Text('Developed with ❤️ for language learners'),
+            SizedBox(height: 16),
+            Text('© 2025 KinyaLearn Team'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
     showDialog(
       context: context,
       builder: (BuildContext context) {

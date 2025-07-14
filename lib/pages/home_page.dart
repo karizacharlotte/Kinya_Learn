@@ -146,13 +146,6 @@ class HomePage extends StatelessWidget {
                         'Test your knowledge with engaging quizzes and exercises',
                         isTablet,
                       ),
-                      _buildFeatureCard(
-                        context,
-                        Icons.volume_up,
-                        'Perfect Pronunciation',
-                        'Master authentic Kinyarwanda pronunciation with TTS support',
-                        isTablet,
-                      ),
                     ],
                   ),
                 ],
@@ -181,7 +174,7 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: isTablet ? 48 : 32),
                   GridView.count(
-                    crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
+                    crossAxisCount: isDesktop ? 4 : (isTablet ? 2 : 1),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
@@ -204,14 +197,6 @@ class HomePage extends StatelessWidget {
                         '/practice',
                         isTablet,
                       ),
-                      _buildQuickStartCard(
-                        context,
-                        'Settings',
-                        'Customize your learning',
-                        Icons.settings,
-                        '/settings',
-                        isTablet,
-                      ),
                     ],
                   ),
                 ],
@@ -224,14 +209,23 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, IconData icon, String title, String description, bool isTablet) {
+  Widget _buildFeatureCard(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String description,
+    bool isTablet, {
+    VoidCallback? onTap,
+    bool isHighlight = false,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    return Container(
+    Widget card = Container(
       padding: EdgeInsets.all(isTablet ? 32 : 24),
       decoration: BoxDecoration(
         color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
         borderRadius: BorderRadius.circular(16),
+        border: isHighlight ? Border.all(color: AppTheme.primaryOrange, width: 2) : null,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -246,7 +240,9 @@ class HomePage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(isTablet ? 20 : 16),
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: isHighlight 
+                  ? AppTheme.primaryOrange.withOpacity(0.2)
+                  : AppTheme.primaryOrange.withOpacity(0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -274,12 +270,47 @@ class HomePage extends StatelessWidget {
               color: isDark ? Colors.white70 : AppTheme.textSecondary,
             ),
           ),
+          if (isHighlight) ...[
+            SizedBox(height: isTablet ? 16 : 12),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryOrange,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                'NEW',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
+    
+    if (onTap != null) {
+      return GestureDetector(
+        onTap: onTap,
+        child: card,
+      );
+    }
+    
+    return card;
   }
 
-  Widget _buildQuickStartCard(BuildContext context, String title, String description, IconData icon, String route, bool isTablet) {
+  Widget _buildQuickStartCard(
+    BuildContext context,
+    String title,
+    String description,
+    IconData icon,
+    String route,
+    bool isTablet, {
+    bool isHighlight = false,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return GestureDetector(
@@ -291,6 +322,7 @@ class HomePage extends StatelessWidget {
         decoration: BoxDecoration(
           color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
           borderRadius: BorderRadius.circular(16),
+          border: isHighlight ? Border.all(color: AppTheme.primaryOrange, width: 2) : null,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -305,7 +337,9 @@ class HomePage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(isTablet ? 20 : 16),
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange,
+                color: isHighlight 
+                    ? AppTheme.primaryOrange.withOpacity(0.9)
+                    : AppTheme.primaryOrange,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
@@ -333,6 +367,24 @@ class HomePage extends StatelessWidget {
                 color: isDark ? Colors.white70 : AppTheme.textSecondary,
               ),
             ),
+            if (isHighlight) ...[
+              SizedBox(height: isTablet ? 16 : 12),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryOrange,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  'NEW',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../components/bottom_nav_bar.dart';
-import '../services/kinyarwanda_audio_service.dart';
+import '../theme/app_theme.dart';
 
 class ListeningExercisesScreen extends StatefulWidget {
   const ListeningExercisesScreen({Key? key}) : super(key: key);
@@ -12,7 +11,7 @@ class ListeningExercisesScreen extends StatefulWidget {
 }
 
 class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> with TickerProviderStateMixin {
-  final KinyarwandaAudioService _audioService = KinyarwandaAudioService();
+  final FlutterTts _flutterTts = FlutterTts();
   int _currentExercise = 0;
   int? _selectedAnswer;
   bool _isPlaying = false;
@@ -20,15 +19,13 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
   bool _showCorrectAnswer = false;
   int _score = 0;
   bool _audioPlayed = false;
-  bool _audioReady = false;
-  String _audioStatus = 'Initializing authentic African voice...';
-  bool _showHint = false;
-  int _bestScore = 0;
+  bool _ttsReady = false;
   
   // Animation controllers for visual effects
   late AnimationController _pulseController;
   late AnimationController _waveController;
   late Animation<double> _pulseAnimation;
+  late Animation<double> _waveAnimation;
 
   // Enhanced listening exercises with Kinyarwanda phrases
   final List<Map<String, dynamic>> _exercises = [
@@ -117,30 +114,8 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
   @override
   void initState() {
     super.initState();
-    _loadProgress();
-    _initAudio();
+    _initTts();
     _initAnimations();
-  }
-
-  Future<void> _loadProgress() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _currentExercise = prefs.getInt('listening_current_exercise') ?? 0;
-      _score = prefs.getInt('listening_score') ?? 0;
-      _bestScore = prefs.getInt('listening_best_score') ?? 0;
-    });
-  }
-
-  Future<void> _saveProgress() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('listening_current_exercise', _currentExercise);
-    await prefs.setInt('listening_score', _score);
-  }
-
-  Future<void> _clearProgress() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('listening_current_exercise');
-    await prefs.remove('listening_score');
   }
 
   void _initAnimations() {
@@ -162,134 +137,97 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
       curve: Curves.easeInOut,
     ));
 
+    _waveAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _waveController,
+      curve: Curves.easeInOut,
+    ));
+
     _pulseController.repeat(reverse: true);
   }
 
-  Future<void> _initAudio() async {
+  Future<void> _initTts() async {
     try {
-      print('🎵 Initializing authentic African audio service...');
+      await _flutterTts.setLanguage("en-US"); // Use English with African accent if available
+      await _flutterTts.setSpeechRate(0.7); // Slower speech for learning
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(0.9); // Slightly lower pitch
       
-      setState(() {
-        _audioStatus = 'Loading authentic African voices...';
-      });
-      
-      await _audioService.initialize();
-      
-      setState(() {
-        _audioReady = true;
-        _audioStatus = 'Ready - Authentic African voice loaded';
-      });
-      
-      print('✅ Audio service initialized successfully');
-      
-    } catch (e) {
-      print('❌ Audio initialization error: $e');
-      setState(() {
-        _audioReady = false;
-        _audioStatus = 'Audio initialization failed, using fallback';
-      });
-      
-      // Show initialization error to user
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Audio system loading... Authentic African voice will be available shortly.'),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 3),
-          ),
+      // Try to set voice to a more suitable one
+      List<dynamic> voices = await _flutterTts.getVoices;
+      if (voices.isNotEmpty) {
+        // Look for voices that might sound more natural
+        var preferredVoice = voices.firstWhere(
+          (voice) => voice["name"].toString().toLowerCase().contains("female") ||
+                     voice["name"].toString().toLowerCase().contains("african") ||
+                     voice["name"].toString().toLowerCase().contains("samantha"),
+          orElse: () => voices.first,
         );
+        await _flutterTts.setVoice(preferredVoice);
       }
+      
+      setState(() {
+        _ttsReady = true;
+      });
+
+      _flutterTts.setStartHandler(() {
+        setState(() {
+          _isPlaying = true;
+        });
+        _waveController.repeat();
+      });
+
+      _flutterTts.setCompletionHandler(() {
+        setState(() {
+          _isPlaying = false;
+          _audioPlayed = true;
+        });
+        _waveController.stop();
+        _waveController.reset();
+      });
+
+      _flutterTts.setErrorHandler((msg) {
+        setState(() {
+          _isPlaying = false;
+        });
+        _waveController.stop();
+        print('TTS Error: $msg');
+      });
+
+    } catch (e) {
+      print('TTS initialization error: $e');
+      setState(() {
+        _ttsReady = false;
+      });
     }
   }
 
   Future<void> _playAudio() async {
-    if (!_audioReady) {
-      print('❌ Audio service not ready, showing fallback');
+    if (!_ttsReady) {
       _showAudioFallback();
       return;
     }
 
     try {
       if (_isPlaying) {
-        print('⏹️ Stopping audio');
-        await _audioService.stop();
+        await _flutterTts.stop();
         setState(() {
           _isPlaying = false;
         });
         _waveController.stop();
       } else {
-        // Get current exercise
+        // Speak the Kinyarwanda phrase
         final currentExercise = _exercises[_currentExercise];
-        String textToSpeak = currentExercise['audioText'];
-        
-        print('🎵 Playing authentic African audio for: $textToSpeak');
-        
-        // Play the authentic African audio with callbacks
-        bool success = await _audioService.playKinyarwandaPhrase(
-          textToSpeak,
-          onStart: () {
-            print('🎵 Audio Started playing');
-            setState(() {
-              _isPlaying = true;
-            });
-            _waveController.repeat();
-          },
-          onComplete: () {
-            print('🎵 Audio Completed');
-            setState(() {
-              _isPlaying = false;
-              _audioPlayed = true;
-            });
-            _waveController.stop();
-            _waveController.reset();
-          },
-          onError: (error) {
-            print('❌ Audio Error: $error');
-            setState(() {
-              _isPlaying = false;
-            });
-            _waveController.stop();
-            
-            // Show error to user
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Audio error: $error'),
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 3),
-              ),
-            );
-          },
-        );
-        
-        if (!success) {
-          print('❌ Failed to play audio');
-          _showAudioFallback();
-        }
+        await _flutterTts.speak(currentExercise['audioText']);
       }
     } catch (e) {
-      print('❌ Audio play error: $e');
-      setState(() {
-        _isPlaying = false;
-      });
-      _waveController.stop();
-      
-      // Show user-friendly error
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Could not play authentic African audio. Please try again.'),
-            backgroundColor: Colors.orange,
-            duration: Duration(seconds: 3),
-          ),
-        );
-      }
-      
+      print('TTS play error: $e');
       _showAudioFallback();
     }
   }
 
-  // Advanced voice selection for authentic African accent
-  // Enhanced Kinyarwanda pronunciation with authentic African accent patterns
   void _showAudioFallback() {
     final currentExercise = _exercises[_currentExercise];
     ScaffoldMessenger.of(context).showSnackBar(
@@ -336,9 +274,6 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
       }
     });
 
-    // Save progress
-    _saveProgress();
-
     // Provide feedback sound/haptic
     _provideFeedback(index == _exercises[_currentExercise]['correctAnswer']);
 
@@ -351,8 +286,9 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
   }
 
   void _provideFeedback(bool isCorrect) {
-    // Play success sound or haptic feedback
+    // You could add sound effects here
     if (isCorrect) {
+      // Play success sound or haptic feedback
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -366,123 +302,7 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
           duration: Duration(seconds: 1),
         ),
       );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.cancel, color: Colors.white),
-              SizedBox(width: 8),
-              Text('Incorrect. Check the explanation below.'),
-            ],
-          ),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 1),
-        ),
-      );
     }
-  }
-
-  void _skipQuestion() {
-    if (_hasAnswered) return;
-    
-    setState(() {
-      _hasAnswered = true;
-      _showCorrectAnswer = true;
-      // Don't increment score for skipped questions
-    });
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(Icons.skip_next, color: Colors.white),
-            SizedBox(width: 8),
-            Text('Question skipped'),
-          ],
-        ),
-        backgroundColor: Colors.grey.shade600,
-        duration: Duration(seconds: 1),
-      ),
-    );
-    
-    // Auto-advance after 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
-      if (mounted) {
-        _nextExercise();
-      }
-    });
-  }
-
-  void _showHintDialog() {
-    if (_hasAnswered) return;
-    
-    final currentExercise = _exercises[_currentExercise];
-    
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            Icon(Icons.lightbulb_outline, color: Colors.orange),
-            SizedBox(width: 8),
-            Text('Hint'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Audio Text:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              '${currentExercise['audioText']}',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.blue,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            SizedBox(height: 12),
-            Text(
-              'Pronunciation:',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 4),
-            Text(
-              '${currentExercise['phonetic']}',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade600,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-            SizedBox(height: 12),
-            Text(
-              'Category: ${currentExercise['category']}',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Got it!'),
-          ),
-        ],
-      ),
-    );
-    
-    setState(() {
-      _showHint = true;
-    });
   }
 
   void _nextExercise() {
@@ -493,21 +313,13 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
         _hasAnswered = false;
         _showCorrectAnswer = false;
         _audioPlayed = false;
-        _showHint = false;
       });
-      _saveProgress();
     } else {
       _showResults();
     }
   }
 
   void _showResults() {
-    // Update best score if current score is better
-    if (_score > _bestScore) {
-      _bestScore = _score;
-      _saveBestScore();
-    }
-    
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -570,28 +382,6 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
               ),
             ),
             SizedBox(height: 16),
-            if (_score > _bestScore)
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade100,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green),
-                ),
-                child: Text(
-                  '🎉 New Best Score!',
-                  style: TextStyle(
-                    color: Colors.green.shade800,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            SizedBox(height: 8),
-            Text(
-              'Best Score: $_bestScore/${_exercises.length}',
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-            ),
-            SizedBox(height: 8),
             Text(
               _score >= _exercises.length * 0.7 
                   ? 'Excellent! Your listening skills are improving!' 
@@ -627,11 +417,6 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
     );
   }
 
-  Future<void> _saveBestScore() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('listening_best_score', _bestScore);
-  }
-
   void _resetExercise() {
     setState(() {
       _currentExercise = 0;
@@ -640,14 +425,12 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
       _showCorrectAnswer = false;
       _score = 0;
       _audioPlayed = false;
-      _showHint = false;
     });
-    _clearProgress();
   }
 
   @override
   void dispose() {
-    _audioService.dispose();
+    _flutterTts.stop();
     _pulseController.dispose();
     _waveController.dispose();
     super.dispose();
@@ -687,18 +470,6 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
           ],
         ),
         actions: [
-          if (!_hasAnswered && _audioPlayed)
-            IconButton(
-              onPressed: _showHintDialog,
-              icon: Icon(Icons.lightbulb_outline, color: Colors.white),
-              tooltip: 'Show Hint',
-            ),
-          if (!_hasAnswered && _audioPlayed)
-            IconButton(
-              onPressed: _skipQuestion,
-              icon: Icon(Icons.skip_next, color: Colors.white),
-              tooltip: 'Skip Question',
-            ),
           Container(
             margin: EdgeInsets.only(right: 16),
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -844,9 +615,10 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
                                       ),
                                     ),
                                   ),
-                                ),                                ),
-                              );
-                            },
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         
                         SizedBox(height: 24),
@@ -904,45 +676,22 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
                             ],
                           ),
                         
-                        SizedBox(height: 16),
-                        
-                        // Repeat button
-                        if (_audioPlayed && !_isPlaying)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton.icon(
-                                onPressed: _playAudio,
-                                icon: Icon(Icons.replay, size: 18),
-                                label: Text('Listen Again'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue.shade100,
-                                  foregroundColor: Colors.blue.shade800,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        
                         // TTS status indicator
                         SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              _audioReady ? Icons.mic : Icons.mic_off,
+                              _ttsReady ? Icons.mic : Icons.mic_off,
                               size: 16,
-                              color: _audioReady ? Colors.green : Colors.grey,
+                              color: _ttsReady ? Colors.green : Colors.grey,
                             ),
                             SizedBox(width: 4),
                             Text(
-                              _audioStatus,
+                              _ttsReady ? 'Voice ready' : 'Text mode',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: _audioReady ? Colors.green : Colors.grey,
+                                color: _ttsReady ? Colors.green : Colors.grey,
                               ),
                             ),
                           ],
@@ -1075,7 +824,7 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
                               gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [Colors.blue.shade50, Colors.blue.shade100],
+                                colors: [Colors.blue.shade50, Colors.blue.shade25],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
@@ -1127,7 +876,7 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.orange.shade50, Colors.orange.shade100],
+                        colors: [Colors.orange.shade50, Colors.orange.shade25],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
@@ -1193,28 +942,6 @@ class _ListeningExercisesScreenState extends State<ListeningExercisesScreen> wit
           ),
         ],
       ),
-      floatingActionButton: _hasAnswered 
-          ? FloatingActionButton.extended(
-              onPressed: _nextExercise,
-              backgroundColor: Colors.orange,
-              icon: Icon(
-                _currentExercise < _exercises.length - 1 
-                    ? Icons.arrow_forward 
-                    : Icons.check,
-                color: Colors.white,
-              ),
-              label: Text(
-                _currentExercise < _exercises.length - 1 
-                    ? 'Next Question' 
-                    : 'Finish',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavBar(currentIndex: 2),
     );
   }

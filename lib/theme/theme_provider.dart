@@ -1,141 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  // Start with light theme as default, but user can change it
-  ThemeMode _themeMode = ThemeMode.light;
-  bool _isFirstTime = true;
-
-  ThemeMode get themeMode => _themeMode;
-  bool get isDarkMode => _themeMode == ThemeMode.dark;
-  bool get isFirstTime => _isFirstTime;
-
-  // Static variable for persistent storage across app sessions
-  static ThemeMode? _persistedTheme;
-  static bool? _hasUserSetTheme;
-
+  bool _isDarkMode = false;
+  
+  bool get isDarkMode => _isDarkMode;
+  
+  ThemeData get themeData => _isDarkMode ? _darkTheme : _lightTheme;
+  
+  ThemeMode get themeMode => _isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  
   ThemeProvider() {
     _loadTheme();
   }
-
-  /// Toggle between dark and light mode only (not system)
-  void toggleTheme(bool isDark) {
-    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-    _isFirstTime = false;
-    _saveTheme();
+  
+  void _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool('dark_mode') ?? false;
     notifyListeners();
   }
-
-  /// Set specific theme mode (system, light, or dark)
-  void setThemeMode(ThemeMode mode) {
-    _themeMode = mode;
-    _isFirstTime = false;
-    _saveTheme();
+  
+  void toggleTheme() async {
+    _isDarkMode = !_isDarkMode;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('dark_mode', _isDarkMode);
     notifyListeners();
   }
-
-  /// Check if user has ever set a theme preference
-  bool hasUserSetTheme() {
-    return _hasUserSetTheme ?? false;
-  }
-
-  /// Load saved theme preference
-  void _loadTheme() {
-    // Load the persisted theme if it exists
-    if (_persistedTheme != null) {
-      _themeMode = _persistedTheme!;
-    }
-
-    // Load the first-time status
-    if (_hasUserSetTheme != null) {
-      _isFirstTime = !_hasUserSetTheme!;
-    }
-
-    // Debug output
-    print('Theme loaded: $_themeMode, isFirstTime: $_isFirstTime');
-  }
-
-  /// Save theme preference for persistence
-  void _saveTheme() {
-    _persistedTheme = _themeMode;
-    _hasUserSetTheme = true;
-    print('Theme saved: $_themeMode, hasUserSetTheme: true');
-  }
-
-  /// Show theme selection dialog for first-time users
-  void promptThemeSelection(BuildContext context) {
-    if (_isFirstTime) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showInitialThemeDialog(context);
-      });
-    }
-  }
-
-  void _showInitialThemeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('Choose Your Theme'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-                'Welcome to KinyaLearn! Please select your preferred theme:'),
-            const SizedBox(height: 20),
-            RadioListTile<ThemeMode>(
-              title: const Text('Follow System'),
-              subtitle: const Text('Matches your device theme'),
-              value: ThemeMode.system,
-              groupValue: _themeMode,
-              onChanged: (ThemeMode? value) {
-                if (value != null) {
-                  setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-            RadioListTile<ThemeMode>(
-              title: const Text('Light'),
-              subtitle: const Text('Always light theme'),
-              value: ThemeMode.light,
-              groupValue: _themeMode,
-              onChanged: (ThemeMode? value) {
-                if (value != null) {
-                  setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-            RadioListTile<ThemeMode>(
-              title: const Text('Dark'),
-              subtitle: const Text('Always dark theme'),
-              value: ThemeMode.dark,
-              groupValue: _themeMode,
-              onChanged: (ThemeMode? value) {
-                if (value != null) {
-                  setThemeMode(value);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Reset to allow user to choose theme again
-  void resetToFirstTime() {
-    _isFirstTime = true;
-    _hasUserSetTheme = false;
-    _persistedTheme = null;
-    _themeMode = ThemeMode.light;
+  
+  void setDarkMode(bool value) async {
+    _isDarkMode = value;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('dark_mode', _isDarkMode);
     notifyListeners();
   }
-
-  /// Reset static variables for testing
-  static void resetForTesting() {
-    _persistedTheme = null;
-    _hasUserSetTheme = null;
-  }
+  
+  static final ThemeData _lightTheme = ThemeData(
+    brightness: Brightness.light,
+    primarySwatch: Colors.orange,
+    primaryColor: Colors.orange,
+    scaffoldBackgroundColor: Colors.grey[50],
+    cardColor: Colors.white,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.orange,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+      selectedItemColor: Colors.orange,
+      unselectedItemColor: Colors.grey[600],
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(color: Colors.grey[800]),
+      bodyMedium: TextStyle(color: Colors.grey[600]),
+      titleLarge: TextStyle(color: Colors.grey[900]),
+      titleMedium: TextStyle(color: Colors.grey[800]),
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.grey[600],
+    ),
+    dividerColor: Colors.grey[300],
+    cardTheme: CardTheme(
+      color: Colors.white,
+      elevation: 2,
+      shadowColor: Colors.black.withValues(alpha: 0.1),
+    ),
+  );
+  
+  static final ThemeData _darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primarySwatch: Colors.orange,
+    primaryColor: Colors.orange,
+    scaffoldBackgroundColor: Colors.grey[900],
+    cardColor: Colors.grey[800],
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.orange,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.grey[900],
+      selectedItemColor: Colors.orange,
+      unselectedItemColor: Colors.grey[400],
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(color: Colors.white),
+      bodyMedium: TextStyle(color: Colors.white70),
+      titleLarge: TextStyle(color: Colors.white),
+      titleMedium: TextStyle(color: Colors.white),
+    ),
+    iconTheme: IconThemeData(
+      color: Colors.white70,
+    ),
+    dividerColor: Colors.grey[700],
+    cardTheme: CardTheme(
+      color: Colors.grey[800],
+      elevation: 2,
+      shadowColor: Colors.black.withValues(alpha: 0.3),
+    ),
+  );
 }

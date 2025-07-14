@@ -18,6 +18,7 @@ dependencies:
   shared_preferences: ^2.2.2
   webview_flutter: ^4.4.4
   flutter_inappwebview: ^6.0.0
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/greetings/
+    - assets/audio/
+    - assets/audio/kinyarwanda/
 
 # Enable platforms
 platforms:

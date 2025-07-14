@@ -1,42 +1,171 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 // Web-specific imports are conditionally imported below when needed
 
-// Professional video player widget with enhanced UI
+// Professional video player widget with enhanced UI and African voice narration
 class WebViewVideoPlayer extends StatefulWidget {
   final String videoUrl;
   final String? title;
   final String? subtitle;
+  final String? narrationText; // Kinyarwanda text for voice narration
+  final bool enableVoiceNarration; // Toggle for voice feature
 
   const WebViewVideoPlayer({
     Key? key,
     required this.videoUrl,
     this.title,
     this.subtitle,
+    this.narrationText,
+    this.enableVoiceNarration = true,
   }) : super(key: key);
 
   @override
   State<WebViewVideoPlayer> createState() => _WebViewVideoPlayerState();
 }
 
-class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
+class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> with TickerProviderStateMixin {
   bool _isLoading = false;
   bool _hasError = false;
   String? _errorMessage;
   bool _isEmbedded = false;
+  
+  // Voice narration features
+  final FlutterTts _flutterTts = FlutterTts();
+  bool _isNarrating = false;
+  bool _ttsReady = false;
+  bool _showVoiceControls = false;
+  
+  // Animation controllers for voice features
+  late AnimationController _voiceController;
+  late Animation<double> _voiceAnimation;
 
   @override
   void initState() {
     super.initState();
     _initializePlayer();
+    if (widget.enableVoiceNarration) {
+      _initializeVoiceNarration();
+    }
+  }
+
+  @override
+  void dispose() {
+    _flutterTts.stop();
+    if (widget.enableVoiceNarration) {
+      _voiceController.dispose();
+    }
+    super.dispose();
   }
 
   void _initializePlayer() {
     setState(() {
       _isLoading = false;
       _hasError = false;
+    });
+  }
+
+  Future<void> _initializeVoiceNarration() async {
+    // Initialize animation controller
+    _voiceController = AnimationController(
+      duration: Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    
+    _voiceAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.3,
+    ).animate(CurvedAnimation(
+      parent: _voiceController,
+      curve: Curves.easeInOut,
+    ));
+
+    try {
+      // Configure TTS for African voice
+      await _flutterTts.setLanguage("en-US"); // Base language
+      await _flutterTts.setSpeechRate(0.6); // Slower for clarity
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(0.85); // Slightly lower pitch for African accent
+      
+      // Try to set a more suitable voice
+      List<dynamic> voices = await _flutterTts.getVoices;
+      if (voices.isNotEmpty) {
+        // Look for voices that might sound more African/natural
+        var preferredVoice = voices.firstWhere(
+          (voice) => voice["name"].toString().toLowerCase().contains("female") ||
+                     voice["name"].toString().toLowerCase().contains("karen") ||
+                     voice["name"].toString().toLowerCase().contains("zira") ||
+                     voice["name"].toString().toLowerCase().contains("susan"),
+          orElse: () => voices.first,
+        );
+        await _flutterTts.setVoice(preferredVoice);
+      }
+      
+      setState(() {
+        _ttsReady = true;
+      });
+
+      // Set up TTS handlers
+      _flutterTts.setStartHandler(() {
+        setState(() {
+          _isNarrating = true;
+        });
+        _voiceController.repeat(reverse: true);
+      });
+
+      _flutterTts.setCompletionHandler(() {
+        setState(() {
+          _isNarrating = false;
+        });
+        _voiceController.stop();
+        _voiceController.reset();
+      });
+
+      _flutterTts.setErrorHandler((msg) {
+        setState(() {
+          _isNarrating = false;
+        });
+        _voiceController.stop();
+        print('TTS Error: $msg');
+      });
+
+    } catch (e) {
+      print('Voice narration initialization error: $e');
+      setState(() {
+        _ttsReady = false;
+      });
+    }
+  }
+
+  Future<void> _playVoiceNarration() async {
+    if (!_ttsReady || widget.narrationText == null) return;
+
+    try {
+      if (_isNarrating) {
+        await _flutterTts.stop();
+        setState(() {
+          _isNarrating = false;
+        });
+        _voiceController.stop();
+      } else {
+        await _flutterTts.speak(widget.narrationText!);
+      }
+    } catch (e) {
+      print('Voice narration error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Voice narration unavailable'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+    }
+  }
+
+  void _toggleVoiceControls() {
+    setState(() {
+      _showVoiceControls = !_showVoiceControls;
     });
   }
 
@@ -157,7 +286,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Professional Header
+          // Professional Header with Voice Controls
           if (widget.title != null)
             Container(
               padding: EdgeInsets.all(24),
@@ -217,6 +346,42 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                           ],
                         ),
                       ),
+                      // Voice narration button
+                      if (widget.enableVoiceNarration && widget.narrationText != null && _ttsReady)
+                        Container(
+                          margin: EdgeInsets.only(right: 8),
+                          child: AnimatedBuilder(
+                            animation: _voiceAnimation,
+                            builder: (context, child) {
+                              return Transform.scale(
+                                scale: _isNarrating ? _voiceAnimation.value : 1.0,
+                                child: GestureDetector(
+                                  onTap: _playVoiceNarration,
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: _isNarrating 
+                                          ? Colors.orange.withOpacity(0.3)
+                                          : Colors.white.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: _isNarrating 
+                                            ? Colors.orange
+                                            : Colors.white.withOpacity(0.3),
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      _isNarrating ? Icons.volume_up : Icons.record_voice_over,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       if (_isLoading)
                         Container(
                           padding: EdgeInsets.all(8),
@@ -231,6 +396,69 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                         ),
                     ],
                   ),
+                  // Voice controls expansion
+                  if (widget.enableVoiceNarration && widget.narrationText != null && _ttsReady) ...[
+                    SizedBox(height: 16),
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.translate,
+                            color: Colors.white.withOpacity(0.9),
+                            size: 20,
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'African Voice Narration',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  widget.narrationText!,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8),
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'Kinyarwanda',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -258,7 +486,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
             ),
           ),
           
-          // Professional Info section
+          // Professional Info section with Voice Status
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -267,63 +495,130 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                 top: BorderSide(color: Colors.grey.shade200, width: 1),
               ),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    _isEmbedded ? Icons.stop_circle : Icons.video_library,
-                    color: Colors.blue.shade600,
-                    size: 20,
-                  ),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _isEmbedded 
-                          ? 'Video playing in app'
-                          : kIsWeb 
-                            ? 'Click to play video in app' 
-                            : 'Click to open video externally',
-                        style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        _isEmbedded ? Icons.stop_circle : Icons.video_library,
+                        color: Colors.blue.shade600,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _isEmbedded 
+                              ? 'Video playing in app'
+                              : kIsWeb 
+                                ? 'Click to play video in app' 
+                                : 'Click to open video externally',
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          if (_isEmbedded) ...[
+                            SizedBox(height: 2),
+                            Text(
+                              'Click ✕ to close player',
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    if (!_hasError && !_isLoading)
+                      Container(
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.green.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.check_circle,
+                          color: Colors.green.shade600,
+                          size: 16,
                         ),
                       ),
-                      if (_isEmbedded) ...[
-                        SizedBox(height: 2),
-                        Text(
-                          'Click ✕ to close player',
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                            fontSize: 12,
+                  ],
+                ),
+                // Voice narration status
+                if (widget.enableVoiceNarration && widget.narrationText != null) ...[
+                  SizedBox(height: 16),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: _ttsReady ? Colors.orange.shade50 : Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _ttsReady ? Colors.orange.shade200 : Colors.grey.shade200,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          _ttsReady ? Icons.record_voice_over : Icons.voice_over_off,
+                          color: _ttsReady ? Colors.orange.shade600 : Colors.grey.shade600,
+                          size: 20,
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _ttsReady 
+                                  ? 'African Voice Narration Ready'
+                                  : 'Voice Narration Unavailable',
+                                style: TextStyle(
+                                  color: _ttsReady ? Colors.orange.shade700 : Colors.grey.shade700,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                _ttsReady 
+                                  ? 'Tap the voice icon to hear Kinyarwanda pronunciation'
+                                  : 'Voice features are not available on this device',
+                                style: TextStyle(
+                                  color: _ttsReady ? Colors.orange.shade600 : Colors.grey.shade600,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        if (_isNarrating)
+                          Container(
+                            padding: EdgeInsets.all(4),
+                            child: SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                color: Colors.orange.shade600,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ),
                       ],
-                    ],
-                  ),
-                ),
-                if (!_hasError && !_isLoading)
-                  Container(
-                    padding: EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      Icons.check_circle,
-                      color: Colors.green.shade600,
-                      size: 16,
                     ),
                   ),
+                ],
               ],
             ),
           ),

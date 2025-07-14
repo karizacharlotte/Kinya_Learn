@@ -10,13 +10,17 @@ import 'pages/profile_page.dart';
 import 'pages/auth/login_screen.dart';
 import 'pages/auth/auth_choice_screen.dart';
 import 'pages/splash_screen.dart';
-import 'theme/app_theme.dart';
 import 'models/lesson.dart';
 import 'pages/auth/register_screen.dart';
 import 'pages/final_quiz_screen.dart';
 import 'pages/about_screen.dart';
-import 'pages/settings_screen.dart';
+import 'pages/settings_screen_modern.dart';
 import 'pages/lesson_detail_screen.dart';
+import 'pages/voice_test_demo_screen.dart';
+import 'pages/enhanced_video_test_screen.dart';
+import 'pages/listening_exercises_screen.dart';
+import 'pages/audio_test_screen.dart';
+import 'pages/african_voice_demo.dart';
 
 void main() {
   debugPaintSizeEnabled = false;
@@ -37,8 +41,8 @@ class KinyaLearnApp extends StatelessWidget {
       builder: (context, themeProvider, _) {
         return MaterialApp(
           title: 'KinyaLearn',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+          theme: themeProvider.themeData,
+          darkTheme: themeProvider.themeData,
           themeMode: themeProvider.themeMode,
           debugShowCheckedModeBanner: false,
           initialRoute: '/splash',
@@ -55,6 +59,11 @@ class KinyaLearnApp extends StatelessWidget {
             '/splash': (context) => const SplashScreen(),
             '/about': (context) => const AboutScreen(),
             '/settings': (context) => const SettingsScreen(),
+            '/voice-demo': (context) => const VoiceTestDemoScreen(),
+            '/enhanced-video': (context) => const EnhancedVideoTestScreen(),
+            '/listening-exercises': (context) => const ListeningExercisesScreen(),
+            '/audio-test': (context) => const AudioTestScreen(),
+            '/african-voice-demo': (context) => const AfricanVoiceDemoScreen(),
           },
           onGenerateRoute: (settings) {
             if (settings.name == '/lesson-detail') {

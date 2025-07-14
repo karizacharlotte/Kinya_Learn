@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -49,101 +47,9 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 1500));
 
     if (mounted) {
-      final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-
-      // Check if user has set a theme before
-      if (themeProvider.hasUserSetTheme()) {
-        // User has already set a theme, go directly to auth
-        Navigator.pushReplacementNamed(context, '/auth');
-      } else {
-        // First time user, show theme selection
-        _showThemeSelectionDialog();
-      }
+      // Skip theme selection and go directly to auth
+      Navigator.pushReplacementNamed(context, '/auth');
     }
-  }
-
-  void _showThemeSelectionDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                gradient: AppTheme.primaryGradient,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(
-                Icons.school,
-                color: Colors.white,
-                size: 18,
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text('Welcome to KinyaLearn!'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Choose your preferred theme to get started:'),
-            const SizedBox(height: 20),
-            Consumer<ThemeProvider>(
-              builder: (context, themeProvider, _) => Column(
-                children: [
-                  RadioListTile<ThemeMode>(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('Follow System'),
-                    subtitle: const Text('Matches your device theme'),
-                    value: ThemeMode.system,
-                    groupValue: themeProvider.themeMode,
-                    onChanged: (ThemeMode? value) {
-                      if (value != null) {
-                        themeProvider.setThemeMode(value);
-                        Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
-                      }
-                    },
-                  ),
-                  RadioListTile<ThemeMode>(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('Light Theme'),
-                    subtitle: const Text('Always light appearance'),
-                    value: ThemeMode.light,
-                    groupValue: themeProvider.themeMode,
-                    onChanged: (ThemeMode? value) {
-                      if (value != null) {
-                        themeProvider.setThemeMode(value);
-                        Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
-                      }
-                    },
-                  ),
-                  RadioListTile<ThemeMode>(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('Dark Theme'),
-                    subtitle: const Text('Always dark appearance'),
-                    value: ThemeMode.dark,
-                    groupValue: themeProvider.themeMode,
-                    onChanged: (ThemeMode? value) {
-                      if (value != null) {
-                        themeProvider.setThemeMode(value);
-                        Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
