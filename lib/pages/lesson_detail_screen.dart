@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:kinya_learn/video.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_provider.dart';
-import '../utils/responsive_helper.dart';
+import '../components/in_app_video_player.dart';
+import 'kinyarwanda_greetings_lesson.dart';
+import 'generic_quiz_lesson.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final Lesson lesson;
@@ -16,82 +15,41 @@ class LessonDetailScreen extends StatefulWidget {
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   bool isContentCompleted = false;
-  bool isVideoFullscreen = false;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
-
-    // If video is in fullscreen mode, show only the video
-    if (isVideoFullscreen) {
-      return Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            VideoPlayerScreen(
-              videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-              // autoPlay: true,
-            ),
-            Positioned(
-              top: 40,
-              right: 20,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white, size: 30),
-                onPressed: () {
-                  setState(() {
-                    isVideoFullscreen = false;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: theme.appBarTheme.backgroundColor,
+        backgroundColor: AppTheme.cardBackground,
         elevation: 0,
         title: Text(
           widget.lesson.title,
           style: TextStyle(
-            color: theme.appBarTheme.titleTextStyle?.color ??
-                theme.colorScheme.onSurface,
-            fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
+            color: AppTheme.textPrimary,
+            fontSize: isTablet ? 20 : 18,
             fontWeight: FontWeight.w600,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: theme.appBarTheme.iconTheme?.color ??
-                  theme.colorScheme.onSurface),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
-        padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
+        padding: EdgeInsets.all(isTablet ? 24 : 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Lesson Header
             Container(
               width: double.infinity,
-              padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
+              padding: EdgeInsets.all(isTablet ? 24 : 20),
               decoration: BoxDecoration(
-                gradient: isDarkMode
-                    ? LinearGradient(
-                        colors: [
-                          theme.colorScheme.surface,
-                          theme.colorScheme.surface.withValues(alpha: 0.8),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      )
-                    : AppTheme.primaryGradient,
+                gradient: AppTheme.primaryGradient,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -100,43 +58,33 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     widget.lesson.title,
                     style: TextStyle(
-                      color: isDarkMode
-                          ? theme.colorScheme.onSurface
-                          : Colors.white,
-                      fontSize:
-                          ResponsiveHelper.getResponsiveHeaderFontSize(context),
+                      color: Colors.white,
+                      fontSize: isTablet ? 28 : 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
-                      height:
-                          ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
+                  const SizedBox(height: 8),
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      color: isDarkMode
-                          ? theme.colorScheme.onSurface.withValues(alpha: 0.7)
-                          : Colors.white.withValues(alpha: 0.9),
-                      fontSize:
-                          ResponsiveHelper.getResponsiveBodyFontSize(context),
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontSize: isTablet ? 16 : 14,
                     ),
                   ),
                 ],
               ),
             ),
 
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 1.5)),
+            const SizedBox(height: 24),
 
             // Lesson Content
             Container(
               width: double.infinity,
-              padding: ResponsiveHelper.getResponsiveHorizontalPadding(context),
+              padding: EdgeInsets.all(isTablet ? 24 : 20),
               decoration: BoxDecoration(
-                color: theme.cardColor,
+                color: AppTheme.cardBackground,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: theme.dividerColor),
+                border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,155 +92,196 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   Text(
                     'Lesson Content',
                     style: TextStyle(
-                      fontSize:
-                          ResponsiveHelper.getResponsiveTitleFontSize(context),
+                      fontSize: isTablet ? 20 : 18,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
+                      color: AppTheme.textPrimary,
                     ),
                   ),
-                  SizedBox(
-                      height: ResponsiveHelper.getResponsiveSpacing(context)),
+                  const SizedBox(height: 16),
+
                   Text(
                     widget.lesson.description,
                     style: TextStyle(
-                      fontSize:
-                          ResponsiveHelper.getResponsiveBodyFontSize(context),
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
-                  ),
-                  SizedBox(
-                      height: ResponsiveHelper.getResponsiveSpacing(context,
-                          factor: 1.25)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: isContentCompleted
-                          ? null
-                          : () {
-                              setState(() {
-                                isContentCompleted = true;
-                              });
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            isDarkMode ? Colors.white : AppTheme.primaryOrange,
-                        foregroundColor:
-                            isDarkMode ? AppTheme.primaryOrange : Colors.white,
-                        padding: ResponsiveHelper.getResponsiveButtonPadding(
-                            context),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        isContentCompleted
-                            ? '✓ Content Completed'
-                            : 'Mark as Complete',
-                        style: TextStyle(
-                          fontSize: ResponsiveHelper.getResponsiveBodyFontSize(
-                              context),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      fontSize: isTablet ? 16 : 14,
+                      color: AppTheme.textSecondary,
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Video Section with Fullscreen Button
-            Container(
-              margin: EdgeInsets.symmetric(
-                  vertical: ResponsiveHelper.getResponsiveSpacing(context,
-                      factor: 1.5)),
-              child: Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      VideoPlayerScreen(
-                        videoUrl: "https://www.youtube.com/watch?v=dVqm40wcnL4",
-                      ),
-                      Positioned.fill(
-                        child: Center(
-                          child: IconButton(
-                            icon: const Icon(Icons.fullscreen,
-                                color: Colors.white, size: 50),
-                            onPressed: () {
-                              setState(() {
-                                isVideoFullscreen = true;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                      height:
-                          ResponsiveHelper.getResponsiveSpacing(context) * 0.5),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.fullscreen),
-                      label: const Text('Open Video in Fullscreen'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.secondary,
-                        foregroundColor: theme.colorScheme.onSecondary,
-                        padding: ResponsiveHelper.getResponsiveButtonPadding(
-                            context),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isVideoFullscreen = true;
-                        });
-                      },
-                    ),
-                  ),
-                ],
+            // Video Section
+            if (widget.lesson.videoUrl != null)
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 24),
+                child: _buildVideoPlayer(),
               ),
-            ),
 
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 1.5)),
-
-            // Action Buttons
-            Column(
-              children: [
-                SizedBox(
+            // Mark as Complete Button (after video)
+            if (widget.lesson.videoUrl != null)
+              Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: isContentCompleted
-                        ? () {
-                            Navigator.pushNamed(
-                              context,
-                              '/practice-quiz',
-                              arguments: widget.lesson,
-                            );
-                          }
-                        : null,
+                        ? null
+                        : () {
+                            setState(() {
+                              isContentCompleted = true;
+                            });
+                          },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isDarkMode
-                          ? theme.colorScheme.primary
-                          : AppTheme.primaryBlue,
-                      foregroundColor: isDarkMode
-                          ? theme.colorScheme.onPrimary
-                          : Colors.white,
-                      padding:
-                          ResponsiveHelper.getResponsiveButtonPadding(context),
+                      backgroundColor: isContentCompleted ? Colors.grey.shade400 : AppTheme.primaryBlue,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text('Take Practice Quiz'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          isContentCompleted ? Icons.check_circle : Icons.play_circle_fill,
+                          size: 20,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          isContentCompleted
+                              ? '✓ Video Watched'
+                              : 'Mark Video as Watched',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(
-                    height: ResponsiveHelper.getResponsiveSpacing(context)),
+              ),
+
+            // Quiz Section
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(isTablet ? 24 : 20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF2E7D32), Color(0xFF388E3C)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.green.withOpacity(0.3),
+                    blurRadius: 15,
+                    offset: Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.quiz,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Test Your Knowledge',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: isTablet ? 20 : 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              'Take a quiz to reinforce what you learned',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: isTablet ? 14 : 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: isContentCompleted
+                          ? () {
+                              // For greetings lesson, start the interactive quiz
+                              if (widget.lesson.title.toLowerCase().contains('greeting')) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => KinyarwandaGreetingsLesson(),
+                                  ),
+                                );
+                              } else {
+                                // For all other lessons, use the generic quiz
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => GenericQuizLesson(lesson: widget.lesson),
+                                  ),
+                                );
+                              }
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Color(0xFF2E7D32),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.play_arrow, size: 20),
+                          SizedBox(width: 8),
+                          Text(
+                            isContentCompleted ? 'Start Quiz' : 'Watch Video First',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Additional Action Buttons
+            Column(
+              children: [
+
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -306,15 +295,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          isDarkMode ? Colors.white : AppTheme.primaryOrange,
-                      foregroundColor:
-                          isDarkMode ? AppTheme.primaryOrange : Colors.white,
-                      padding:
-                          ResponsiveHelper.getResponsiveButtonPadding(context),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      backgroundColor: AppTheme.primaryOrange,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: const Text('Final Quiz & Certificate - \$9.99'),
                   ),
@@ -324,6 +306,19 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildVideoPlayer() {
+    return Column(
+      children: [
+        // Use in-app video player for all lessons
+        InAppVideoPlayer(
+          videoUrl: widget.lesson.videoUrl!,
+          title: widget.lesson.title,
+          subtitle: widget.lesson.description,
+        ),
+      ],
     );
   }
 }

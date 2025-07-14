@@ -9,7 +9,7 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: AppTheme.cardBackground,
         elevation: 0,
@@ -109,7 +109,7 @@ class PaymentScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -119,14 +119,16 @@ class PaymentScreen extends StatelessWidget {
                     ),
                   );
 
-                  Future.delayed(const Duration(seconds: 2), () {
+                  await Future.delayed(const Duration(seconds: 2));
+                  
+                  if (context.mounted) {
                     Navigator.pop(context); // Close loading dialog
                     Navigator.pushReplacementNamed(
                       context,
                       '/final-quiz',
                       arguments: lesson,
                     );
-                  });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:AppTheme.primaryOrange,

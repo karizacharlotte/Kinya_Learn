@@ -6,23 +6,20 @@ import 'pages/home_page.dart';
 import 'pages/lessons_screen.dart';
 import 'pages/practice_screen.dart';
 import 'pages/culture_screen.dart';
-import 'pages/profile_screen.dart';
+import 'pages/profile_page.dart';
 import 'pages/auth/login_screen.dart';
 import 'pages/auth/auth_choice_screen.dart';
 import 'pages/splash_screen.dart';
-import 'pages/certificate_screen.dart';
 import 'theme/app_theme.dart';
 import 'models/lesson.dart';
 import 'pages/auth/register_screen.dart';
-import 'pages/payment_screen.dart';
 import 'pages/final_quiz_screen.dart';
 import 'pages/about_screen.dart';
 import 'pages/settings_screen.dart';
 import 'pages/lesson_detail_screen.dart';
-import 'pages/practice_quiz_screen.dart' as practice_quiz;
 
 void main() {
-  debugPaintSizeEnabled = false; // Highlights layout issues
+  debugPaintSizeEnabled = false;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
@@ -47,14 +44,15 @@ class KinyaLearnApp extends StatelessWidget {
           initialRoute: '/splash',
           routes: {
             '/': (context) => const HomePage(),
-            '/splash': (context) => const SplashScreen(),
-            '/auth-choice': (context) => const AuthChoiceScreen(),
-            '/login': (context) => const LoginScreen(),
             '/lessons': (context) => const LessonsScreen(),
             '/practice': (context) => const PracticeScreen(),
             '/culture': (context) => const CultureScreen(),
-            '/profile': (context) => const ProfileScreen(),
+            '/profile': (context) => const ProfilePage(),
+            '/profile-page': (context) => const ProfilePage(),
+            '/auth': (context) => const AuthChoiceScreen(),
+            '/login': (context) => const LoginScreen(),
             '/register': (context) => const RegisterScreen(),
+            '/splash': (context) => const SplashScreen(),
             '/about': (context) => const AboutScreen(),
             '/settings': (context) => const SettingsScreen(),
           },
@@ -70,32 +68,6 @@ class KinyaLearnApp extends StatelessWidget {
               }
               return MaterialPageRoute(
                 builder: (_) => LessonDetailScreen(lesson: lesson),
-              );
-            }
-            if (settings.name == '/certificate') {
-              final lesson = settings.arguments as Lesson?;
-              if (lesson == null) {
-                return MaterialPageRoute(
-                  builder: (_) => Scaffold(
-                    body: Center(child: const Text('No lesson data provided!')),
-                  ),
-                );
-              }
-              return MaterialPageRoute(
-                builder: (_) => CertificateScreen(lesson: lesson),
-              );
-            }
-            if (settings.name == '/payment') {
-              final lesson = settings.arguments as Lesson?;
-              if (lesson == null) {
-                return MaterialPageRoute(
-                  builder: (_) => Scaffold(
-                    body: Center(child: const Text('No lesson data provided!')),
-                  ),
-                );
-              }
-              return MaterialPageRoute(
-                builder: (_) => PaymentScreen(lesson: lesson),
               );
             }
             if (settings.name == '/final-quiz') {
@@ -116,13 +88,16 @@ class KinyaLearnApp extends StatelessWidget {
               if (lesson == null) {
                 return MaterialPageRoute(
                   builder: (_) => Scaffold(
-                    body: Center(child: const Text('No lesson data provided!')),
+                    appBar: AppBar(title: const Text('Practice Quiz')),
+                    body: const Center(child: Text('Practice Quiz - Coming Soon!')),
                   ),
                 );
               }
               return MaterialPageRoute(
-                builder: (_) =>
-                    practice_quiz.PracticeQuizScreen(lesson: lesson),
+                builder: (_) => Scaffold(
+                  appBar: AppBar(title: Text('Practice Quiz - ${lesson.title}')),
+                  body: const Center(child: Text('Practice Quiz - Coming Soon!')),
+                ),
               );
             }
             return null;

@@ -4,6 +4,7 @@ class Lesson {
   final String description;
   final List<Exercise> exercises;
   final int order;
+  final String? videoUrl;
   bool isCompleted;
   bool isUnlocked;
 
@@ -13,6 +14,7 @@ class Lesson {
     required this.description,
     required this.exercises,
     this.order = 0, // Add default value
+    this.videoUrl,
     this.isCompleted = false,
     this.isUnlocked = false,
   });
@@ -25,6 +27,7 @@ class Lesson {
             .map((e) => Exercise.fromJson(e))
             .toList(),
         order: json['order'],
+        videoUrl: json['videoUrl'],
         isCompleted: json['isCompleted'] ?? false,
         isUnlocked: json['isUnlocked'] ?? false,
       );
@@ -35,6 +38,7 @@ class Lesson {
         'description': description,
         'exercises': exercises.map((e) => e.toJson()).toList(),
         'order': order,
+        'videoUrl': videoUrl,
         'isCompleted': isCompleted,
         'isUnlocked': isUnlocked,
       };
