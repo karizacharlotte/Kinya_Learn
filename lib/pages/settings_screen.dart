@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
-import '../components/navigation.dart';
+import '../components/bottom_nav_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -28,7 +28,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
-          const Navigation(),
           Expanded(
             child: Row(
               children: [
@@ -65,10 +64,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       ? [
                                           Theme.of(context)
                                               .colorScheme
-                                              .background,
+                                              .surface,
                                           Theme.of(context)
                                               .colorScheme
-                                              .background
+                                              .surface
                                         ]
                                       : [
                                           AppTheme.primaryOrange,
@@ -101,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     'Manage your preferences and account',
                                     style: TextStyle(
                                       fontSize: isTablet ? 18 : 15,
-                                      color: Colors.white.withOpacity(0.95),
+                                      color: Colors.white.withValues(alpha: 0.95),
                                     ),
                                   ),
                                 ],
@@ -357,6 +356,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 5),
     );
   }
 
