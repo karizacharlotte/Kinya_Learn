@@ -4,10 +4,9 @@ class Lesson {
   final String description;
   final List<Exercise> exercises;
   final int order;
+  final String? videoUrl;
   bool isCompleted;
   bool isUnlocked;
-  final String? videoUrl; // Add video URL support
-  final String? videoTitle; // Optional video title
 
   Lesson({
     required this.id,
@@ -15,10 +14,9 @@ class Lesson {
     required this.description,
     required this.exercises,
     this.order = 0, // Add default value
+    this.videoUrl,
     this.isCompleted = false,
     this.isUnlocked = false,
-    this.videoUrl,
-    this.videoTitle,
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
@@ -29,10 +27,9 @@ class Lesson {
             .map((e) => Exercise.fromJson(e))
             .toList(),
         order: json['order'],
+        videoUrl: json['videoUrl'],
         isCompleted: json['isCompleted'] ?? false,
         isUnlocked: json['isUnlocked'] ?? false,
-        videoUrl: json['videoUrl'],
-        videoTitle: json['videoTitle'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,10 +38,9 @@ class Lesson {
         'description': description,
         'exercises': exercises.map((e) => e.toJson()).toList(),
         'order': order,
+        'videoUrl': videoUrl,
         'isCompleted': isCompleted,
         'isUnlocked': isUnlocked,
-        'videoUrl': videoUrl,
-        'videoTitle': videoTitle,
       };
 }
 
@@ -56,7 +52,6 @@ class Exercise {
   final List<String> options;
   final String? audioUrl;
   final String? imageUrl;
-  final String? explanation;
 
   Exercise({
     this.id,
@@ -66,7 +61,6 @@ class Exercise {
     required this.options,
     this.audioUrl,
     this.imageUrl,
-    this.explanation,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
@@ -77,7 +71,6 @@ class Exercise {
         options: List<String>.from(json['options']),
         audioUrl: json['audioUrl'],
         imageUrl: json['imageUrl'],
-        explanation: json['explanation'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -88,7 +81,6 @@ class Exercise {
         'options': options,
         'audioUrl': audioUrl,
         'imageUrl': imageUrl,
-        'explanation': explanation,
       };
 }
 

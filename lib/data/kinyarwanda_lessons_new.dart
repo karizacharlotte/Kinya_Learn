@@ -1,0 +1,418 @@
+import '../models/lesson.dart';
+
+class KinyarwandaLessons {
+  static List<Lesson> getLessons() {
+    return [
+      Lesson(
+        id: 'basics1',
+        title: 'Basic Greetings',
+        description: 'Learn how to say hello and goodbye in Kinyarwanda',
+        order: 1,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=BZCuHpFhuaQ&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=1&t=1s',
+        exercises: [
+          Exercise(
+            id: 'greet1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "Hello" in Kinyarwanda?',
+            correctAnswer: 'Muraho',
+            options: ['Muraho', 'Murabeho', 'Mwiriwe', 'Bite'],
+          ),
+          Exercise(
+            id: 'greet2',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "Good morning" in Kinyarwanda?',
+            correctAnswer: 'Mwaramutse',
+            options: ['Mwaramutse', 'Mwiriwe', 'Ijoro ryiza', 'Muraho'],
+          ),
+          Exercise(
+            id: 'greet3',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "Good evening" in Kinyarwanda?',
+            correctAnswer: 'Mwiriwe',
+            options: ['Mwiriwe', 'Mwaramutse', 'Ijoro ryiza', 'Murabeho'],
+          ),
+          Exercise(
+            id: 'greet4',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "Goodbye" in Kinyarwanda?',
+            correctAnswer: 'Murabeho',
+            options: ['Murabeho', 'Muraho', 'Mwiriwe', 'Mwaramutse'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'alphabet1',
+        title: 'Alphabet & Vocabulary',
+        description: 'Learn the 24 letters of the Kinyarwanda alphabet and vocabulary',
+        order: 2,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=xOU7nfCc_y4&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=2&t=2s',
+        exercises: [
+          Exercise(
+            id: 'alpha1',
+            type: ExerciseType.multipleChoice,
+            question: 'How many letters are in the Kinyarwanda alphabet?',
+            correctAnswer: '24',
+            options: ['24', '26', '22', '28'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'introduction1',
+        title: 'How to Introduce Yourself',
+        description: 'Learn how to introduce yourself in Kinyarwanda',
+        order: 3,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=tV0metUxKFo&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=3',
+        exercises: [
+          Exercise(
+            id: 'intro1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "My name is" in Kinyarwanda?',
+            correctAnswer: 'Nitwa',
+            options: ['Nitwa', 'Ndi', 'Ntuza', 'Nkomoka'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'numbers1',
+        title: 'General Numbers',
+        description: 'Learn basic numbers in Kinyarwanda',
+        order: 4,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=pnSJPFRJ99g&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=4',
+        exercises: [
+          Exercise(
+            id: 'num1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is "1" in Kinyarwanda?',
+            options: ['rimwe', 'kabiri', 'gatatu', 'kane'],
+            correctAnswer: 'rimwe',
+          ),
+          Exercise(
+            id: 'num2',
+            type: ExerciseType.multipleChoice,
+            question: 'What is "2" in Kinyarwanda?',
+            options: ['rimwe', 'kabiri', 'gatatu', 'kane'],
+            correctAnswer: 'kabiri',
+          ),
+          Exercise(
+            id: 'num3',
+            type: ExerciseType.multipleChoice,
+            question: 'What is "3" in Kinyarwanda?',
+            options: ['kabiri', 'gatatu', 'kane', 'gatanu'],
+            correctAnswer: 'gatatu',
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'age_numbers1',
+        title: 'Age & Birth Year Numbers',
+        description: 'Learn specific numbers for expressing age and birth year',
+        order: 5,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=bFEK5uUkwS8&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=5',
+        exercises: [
+          Exercise(
+            id: 'age1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "I am ... years old" in Kinyarwanda?',
+            correctAnswer: 'Mfite imyaka',
+            options: ['Mfite imyaka', 'Ndi', 'Ntuza', 'Nkomoka'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'time1',
+        title: 'Days, Weeks & Months',
+        description: 'Learn time expressions in Kinyarwanda',
+        order: 6,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=xTkw_dSy6zU&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=6',
+        exercises: [
+          Exercise(
+            id: 'time1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "Monday" in Kinyarwanda?',
+            correctAnswer: 'Kuwa mbere',
+            options: ['Kuwa mbere', 'Kuwa kabiri', 'Kuwa gatatu', 'Kuwa kane'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'anthem1',
+        title: 'National Anthem',
+        description: 'Learn the Rwanda national anthem in Kinyarwanda',
+        order: 7,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=5ben7uvu9rQ&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=7',
+        exercises: [
+          Exercise(
+            id: 'anthem1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is the first line of the Rwanda national anthem?',
+            correctAnswer: 'Rwanda nziza',
+            options: ['Rwanda nziza', 'Reka tukurate', 'Ubwiyunge', 'Impundu'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'slang1',
+        title: 'Kinyarwanda Slang',
+        description: 'Learn common slang expressions in Kinyarwanda',
+        order: 8,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=OyeCndg3C5I&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=8&t=131s',
+        exercises: [
+          Exercise(
+            id: 'slang1',
+            type: ExerciseType.multipleChoice,
+            question: 'What does "Sawa" mean in Kinyarwanda slang?',
+            correctAnswer: 'Okay/Alright',
+            options: ['Okay/Alright', 'No', 'Maybe', 'Hello'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'tell_time1',
+        title: 'How to Tell Time',
+        description: 'Learn how to tell time in Kinyarwanda',
+        order: 9,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=85N2bLIoG7o&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=10',
+        exercises: [
+          Exercise(
+            id: 'time1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "What time is it?" in Kinyarwanda?',
+            correctAnswer: 'Ni isaha zingahe?',
+            options: ['Ni isaha zingahe?', 'Ni ryari?', 'Ni iki?', 'Ni nde?'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'body_parts1',
+        title: 'Body Parts',
+        description: 'Learn body parts vocabulary in Kinyarwanda',
+        order: 10,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=uEIu7tYYMF0&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=11',
+        exercises: [
+          Exercise(
+            id: 'body1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "head" in Kinyarwanda?',
+            correctAnswer: 'umutwe',
+            options: ['umutwe', 'ijisho', 'ukuboko', 'ukuguru'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'family1',
+        title: 'Family Members',
+        description: 'Learn words for family members in Kinyarwanda',
+        order: 11,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=q7Vl2eQIvIo&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=12',
+        exercises: [
+          Exercise(
+            id: 'fam1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "father" in Kinyarwanda?',
+            correctAnswer: 'papa',
+            options: ['papa', 'mama', 'mukuru', 'muto'],
+          ),
+          Exercise(
+            id: 'fam2',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "mother" in Kinyarwanda?',
+            correctAnswer: 'mama',
+            options: ['papa', 'mama', 'mukuru', 'muto'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'geography1',
+        title: 'Rwanda Facts & Geography',
+        description: 'Learn about Rwanda\'s geography and facts',
+        order: 12,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=aPxb2QdM60w&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=13',
+        exercises: [
+          Exercise(
+            id: 'geo1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is the capital of Rwanda?',
+            correctAnswer: 'Kigali',
+            options: ['Kigali', 'Butare', 'Gisenyi', 'Ruhengeri'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'colors1',
+        title: 'Colors (Amabara)',
+        description: 'Learn colors vocabulary in Kinyarwanda',
+        order: 13,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=RJAndvI_0FE&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=14',
+        exercises: [
+          Exercise(
+            id: 'color1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "red" in Kinyarwanda?',
+            correctAnswer: 'umutuku',
+            options: ['umutuku', 'icyatsi', 'uburatsi', 'umukara'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'expression1',
+        title: 'How to Express Yourself',
+        description: 'Learn how to express emotions and feelings in Kinyarwanda',
+        order: 14,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=8YfxN6RIEoQ&list=PLidQjiFmWUD30HiWl5ddWD7HWJc7Hugx1&index=15',
+        exercises: [
+          Exercise(
+            id: 'expr1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do you say "I am happy" in Kinyarwanda?',
+            correctAnswer: 'Ndishimye',
+            options: ['Ndishimye', 'Ndababaye', 'Ndababaye', 'Ndababaye'],
+          ),
+        ],
+      ),
+    ];
+  }
+}
+
+// Practice and Review lessons
+class PracticeReviewLessons {
+  static List<Lesson> getLessons() {
+    return [
+      Lesson(
+        id: 'proverbs1',
+        title: 'Proverbs',
+        description: 'Learn traditional Kinyarwanda proverbs and their meanings',
+        order: 1,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=XNhXnuwUI5o',
+        exercises: [
+          Exercise(
+            id: 'prov1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is a traditional Kinyarwanda proverb?',
+            correctAnswer: 'Ubwoba butuma umuntu atavuga ukuri',
+            options: ['Ubwoba butuma umuntu atavuga ukuri', 'Muraho', 'Mwiriwe', 'Murabeho'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'storytelling1',
+        title: 'Story Telling',
+        description: 'Learn the art of storytelling in Kinyarwanda',
+        order: 2,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=AYGZy_aLiuI',
+        exercises: [
+          Exercise(
+            id: 'story1',
+            type: ExerciseType.multipleChoice,
+            question: 'How do stories traditionally begin in Kinyarwanda?',
+            correctAnswer: 'Kera kera',
+            options: ['Kera kera', 'Muraho', 'Mwiriwe', 'Murabeho'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'celebrations1',
+        title: 'Traditional Celebrations',
+        description: 'Learn about traditional Rwandan celebrations',
+        order: 3,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=z9H-YzfG-YQ',
+        exercises: [
+          Exercise(
+            id: 'celeb1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is a traditional Rwandan celebration?',
+            correctAnswer: 'Kwita Izina',
+            options: ['Kwita Izina', 'Christmas', 'New Year', 'Easter'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'etiquette1',
+        title: 'Culture Etiquette',
+        description: 'Learn about Rwandan cultural etiquette',
+        order: 4,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=dVqm40wcnL4',
+        exercises: [
+          Exercise(
+            id: 'etiq1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is important in Rwandan culture?',
+            correctAnswer: 'Respect for elders',
+            options: ['Respect for elders', 'Being loud', 'Arguing', 'Ignoring others'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'history1',
+        title: 'Rwanda History',
+        description: 'Learn about Rwanda\'s rich history',
+        order: 5,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=TPAo8z4WUeY',
+        exercises: [
+          Exercise(
+            id: 'hist1',
+            type: ExerciseType.multipleChoice,
+            question: 'When did Rwanda gain independence?',
+            correctAnswer: '1962',
+            options: ['1962', '1960', '1964', '1970'],
+          ),
+        ],
+      ),
+      Lesson(
+        id: 'modern1',
+        title: 'Modern Rwanda',
+        description: 'Learn about contemporary Rwanda',
+        order: 6,
+        isUnlocked: true,
+        isCompleted: false,
+        videoUrl: 'https://www.youtube.com/watch?v=QQ7mscbSuLk',
+        exercises: [
+          Exercise(
+            id: 'mod1',
+            type: ExerciseType.multipleChoice,
+            question: 'What is Rwanda known for today?',
+            correctAnswer: 'Technology and innovation',
+            options: ['Technology and innovation', 'War', 'Poverty', 'Isolation'],
+          ),
+        ],
+      ),
+    ];
+  }
+}
