@@ -18,7 +18,7 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xFF181A20),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: const Color(0xFF23262F),
         elevation: 0,
         shadowColor: Colors.transparent,
@@ -142,7 +142,7 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: background,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardBackground,
         elevation: 0,
         shadowColor: Colors.transparent,
