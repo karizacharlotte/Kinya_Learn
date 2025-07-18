@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../components/image_lesson_player.dart';
 
 class KinyarwandaGreetingsLesson extends StatefulWidget {
+  const KinyarwandaGreetingsLesson({super.key});
+
   @override
   State<KinyarwandaGreetingsLesson> createState() => _KinyarwandaGreetingsLessonState();
 }

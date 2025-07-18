@@ -170,6 +170,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 4),
     );
   }
 
@@ -255,13 +256,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 4),
     );
   }
 }
