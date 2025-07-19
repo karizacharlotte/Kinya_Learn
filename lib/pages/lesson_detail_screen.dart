@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
 import '../components/in_app_video_player.dart';
+import '../components/lesson_navigation.dart';
 import 'kinyarwanda_greetings_lesson.dart';
 import 'generic_quiz_lesson.dart';
 
@@ -278,29 +279,14 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
             const SizedBox(height: 24),
 
+            // Lesson Navigation Component
+            LessonNavigation(currentLesson: widget.lesson),
+
+            const SizedBox(height: 24),
+
             // Additional Action Buttons
             Column(
               children: [
-
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: isContentCompleted
-                        ? () {
-                            Navigator.pushNamed(
-                              context,
-                              '/payment',
-                              arguments: widget.lesson,
-                            );
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryOrange,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text('Final Quiz & Certificate - \$9.99'),
-                  ),
-                ),
               ],
             ),
           ],

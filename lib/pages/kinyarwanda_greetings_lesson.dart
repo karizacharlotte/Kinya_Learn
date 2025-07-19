@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/image_lesson_player.dart';
+import '../data/language_lessons.dart';
+import '../models/lesson.dart';
 
 class KinyarwandaGreetingsLesson extends StatefulWidget {
   const KinyarwandaGreetingsLesson({super.key});
@@ -133,6 +135,11 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
     final percentage = (_score / _quizQuestions.length * 100).round();
     final isExcellent = percentage >= 90;
     final isGood = percentage >= 70;
+    
+    // Mark greetings lesson as completed
+    final lessons = KinyarwandaLanguageLessons.getLanguageLessons();
+    final greetingsLesson = lessons.firstWhere((lesson) => lesson.id == 'greetings');
+    greetingsLesson.isCompleted = true;
     
     showDialog(
       context: context,
@@ -316,11 +323,67 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                   ),
                 ],
               ),
+              
+              SizedBox(height: 16),
+              
+              // Next Lesson Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close dialog
+                    _navigateToNextLesson();
+                  },
+                  icon: Icon(Icons.arrow_forward, color: Colors.white),
+                  label: Text(
+                    'Continue to Next Lesson',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white.withOpacity(0.3),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+  
+  void _navigateToNextLesson() {
+    final lessons = KinyarwandaLanguageLessons.getLanguageLessons();
+    final currentIndex = lessons.indexWhere((lesson) => lesson.id == 'greetings');
+    
+    if (currentIndex < lessons.length - 1) {
+      // Unlock next lesson
+      final nextLesson = lessons[currentIndex + 1];
+      nextLesson.isUnlocked = true;
+      
+      // Navigate to next lesson
+      Navigator.of(context).pushReplacementNamed(
+        '/lesson-detail',
+        arguments: nextLesson,
+      );
+    } else {
+      // Last lesson completed - go back to lessons screen
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('🎉 Congratulations! You completed all lessons!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
