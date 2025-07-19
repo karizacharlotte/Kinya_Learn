@@ -441,7 +441,7 @@ class _ImageLessonPlayerState extends State<ImageLessonPlayer>
                 ),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Color(0xFF4CAF50).withOpacity(0.3),
+                  color: Color(0xFF4CAF50).withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),
@@ -462,7 +462,7 @@ class _ImageLessonPlayerState extends State<ImageLessonPlayer>
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -493,7 +493,7 @@ class _ImageLessonPlayerState extends State<ImageLessonPlayer>
                 border: Border.all(color: Colors.grey.shade200),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 10,
                     offset: Offset(0, 4),
                   ),
