@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme/theme_provider.dart';
+import 'providers/lesson_progress_provider.dart';
 import 'package:flutter/rendering.dart';
 import 'pages/home_page.dart';
 import 'pages/lessons_screen.dart';
@@ -21,8 +22,11 @@ import 'pages/lesson_detail_screen.dart';
 void main() {
   debugPaintSizeEnabled = false;
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LessonProgressProvider()),
+      ],
       child: const KinyaLearnApp(),
     ),
   );

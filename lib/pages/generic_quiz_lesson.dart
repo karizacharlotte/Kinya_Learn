@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/lesson.dart';
 import '../data/language_lessons.dart';
 import '../components/lesson_navigation.dart';
+import '../providers/lesson_progress_provider.dart';
 
 class GenericQuizLesson extends StatefulWidget {
   final Lesson lesson;
@@ -43,10 +45,9 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
         _currentQuestionIndex++;
       });
     } else {
-      // Quiz completed - mark lesson as completed
-      setState(() {
-        widget.lesson.isCompleted = true;
-      });
+      // Quiz completed - mark lesson as completed using provider
+      final progressProvider = Provider.of<LessonProgressProvider>(context, listen: false);
+      progressProvider.completeLesson(widget.lesson.id);
       _showResultsDialog();
     }
   }
@@ -232,14 +233,10 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
   }
 
   void _navigateToNextLesson() {
-    final lessons = KinyarwandaLanguageLessons.getLanguageLessons();
-    final currentIndex = lessons.indexWhere((lesson) => lesson.id == widget.lesson.id);
+    final progressProvider = Provider.of<LessonProgressProvider>(context, listen: false);
+    final nextLesson = progressProvider.getNextLesson();
     
-    if (currentIndex < lessons.length - 1) {
-      // Unlock next lesson
-      final nextLesson = lessons[currentIndex + 1];
-      nextLesson.isUnlocked = true;
-      
+    if (nextLesson != null) {
       // Navigate to next lesson
       Navigator.of(context).pushReplacementNamed(
         '/lesson-detail',
