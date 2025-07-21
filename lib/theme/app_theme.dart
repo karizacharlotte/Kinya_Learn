@@ -18,13 +18,13 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xFF181A20),
-      cardTheme: CardTheme(
-        color: const Color(0xFF23262F),
+      cardTheme: const CardThemeData(
+        color: Color(0xFF23262F),
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppTheme.border, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          side: BorderSide(color: AppTheme.border, width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -142,13 +142,13 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: background,
-      cardTheme: CardTheme(
+      cardTheme: const CardThemeData(
         color: cardBackground,
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: border, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          side: BorderSide(color: border, width: 1),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -255,8 +255,8 @@ class AppTheme {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFB55208), 
-      Color(0xFFB55208), 
+      Color(0xFFB55208),
+      Color(0xFFB55208),
     ],
   );
 

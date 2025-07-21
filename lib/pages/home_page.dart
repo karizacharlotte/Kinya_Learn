@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
@@ -31,8 +31,12 @@ class HomePage extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop(context) ? 60 : (isTablet(context) ? 40 : 24),
-                      vertical: isDesktop(context) ? 80 : (isTablet(context) ? 60 : 40),
+                      horizontal: isDesktop(context)
+                          ? 60
+                          : (isTablet(context) ? 40 : 24),
+                      vertical: isDesktop(context)
+                          ? 80
+                          : (isTablet(context) ? 60 : 40),
                     ),
                     decoration: BoxDecoration(
                       gradient: ThemeHelper.getHeroGradient(context),
@@ -49,10 +53,13 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Learn Kinyarwanda\nwith KinyaLearn',
                                     style: TextStyle(
-                                      fontSize:
-                                          isDesktop(context) ? 48 : (isTablet(context) ? 36 : 28),
+                                      fontSize: isDesktop(context)
+                                          ? 48
+                                          : (isTablet(context) ? 36 : 28),
                                       fontWeight: FontWeight.bold,
-                                      color: ThemeHelper.getAppBarForegroundColor(context),
+                                      color:
+                                          ThemeHelper.getAppBarForegroundColor(
+                                              context),
                                       height: 1.2,
                                     ),
                                   ),
@@ -60,9 +67,13 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Master Rwanda\'s beautiful language through interactive lessons, cultural insights, and certified achievements.',
                                     style: TextStyle(
-                                      fontSize:
-                                          isDesktop(context) ? 20 : (isTablet(context) ? 18 : 16),
-                                      color: ThemeHelper.getAppBarForegroundColor(context).withValues(alpha: 0.9),
+                                      fontSize: isDesktop(context)
+                                          ? 20
+                                          : (isTablet(context) ? 18 : 16),
+                                      color:
+                                          ThemeHelper.getAppBarForegroundColor(
+                                                  context)
+                                              .withValues(alpha: 0.9),
                                       height: 1.5,
                                     ),
                                   ),
@@ -107,7 +118,8 @@ class HomePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.2),
+                                      color:
+                                          Colors.black.withValues(alpha: 0.2),
                                       blurRadius: 20,
                                       offset: const Offset(0, 10),
                                     ),
@@ -153,14 +165,17 @@ class HomePage extends StatelessWidget {
 
                   // Features Section
                   Padding(
-                    padding:
-                        EdgeInsets.all(isDesktop(context) ? 60 : (isTablet(context) ? 40 : 24)),
+                    padding: EdgeInsets.all(isDesktop(context)
+                        ? 60
+                        : (isTablet(context) ? 40 : 24)),
                     child: Column(
                       children: [
                         Text(
                           'Why Choose KinyaLearn?',
                           style: TextStyle(
-                            fontSize: isDesktop(context) ? 36 : (isTablet(context) ? 28 : 24),
+                            fontSize: isDesktop(context)
+                                ? 36
+                                : (isTablet(context) ? 28 : 24),
                             fontWeight: FontWeight.bold,
                             color: isDark ? Colors.white : AppTheme.textPrimary,
                           ),
@@ -170,11 +185,14 @@ class HomePage extends StatelessWidget {
                         GridView.count(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: isDesktop(context) ? 3 : (isTablet(context) ? 2 : 1),
+                          crossAxisCount: isDesktop(context)
+                              ? 3
+                              : (isTablet(context) ? 2 : 1),
                           crossAxisSpacing: 24,
                           mainAxisSpacing: 24,
-                          childAspectRatio:
-                              isDesktop(context) ? 1.2 : (isTablet(context) ? 1.1 : 1.5),
+                          childAspectRatio: isDesktop(context)
+                              ? 1.2
+                              : (isTablet(context) ? 1.1 : 1.5),
                           children: [
                             _buildFeatureCard(
                               'Interactive Lessons',
@@ -206,8 +224,9 @@ class HomePage extends StatelessWidget {
                   // CTA Section
                   Container(
                     width: double.infinity,
-                    padding:
-                        EdgeInsets.all(isDesktop(context) ? 60 : (isTablet(context) ? 40 : 24)),
+                    padding: EdgeInsets.all(isDesktop(context)
+                        ? 60
+                        : (isTablet(context) ? 40 : 24)),
                     decoration: BoxDecoration(
                       color: isDark
                           ? theme.colorScheme.surface
@@ -218,7 +237,9 @@ class HomePage extends StatelessWidget {
                         Text(
                           'Ready to Start Learning?',
                           style: TextStyle(
-                            fontSize: isDesktop(context) ? 32 : (isTablet(context) ? 24 : 20),
+                            fontSize: isDesktop(context)
+                                ? 32
+                                : (isTablet(context) ? 24 : 20),
                             fontWeight: FontWeight.bold,
                             color: isDark ? Colors.white : Colors.white,
                           ),
@@ -228,7 +249,9 @@ class HomePage extends StatelessWidget {
                         Text(
                           'Join thousands of learners mastering Kinyarwanda',
                           style: TextStyle(
-                            fontSize: isDesktop(context) ? 18 : (isTablet(context) ? 16 : 14),
+                            fontSize: isDesktop(context)
+                                ? 18
+                                : (isTablet(context) ? 16 : 14),
                             color: isDark
                                 ? Colors.white70
                                 : Colors.white.withValues(alpha: 0.9),
@@ -270,9 +293,14 @@ class HomePage extends StatelessWidget {
                                 onPressed: () =>
                                     Navigator.pushNamed(context, '/culture'),
                                 style: OutlinedButton.styleFrom(
-                                  foregroundColor: ThemeHelper.getAppBarForegroundColor(context),
+                                  foregroundColor:
+                                      ThemeHelper.getAppBarForegroundColor(
+                                          context),
                                   side: BorderSide(
-                                      color: ThemeHelper.getAppBarForegroundColor(context), width: 2),
+                                      color:
+                                          ThemeHelper.getAppBarForegroundColor(
+                                              context),
+                                      width: 2),
                                   padding: EdgeInsets.symmetric(
                                     horizontal: isTablet(context) ? 32 : 24,
                                     vertical: isTablet(context) ? 20 : 16,
@@ -292,7 +320,6 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -447,11 +474,9 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-
             color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
-
           ),
         ],
       ),
