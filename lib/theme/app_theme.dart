@@ -18,8 +18,13 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: const Color(0xFF181A20),
+<<<<<<< HEAD
       cardTheme: const CardThemeData(
         color: Color(0xFF23262F),
+=======
+      cardTheme: CardThemeData(
+        color: const Color(0xFF23262F),
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
@@ -142,7 +147,11 @@ class AppTheme {
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: background,
+<<<<<<< HEAD
       cardTheme: const CardThemeData(
+=======
+      cardTheme: CardThemeData(
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
         color: cardBackground,
         elevation: 0,
         shadowColor: Colors.transparent,

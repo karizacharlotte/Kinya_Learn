@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kinya_learn/theme/app_theme.dart';
 import '../models/lesson.dart';
 import '../data/kinyarwanda_lessons.dart';
-import '../components/reliable_video_widget.dart';
+import '../components/in_app_video_player.dart';
 
 class LessonPage extends StatefulWidget {
   final Lesson lesson;
@@ -63,9 +63,10 @@ class _LessonPageState extends State<LessonPage> {
             children: [
               // Add video if lesson has video URL and it's the first exercise
               if (widget.lesson.videoUrl != null && currentExerciseIndex == 0) ...[
-                ReliableVideoWidget(
+                InAppVideoPlayer(
                   videoUrl: widget.lesson.videoUrl!,
-                  videoTitle: widget.lesson.videoTitle,
+                  title: widget.lesson.title,
+                  subtitle: 'Lesson ${currentExerciseIndex + 1}',
                 ),
                 const SizedBox(height: 24),
                 const Divider(),

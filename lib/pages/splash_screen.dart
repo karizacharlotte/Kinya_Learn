@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
       // Check if user has set a theme before
       if (themeProvider.hasUserSetTheme()) {
         // User has already set a theme, go directly to auth
-        Navigator.pushReplacementNamed(context, '/auth-choice');
+        Navigator.pushReplacementNamed(context, '/auth');
       } else {
         // First time user, show theme selection
         _showThemeSelectionDialog();
@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth-choice');
+                        Navigator.pushReplacementNamed(context, '/auth');
                       }
                     },
                   ),
@@ -119,7 +119,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth-choice');
+                        Navigator.pushReplacementNamed(context, '/auth');
                       }
                     },
                   ),
@@ -133,7 +133,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth-choice');
+                        Navigator.pushReplacementNamed(context, '/auth');
                       }
                     },
                   ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/navigation.dart';
+import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -16,7 +16,6 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
-          const Navigation(),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -171,6 +170,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 4),
     );
   }
 

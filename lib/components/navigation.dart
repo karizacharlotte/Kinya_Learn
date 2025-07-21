@@ -10,14 +10,16 @@ class NavigationItem {
 }
 
 class Navigation extends StatelessWidget {
-  const Navigation({super.key});
+  final int currentIndex;
+  
+  const Navigation({super.key, this.currentIndex = 0});
 
   static final List<NavigationItem> navigation = [
     NavigationItem(name: 'Home', route: '/'),
     NavigationItem(name: 'Lessons', route: '/lessons'),
     NavigationItem(name: 'Practice', route: '/practice'),
     NavigationItem(name: 'Culture', route: '/culture'),
-    NavigationItem(name: 'Profile', route: '/profile'),
+    NavigationItem(name: 'Profile', route: '/profile-page'),
     NavigationItem(name: 'Settings', route: '/settings'),
   ];
 
@@ -141,7 +143,7 @@ class Navigation extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     border: currentRoute == item.route
                         ? Border.all(
-                            color: AppTheme.primaryOrange.withOpacity(0.3))
+                            color: AppTheme.primaryOrange.withValues(alpha: 0.3))
                         : null,
                   ),
                   child: Text(
@@ -179,10 +181,10 @@ class Navigation extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppTheme.primaryOrange.withOpacity(0.1),
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
               border:
-                  Border.all(color: AppTheme.primaryOrange.withOpacity(0.3)),
+                  Border.all(color: AppTheme.primaryOrange.withValues(alpha: 0.3)),
             ),
             child: Text(
               navigation.firstWhere((item) => item.route == currentRoute).name,
@@ -220,7 +222,7 @@ class Navigation extends StatelessWidget {
                           height: 32,
                           decoration: BoxDecoration(
                             color: currentRoute == item.route
-                                ? AppTheme.primaryOrange.withOpacity(0.2)
+                                ? AppTheme.primaryOrange.withValues(alpha: 0.2)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8),
                           ),

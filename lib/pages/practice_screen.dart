@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../components/navigation.dart';
+import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
-import 'speaking_practice_page.dart';
-import 'listening_exercises_page.dart';
-import 'quick_review_page.dart';
-import 'translation_practice_page.dart';
-import 'grammar_drills_page.dart';
-import 'daily_scenarios_page.dart';
+import 'practice_selection_screen.dart';
+import 'speaking_practice_screen.dart';
+import 'listening_exercises_screen.dart';
+import 'quick_review_screen.dart';
+import 'translation_practice_screen.dart';
+import 'grammar_drills_screen.dart';
+import 'daily_scenarios_screen.dart';
 
 class PracticeScreen extends StatelessWidget {
   const PracticeScreen({super.key});
@@ -23,7 +24,6 @@ class PracticeScreen extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
-          const Navigation(),
           // Practice Header
           Container(
             padding: EdgeInsets.all(isTablet ? 24 : 20),
@@ -77,76 +77,109 @@ class PracticeScreen extends StatelessWidget {
                 childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.0),
                 children: [
                   _buildPracticeCard(
-                    context,
+                    'Lesson Quizzes',
+                    'Test your knowledge',
+                    Icons.quiz,
+                    const Color(0xFF4CAF50),
+                    isTablet,
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PracticeSelectionScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildPracticeCard(
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
                     AppTheme.primaryOrange,
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SpeakingPracticePage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SpeakingPracticeScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
-                    context,
                     'Listening Exercises',
                     'Comprehension Training',
                     Icons.headphones,
                     const Color(0xFF00A1DE),
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ListeningExercisesPage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ListeningExercisesScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
-                    context,
                     'Quick Review',
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
                     const Color(0xFF00A651),
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const QuickReviewPage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuickReviewScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
-                    context,
                     'Translation Practice',
                     'English ↔ Kinyarwanda',
                     Icons.translate,
                     const Color(0xFFFAD201),
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const TranslationPracticePage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TranslationPracticeScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
-                    context,
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
                     AppTheme.primaryOrange,
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const GrammarDrillsPage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const GrammarDrillsScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildPracticeCard(
-                    context,
                     'Daily Scenarios',
                     'Real-life Conversations',
                     Icons.chat_bubble,
                     const Color(0xFF00A1DE),
                     isTablet,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const DailyScenariosPage()),
-                    ),
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DailyScenariosScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -217,18 +250,12 @@ class PracticeScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 2),
     );
   }
 
-  Widget _buildPracticeCard(
-    BuildContext context,
-    String title, 
-    String subtitle, 
-    IconData icon,
-    Color color, 
-    bool isTablet,
-    VoidCallback onTap,
-  ) {
+  Widget _buildPracticeCard(String title, String subtitle, IconData icon,
+      Color color, bool isTablet, VoidCallback onTap) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(

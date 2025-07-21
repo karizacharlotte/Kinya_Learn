@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
-import '../components/navigation.dart';
+import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
-import '../theme/theme_helper.dart';
-import '../utils/responsive_helper.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // Helper getters for responsive design
-  bool isDesktop(BuildContext context) => ResponsiveHelper.isDesktop(context);
-  bool isTablet(BuildContext context) => ResponsiveHelper.isTablet(context);
-  bool isMobile(BuildContext context) => ResponsiveHelper.isMobile(context);
-
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+=======
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        children: [
-          const Navigation(),
-          Expanded(
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Hero Section
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
+                vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
+              ),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                ),
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+<<<<<<< HEAD
                   // Hero Section
 
                   Container(
@@ -262,31 +276,55 @@ class HomePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+=======
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Learn Kinyarwanda\nwith KinyaLearn',
+                              style: TextStyle(
+                                fontSize: isDesktop ? 48 : (isTablet ? 36 : 28),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(height: isTablet ? 20 : 16),
+                            Text(
+                              'Master the beautiful language of Rwanda through interactive lessons, cultural insights, and practical exercises.',
+                              style: TextStyle(
+                                fontSize: isDesktop ? 20 : (isTablet ? 18 : 16),
+                                color: Colors.white.withValues(alpha: 0.9),
+                              ),
+                            ),
+                            SizedBox(height: isTablet ? 32 : 24),
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
                             ElevatedButton(
-                              onPressed: () =>
-                                  Navigator.pushNamed(context, '/lessons'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/lessons');
+                              },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    isDark ? theme.cardColor : Colors.white,
-                                foregroundColor: isDark
-                                    ? Colors.white
-                                    : AppTheme.primaryOrange,
+                                backgroundColor: Colors.white,
+                                foregroundColor: AppTheme.primaryOrange,
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: isTablet(context) ? 32 : 24,
-                                  vertical: isTablet(context) ? 20 : 16,
+                                  horizontal: isTablet ? 32 : 24,
+                                  vertical: isTablet ? 20 : 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
                               child: Text(
                                 'Start Learning',
                                 style: TextStyle(
-                                  fontSize: isTablet(context) ? 18 : 16,
+                                  fontSize: isTablet ? 18 : 16,
                                   fontWeight: FontWeight.w600,
-                                  color: isDark
-                                      ? Colors.white
-                                      : AppTheme.primaryOrange,
                                 ),
                               ),
                             ),
+<<<<<<< HEAD
                             if (!isMobile(context)) ...[
                               const SizedBox(width: 16),
                               OutlinedButton(
@@ -315,84 +353,42 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                             ],
+=======
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      if (isDesktop)
+                        Expanded(
+                          child: Container(
+                            height: 400,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.white.withValues(alpha: 0.1),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.language,
+                                size: 120,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildHeroSection(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    return Container(
-      width: double.infinity,
-      padding:
-          ResponsiveHelper.getResponsiveHorizontalPadding(context).copyWith(
-        top: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-        bottom: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: isDark
-              ? [theme.colorScheme.surface, theme.colorScheme.surface]
-              : [AppTheme.primaryOrange, AppTheme.primaryOrange],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Use responsive layout based on screen size and orientation
-          if (ResponsiveHelper.isDesktop(context) ||
-              (ResponsiveHelper.isTablet(context) &&
-                  ResponsiveHelper.isLandscape(context)))
-            _buildHeroContentDesktop(context)
-          else
-            _buildHeroContentMobile(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeroContentDesktop(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: _buildHeroText(context),
-        ),
-        const SizedBox(width: 40),
-        Expanded(
-          flex: 2,
-          child: _buildRwandaFlag(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeroContentMobile(BuildContext context) {
-    final isLandscape = ResponsiveHelper.isLandscape(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (isLandscape)
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: _buildHeroText(context),
+            // Features Section
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
+                vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
               ),
+<<<<<<< HEAD
               const SizedBox(width: 24),
               Expanded(
                 flex: 2,
@@ -489,151 +485,167 @@ class HomePage extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 color: const Color(0xFF00A1DE),
+=======
+              child: Column(
+                children: [
+                  Text(
+                    'Why Choose KinyaLearn?',
+                    style: TextStyle(
+                      fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : AppTheme.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: isTablet ? 48 : 32),
+                  GridView.count(
+                    crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
+                    crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
+                    childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                    children: [
+                      _buildFeatureCard(
+                        context,
+                        Icons.video_library,
+                        'Interactive Videos',
+                        'Learn with authentic Kinyarwanda videos and interactive content',
+                        isTablet,
+                      ),
+                      _buildFeatureCard(
+                        context,
+                        Icons.quiz,
+                        'Practice Quizzes',
+                        'Test your knowledge with engaging quizzes and exercises',
+                        isTablet,
+                      ),
+                      _buildFeatureCard(
+                        context,
+                        Icons.volume_up,
+                        'Perfect Pronunciation',
+                        'Master authentic Kinyarwanda pronunciation with TTS support',
+                        isTablet,
+                      ),
+                    ],
+                  ),
+                ],
+>>>>>>> 9fe180cf77d9f06061edd0cd9eea09ab64d7e0a1
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                color: const Color.fromARGB(255, 162, 143, 49),
+
+            // Quick Start Section
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
+                vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                width: double.infinity,
-                color: const Color.fromARGB(255, 59, 117, 87),
+              decoration: BoxDecoration(
+                color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Quick Start',
+                    style: TextStyle(
+                      fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
+                      fontWeight: FontWeight.bold,
+                      color: isDark ? Colors.white : AppTheme.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: isTablet ? 48 : 32),
+                  GridView.count(
+                    crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
+                    crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
+                    childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                    children: [
+                      _buildQuickStartCard(
+                        context,
+                        'Lessons',
+                        'Start with structured lessons',
+                        Icons.book,
+                        '/lessons',
+                        isTablet,
+                      ),
+                      _buildQuickStartCard(
+                        context,
+                        'Practice',
+                        'Test your skills',
+                        Icons.quiz,
+                        '/practice',
+                        isTablet,
+                      ),
+                      _buildQuickStartCard(
+                        context,
+                        'Settings',
+                        'Customize your learning',
+                        Icons.settings,
+                        '/settings',
+                        isTablet,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 0),
     );
   }
 
-  Widget _buildFeaturesSection(BuildContext context) {
-    return Padding(
-      padding:
-          ResponsiveHelper.getResponsiveHorizontalPadding(context).copyWith(
-        top: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-        bottom: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-      ),
-      child: Column(
-        children: [
-          Text(
-            'Why Choose Kinya Learn?',
-            style: TextStyle(
-              fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-              height:
-                  ResponsiveHelper.getResponsiveSpacing(context, factor: 1.5)),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: ResponsiveHelper.getResponsiveGridColumns(context),
-            crossAxisSpacing: ResponsiveHelper.getResponsiveSpacing(context),
-            mainAxisSpacing: ResponsiveHelper.getResponsiveSpacing(context),
-            childAspectRatio:
-                ResponsiveHelper.getResponsiveCardAspectRatio(context),
-            children: [
-              _buildFeatureCard(
-                'Interactive Lessons',
-                'Learn through engaging exercises and real-world scenarios',
-                Icons.school_rounded,
-                AppTheme.primaryOrange,
-                context,
-              ),
-              _buildFeatureCard(
-                'Cultural Integration',
-                'Understand Rwandan culture and context behind the language',
-                Icons.language_rounded,
-                const Color(0xFF00A1DE),
-                context,
-              ),
-              _buildFeatureCard(
-                'Certified Progress',
-                'Track your learning journey and earn certificates',
-                Icons.verified_rounded,
-                const Color(0xFF22C55E),
-                context,
-              ),
-            ],
+  Widget _buildFeatureCard(BuildContext context, IconData icon, String title, String description, bool isTablet) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return Container(
+      padding: EdgeInsets.all(isTablet ? 32 : 24),
+      decoration: BoxDecoration(
+        color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildCallToActionSection(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Container(
-      width: double.infinity,
-      margin: ResponsiveHelper.getResponsiveHorizontalPadding(context).copyWith(
-        bottom: ResponsiveHelper.getResponsiveSpacing(context, factor: 2),
-      ),
-      padding: ResponsiveHelper.getResponsivePadding(context),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDark
-              ? [AppTheme.darkCardBackground, AppTheme.darkSurface]
-              : [
-                  AppTheme.primaryOrange.withOpacity(0.1),
-                  AppTheme.primaryOrange.withOpacity(0.2)
-                ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isDark
-              ? AppTheme.darkBorder
-              : AppTheme.primaryOrange.withOpacity(0.3),
-        ),
-      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Container(
+            padding: EdgeInsets.all(isTablet ? 20 : 16),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryOrange.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Icon(
+              icon,
+              size: isTablet ? 48 : 40,
+              color: AppTheme.primaryOrange,
+            ),
+          ),
+          SizedBox(height: isTablet ? 24 : 16),
           Text(
-            'Ready to Start Learning?',
+            title,
             style: TextStyle(
-              fontSize: ResponsiveHelper.getResponsiveTitleFontSize(context),
+              fontSize: isTablet ? 20 : 18,
               fontWeight: FontWeight.bold,
               color: isDark ? Colors.white : AppTheme.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+          SizedBox(height: isTablet ? 16 : 12),
           Text(
-            'Join thousands of students learning Kinyarwanda with KinyaLearn',
-            style: TextStyle(
-              fontSize: ResponsiveHelper.getResponsiveBodyFontSize(context),
-              color: isDark ? Colors.white70 : AppTheme.textSecondary,
-            ),
+            description,
             textAlign: TextAlign.center,
-          ),
-          SizedBox(
-              height:
-                  ResponsiveHelper.getResponsiveSpacing(context, factor: 1.5)),
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/lessons'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primaryOrange,
-              foregroundColor: Colors.white,
-              padding: ResponsiveHelper.getResponsiveButtonPadding(context),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Text(
-              'Start Your Journey',
-              style: TextStyle(
-                fontSize: ResponsiveHelper.getResponsiveBodyFontSize(context),
-                fontWeight: FontWeight.w600,
-              ),
+            style: TextStyle(
+              fontSize: isTablet ? 16 : 14,
+              color: isDark ? Colors.white70 : AppTheme.textSecondary,
             ),
           ),
         ],
@@ -641,64 +653,58 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(
-    String title,
-    String description,
-    IconData icon,
-    Color color,
-    BuildContext context,
-  ) {
+  Widget _buildQuickStartCard(BuildContext context, String title, String description, IconData icon, String route, bool isTablet) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: isDark ? AppTheme.darkBorder : AppTheme.border,
-          width: 1,
+    
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: Container(
+        padding: EdgeInsets.all(isTablet ? 32 : 24),
+        decoration: BoxDecoration(
+          color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-      ),
-      child: Padding(
-        padding: ResponsiveHelper.getResponsivePadding(context),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: ResponsiveHelper.getResponsiveIconSize(context) + 16,
-              height: ResponsiveHelper.getResponsiveIconSize(context) + 16,
+              padding: EdgeInsets.all(isTablet ? 20 : 16),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+                color: AppTheme.primaryOrange,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 icon,
-                color: color,
-                size: ResponsiveHelper.getResponsiveIconSize(context),
+                size: isTablet ? 48 : 40,
+                color: Colors.white,
               ),
             ),
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 0.75)),
+            SizedBox(height: isTablet ? 24 : 16),
             Text(
               title,
               style: TextStyle(
-                fontSize:
-                    ResponsiveHelper.getResponsiveBodyFontSize(context) + 2,
+                fontSize: isTablet ? 20 : 18,
                 fontWeight: FontWeight.bold,
                 color: isDark ? Colors.white : AppTheme.textPrimary,
               ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(
-                height: ResponsiveHelper.getResponsiveSpacing(context,
-                    factor: 0.5)),
+            SizedBox(height: isTablet ? 16 : 12),
             Text(
               description,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize:
-                    ResponsiveHelper.getResponsiveBodyFontSize(context) - 1,
+                fontSize: isTablet ? 16 : 14,
                 color: isDark ? Colors.white70 : AppTheme.textSecondary,
-                height: 1.5,
               ),
             ),
           ],
