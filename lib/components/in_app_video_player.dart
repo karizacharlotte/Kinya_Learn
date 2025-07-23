@@ -6,12 +6,26 @@ class InAppVideoPlayer extends StatefulWidget {
   final String videoUrl;
   final String? title;
   final String? subtitle;
+  final double? height;
+  final Color? primaryColor;
+  final Color? accentColor;
+  final BorderRadius? borderRadius;
+  final bool showYoutubeBranding;
+  final String? customPlayText;
+  final double? aspectRatio;
 
   const InAppVideoPlayer({
     Key? key,
     required this.videoUrl,
     this.title,
     this.subtitle,
+    this.height,
+    this.primaryColor,
+    this.accentColor,
+    this.borderRadius,
+    this.showYoutubeBranding = true,
+    this.customPlayText,
+    this.aspectRatio,
   }) : super(key: key);
 
   @override
@@ -122,9 +136,17 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = widget.primaryColor ?? theme.primaryColor;
+    final accentColor = widget.accentColor ?? Colors.deepOrange;
+    final borderRadius = widget.borderRadius ?? BorderRadius.circular(12);
+    final videoHeight = widget.height ?? (widget.aspectRatio != null 
+        ? MediaQuery.of(context).size.width / widget.aspectRatio! 
+        : 300.0);
+    
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: borderRadius,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -142,13 +164,13 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.orange, Colors.deepOrange],
+                  colors: [primaryColor, accentColor],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(borderRadius.topLeft.x),
+                  topRight: Radius.circular(borderRadius.topRight.x),
                 ),
               ),
               child: Row(
@@ -192,22 +214,22 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
           
           // Video player
           Container(
-            height: 300,
+            height: videoHeight,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.only(
-                topLeft: widget.title != null ? Radius.zero : const Radius.circular(12),
-                topRight: widget.title != null ? Radius.zero : const Radius.circular(12),
-                bottomLeft: const Radius.circular(12),
-                bottomRight: const Radius.circular(12),
+                topLeft: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topLeft.x),
+                topRight: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topRight.x),
+                bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
+                bottomRight: Radius.circular(borderRadius.bottomRight.x),
               ),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                topLeft: widget.title != null ? Radius.zero : const Radius.circular(12),
-                topRight: widget.title != null ? Radius.zero : const Radius.circular(12),
-                bottomLeft: const Radius.circular(12),
-                bottomRight: const Radius.circular(12),
+                topLeft: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topLeft.x),
+                topRight: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topRight.x),
+                bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
+                bottomRight: Radius.circular(borderRadius.bottomRight.x),
               ),
               child: _hasError ? _buildErrorWidget() : _buildVideoPlayer(),
             ),
@@ -217,7 +239,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
           Container(
             height: 2,
             decoration: BoxDecoration(
-              color: _isVideoLoaded ? Colors.green : Colors.grey.shade300,
+              color: _isVideoLoaded ? primaryColor : Colors.grey.shade300,
               borderRadius: BorderRadius.circular(1),
             ),
           ),
@@ -226,17 +248,21 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+              color: theme.brightness == Brightness.dark 
+                  ? Colors.grey.shade800 
+                  : Colors.grey.shade100,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
+                bottomRight: Radius.circular(borderRadius.bottomRight.x),
               ),
             ),
             child: Row(
               children: [
                 Icon(
                   Icons.video_library,
-                  color: Colors.grey.shade600,
+                  color: theme.brightness == Brightness.dark 
+                      ? Colors.grey.shade400 
+                      : Colors.grey.shade600,
                   size: 16,
                 ),
                 const SizedBox(width: 8),
@@ -246,15 +272,17 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                       ? 'Video loaded and ready!'
                       : 'Ready to play in app',
                     style: TextStyle(
-                      color: Colors.grey.shade600,
+                      color: theme.brightness == Brightness.dark 
+                          ? Colors.grey.shade400 
+                          : Colors.grey.shade600,
                       fontSize: 12,
                     ),
                   ),
                 ),
                 if (_isVideoLoaded)
-                  const Icon(
+                  Icon(
                     Icons.check_circle,
-                    color: Colors.green,
+                    color: primaryColor,
                     size: 16,
                   ),
               ],
@@ -318,6 +346,9 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
 
   Widget _buildThumbnailView() {
     final thumbnailUrl = _getThumbnailUrl(widget.videoUrl);
+    final theme = Theme.of(context);
+    final primaryColor = widget.primaryColor ?? theme.primaryColor;
+    final playText = widget.customPlayText ?? 'Tap to Play Video';
     
     return GestureDetector(
       onTap: () {
@@ -411,7 +442,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: Colors.red,
+                    color: primaryColor,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -434,9 +465,9 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                     color: Colors.black.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    'Tap to Play Video',
-                    style: TextStyle(
+                  child: Text(
+                    playText,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -463,7 +494,8 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
           ),
           
           // YouTube branding
-          if (widget.videoUrl.contains('youtube.com') || widget.videoUrl.contains('youtu.be'))
+          if (widget.showYoutubeBranding && 
+              (widget.videoUrl.contains('youtube.com') || widget.videoUrl.contains('youtu.be')))
             Positioned(
               top: 16,
               right: 16,

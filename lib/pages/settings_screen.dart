@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
 import '../components/bottom_nav_bar.dart';
@@ -390,7 +392,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                _performLogout(context);
+                _performLogout();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryOrange,
@@ -410,24 +412,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _performLogout(BuildContext context) {
-    // Clear any user session data here if you have any
-    // For example: SharedPreferences, secure storage, etc.
-
-    // Navigate to auth choice screen and clear the navigation stack
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/auth',
-      (Route<dynamic> route) => false,
+  Future<void> _performLogout() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    // Show confirmation dialog
+    bool? shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
     );
 
-    // Optional: Show a brief message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Successfully logged out'),
-        backgroundColor: AppTheme.primaryOrange,
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    if (shouldLogout == true) {
+      try {
+        // Show loading indicator
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Signing out...'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+
+        // Sign out using Firebase
+        await authProvider.signOut();
+
+        // Navigate to auth choice screen
+        if (mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/auth-choice',
+            (route) => false,
+          );
+        }
+      } catch (e) {
+        // Show error message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error signing out: $e'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    }
   }
 
   String _getThemeModeName(ThemeMode mode) {

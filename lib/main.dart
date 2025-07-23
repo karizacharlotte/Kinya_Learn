@@ -18,7 +18,7 @@ import 'pages/culture_screen.dart';
 import 'pages/profile_page.dart';
 import 'pages/auth/login_screen.dart';
 import 'pages/auth/auth_choice_screen.dart';
-import 'debug/firebase_test_screen.dart';
+// import 'debug/firebase_test_screen.dart';
 import 'pages/splash_screen.dart';
 import 'theme/app_theme.dart';
 import 'models/lesson.dart';
@@ -105,7 +105,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        // Enhanced auth provider available as alternative
+        // If you need lesson progress tracking, add this line:
+        // ChangeNotifierProvider(create: (_) => LessonProgressProvider()),
+        // If you want to use the enhanced auth provider, swap it here:
         // ChangeNotifierProvider(create: (_) => EnhancedAuthProvider()),
       ],
       child: const KinyaLearnApp(),
@@ -126,7 +128,7 @@ class KinyaLearnApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: themeProvider.themeMode,
           debugShowCheckedModeBanner: false,
-          initialRoute: '/firebase-test', // Enable debug console temporarily
+          initialRoute: '/splash',
           routes: {
             '/': (context) => const HomePage(), // Back to original home
             '/home': (context) => const HomePage(),
@@ -144,7 +146,7 @@ class KinyaLearnApp extends StatelessWidget {
             '/about': (context) => const AboutScreen(),
             '/settings': (context) => const SettingsScreen(),
             '/dictionary': (context) => const HomePage(), // Placeholder for now
-            '/firebase-test': (context) => FirebaseTestScreen(), // Firebase test route - enabled
+            // '/firebase-test': (context) => FirebaseTestScreen(),
           },
           onGenerateRoute: (settings) {
             if (settings.name == '/lesson-detail') {
