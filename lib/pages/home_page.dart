@@ -24,11 +24,13 @@ class HomePage extends StatelessWidget {
                 horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
                 vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
               ),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                  colors: isDark
+                      ? [const Color(0xFF23262F), const Color(0xFF23262F)]
+                      : [AppTheme.primaryOrange, AppTheme.primaryOrange],
                 ),
               ),
               child: Column(
@@ -57,6 +59,27 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: isTablet ? 32 : 24),
+                            
+                            // Debug: Firebase Test Button (remove in production)
+                            if (const bool.fromEnvironment('dart.vm.product') == false)
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 16),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/firebase-test');
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    side: BorderSide(color: Colors.white),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: isTablet ? 24 : 20,
+                                      vertical: isTablet ? 16 : 12,
+                                    ),
+                                  ),
+                                  child: Text('🔧 Test Backend Connection'),
+                                ),
+                              ),
+                            
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/lessons');

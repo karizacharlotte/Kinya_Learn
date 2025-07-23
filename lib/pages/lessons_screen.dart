@@ -27,10 +27,12 @@ class LessonsScreen extends StatelessWidget {
               vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
             ),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                colors: isDark
+                    ? [const Color(0xFF23262F), const Color(0xFF23262F)]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
             child: SafeArea(

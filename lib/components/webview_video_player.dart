@@ -141,13 +141,13 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: Offset(0, 10),
             spreadRadius: 0,
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 6,
             offset: Offset(0, 4),
             spreadRadius: 0,
@@ -180,7 +180,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                       Container(
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
@@ -208,7 +208,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                               Text(
                                 widget.subtitle!,
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.9),
+                                  color: Colors.white.withValues(alpha: 0.9),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -349,8 +349,8 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.6),
-                  Colors.black.withOpacity(0.8),
+                  Colors.black.withValues(alpha: 0.6),
+                  Colors.black.withValues(alpha: 0.8),
                 ],
               ),
             ),
@@ -444,8 +444,8 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.2),
-                  Colors.black.withOpacity(0.5),
+                  Colors.black.withValues(alpha: 0.2),
+                  Colors.black.withValues(alpha: 0.5),
                 ],
               ),
             ),
@@ -468,7 +468,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.4),
+                        color: Colors.black.withValues(alpha: 0.4),
                         blurRadius: 15,
                         offset: Offset(0, 8),
                       ),
@@ -484,9 +484,9 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.8),
+                    color: Colors.black.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withOpacity(0.2)),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
                   ),
                   child: Text(
                     kIsWeb ? 'Play Video in App' : 'Open Video',
@@ -514,7 +514,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: Offset(0, 4),
                     ),
@@ -589,7 +589,7 @@ class _WebViewVideoPlayerState extends State<WebViewVideoPlayer> {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.red.withOpacity(0.3),
+                    color: Colors.red.withValues(alpha: 0.3),
                     blurRadius: 10,
                     offset: Offset(0, 4),
                   ),
