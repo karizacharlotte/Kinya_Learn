@@ -104,7 +104,7 @@ class BottomNavBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isActive 
-            ? AppTheme.primaryOrange.withOpacity(0.1)
+            ? AppTheme.primaryOrange.withValues(alpha: 0.1)
             : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),

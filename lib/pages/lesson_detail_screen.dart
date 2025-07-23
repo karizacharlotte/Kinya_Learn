@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../theme/app_theme.dart';
 import '../components/in_app_video_player.dart';
+import '../components/lesson_navigation.dart';
 import 'kinyarwanda_greetings_lesson.dart';
 import 'generic_quiz_lesson.dart';
 
@@ -175,7 +176,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.green.withOpacity(0.3),
+                    color: Colors.green.withValues(alpha: 0.3),
                     blurRadius: 15,
                     offset: Offset(0, 8),
                   ),
@@ -189,7 +190,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                       Container(
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -214,7 +215,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                             Text(
                               'Take a quiz to reinforce what you learned',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                                 fontSize: isTablet ? 14 : 12,
                               ),
                             ),
@@ -278,29 +279,14 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
             const SizedBox(height: 24),
 
+            // Lesson Navigation Component
+            LessonNavigation(currentLesson: widget.lesson),
+
+            const SizedBox(height: 24),
+
             // Additional Action Buttons
             Column(
               children: [
-
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: isContentCompleted
-                        ? () {
-                            Navigator.pushNamed(
-                              context,
-                              '/payment',
-                              arguments: widget.lesson,
-                            );
-                          }
-                        : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryOrange,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text('Final Quiz & Certificate - \$9.99'),
-                  ),
-                ),
               ],
             ),
           ],

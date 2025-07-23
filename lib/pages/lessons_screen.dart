@@ -27,10 +27,12 @@ class LessonsScreen extends StatelessWidget {
               vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
             ),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                colors: isDark
+                    ? [const Color(0xFF23262F), const Color(0xFF23262F)]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
             child: SafeArea(
@@ -62,6 +64,43 @@ class LessonsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
                       color: Colors.white.withValues(alpha: 0.9),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Progress indicator
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.school, color: Colors.white, size: 16),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Progress: ${lessons.where((l) => l.isCompleted).length}/${lessons.length} lessons completed',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              LinearProgressIndicator(
+                                value: lessons.where((l) => l.isCompleted).length / lessons.length,
+                                backgroundColor: Colors.white.withValues(alpha: 0.3),
+                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                                minHeight: 3,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -236,15 +275,37 @@ class LessonsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      lesson.title,
-                      style: TextStyle(
-                        fontSize: isTablet ? 14 : 12,
-                        fontWeight: FontWeight.w600,
-                        color: isDark ? Colors.white : AppTheme.textPrimary,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            lesson.title,
+                            style: TextStyle(
+                              fontSize: isTablet ? 14 : 12,
+                              fontWeight: FontWeight.w600,
+                              color: isDark ? Colors.white : AppTheme.textPrimary,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (lesson.isCompleted)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'DONE',
+                              style: TextStyle(
+                                fontSize: 8,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     Expanded(
@@ -280,10 +341,33 @@ class LessonsScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 12,
-                          color: isDark ? Colors.white54 : AppTheme.textSecondary,
+                        Row(
+                          children: [
+                            if (lesson.isCompleted)
+                              Icon(
+                                Icons.check_circle,
+                                size: 14,
+                                color: Colors.green,
+                              )
+                            else if (lesson.isUnlocked)
+                              Icon(
+                                Icons.play_circle_fill,
+                                size: 14,
+                                color: AppTheme.primaryOrange,
+                              )
+                            else
+                              Icon(
+                                Icons.lock,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 12,
+                              color: isDark ? Colors.white54 : AppTheme.textSecondary,
+                            ),
+                          ],
                         ),
                       ],
                     ),

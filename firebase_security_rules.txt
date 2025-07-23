@@ -1,0 +1,84 @@
+// FIRESTORE SECURITY RULES
+// Copy and paste this into Firebase Console > Firestore > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Users can read/write their own profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // All authenticated users can read lessons and categories
+    match /lessons/{lessonId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can modify lessons
+    }
+    
+    match /categories/{categoryId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can modify categories
+    }
+    
+    // Users can read/write their own progress
+    match /user_progress/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /lesson_progress/{progressId} {
+      allow read, write: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+    }
+    
+    // All authenticated users can read achievements
+    match /achievements/{achievementId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can modify achievements
+    }
+    
+    // Users can read/write their own achievements
+    match /user_achievements/{userAchievementId} {
+      allow read, write: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+    
+    // Users can read daily challenges and write their participation
+    match /daily_challenges/{challengeId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null; // Users can join challenges
+    }
+    
+    // Users can submit feedback
+    match /feedback/{feedbackId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // App content readable by all authenticated users
+    match /app_content/{contentId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can modify app content
+    }
+  }
+}
+
+// STORAGE SECURITY RULES  
+// Copy and paste this into Firebase Console > Storage > Rules
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Allow read access to all files for authenticated users
+    match /{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin uploads
+    }
+    
+    // User profile images - users can upload their own
+    match /users/{userId}/profile/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

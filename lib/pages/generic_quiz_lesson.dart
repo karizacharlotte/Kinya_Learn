@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/lesson.dart';
+import '../data/language_lessons.dart';
+import '../components/lesson_navigation.dart';
+import '../providers/lesson_progress_provider.dart';
 
 class GenericQuizLesson extends StatefulWidget {
   final Lesson lesson;
@@ -41,6 +45,9 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
         _currentQuestionIndex++;
       });
     } else {
+      // Quiz completed - mark lesson as completed using provider
+      final progressProvider = Provider.of<LessonProgressProvider>(context, listen: false);
+      progressProvider.completeLesson(widget.lesson.id);
       _showResultsDialog();
     }
   }
@@ -164,8 +171,8 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // Close the dialog
+                        _navigateToNextLesson();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -176,7 +183,7 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
                         ),
                       ),
                       child: Text(
-                        'Continue',
+                        'Next Lesson',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -223,6 +230,29 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
       _score = 0;
       _selectedAnswers = List.filled(widget.lesson.exercises.length, -1);
     });
+  }
+
+  void _navigateToNextLesson() {
+    final progressProvider = Provider.of<LessonProgressProvider>(context, listen: false);
+    final nextLesson = progressProvider.getNextLesson();
+    
+    if (nextLesson != null) {
+      // Navigate to next lesson
+      Navigator.of(context).pushReplacementNamed(
+        '/lesson-detail',
+        arguments: nextLesson,
+      );
+    } else {
+      // Last lesson completed - go back to lessons screen
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('🎉 Congratulations! You completed all lessons!'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override

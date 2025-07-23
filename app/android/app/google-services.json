@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "230200917214",
+    "project_id": "kinyalearn",
+    "storage_bucket": "kinyalearn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230200917214:android:731c5dfbc3a03cdd4f964f",
+        "android_client_info": {
+          "package_name": "com.kinyalearn.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2T6uxeT5cJ_zuhW4NqNxloK5GDc49hQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

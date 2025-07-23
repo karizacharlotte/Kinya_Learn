@@ -77,6 +77,7 @@ class PracticeScreen extends StatelessWidget {
                 childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.0),
                 children: [
                   _buildPracticeCard(
+                    context,
                     'Lesson Quizzes',
                     'Test your knowledge',
                     Icons.quiz,
@@ -92,6 +93,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Speaking Practice',
                     'Pronunciation & Conversation',
                     Icons.mic,
@@ -107,6 +109,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Listening Exercises',
                     'Comprehension Training',
                     Icons.headphones,
@@ -122,6 +125,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Quick Review',
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
@@ -137,6 +141,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Translation Practice',
                     'English ↔ Kinyarwanda',
                     Icons.translate,
@@ -152,6 +157,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Grammar Drills',
                     'Sentence Structure',
                     Icons.school,
@@ -167,6 +173,7 @@ class PracticeScreen extends StatelessWidget {
                     },
                   ),
                   _buildPracticeCard(
+                    context,
                     'Daily Scenarios',
                     'Real-life Conversations',
                     Icons.chat_bubble,
@@ -202,7 +209,8 @@ class PracticeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.local_fire_department,
-                        color: Colors.white, size: isTablet ? 36 : 32),
+                        color: isDark ? theme.colorScheme.onSurface : Colors.white, 
+                        size: isTablet ? 36 : 32),
                     SizedBox(width: isTablet ? 20 : 16),
                     Expanded(
                       child: Column(
@@ -211,7 +219,7 @@ class PracticeScreen extends StatelessWidget {
                           Text(
                             'Daily Challenge',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: isDark ? theme.colorScheme.onSurface : Colors.white,
                               fontSize: isTablet ? 20 : 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -219,7 +227,7 @@ class PracticeScreen extends StatelessWidget {
                           Text(
                             'Complete today\'s challenge for bonus XP!',
                             style: TextStyle(
-                              color: Colors.white70,
+                              color: isDark ? theme.colorScheme.onSurface.withValues(alpha: 0.7) : Colors.white70,
                               fontSize: isTablet ? 16 : 14,
                             ),
                           ),
@@ -254,18 +262,19 @@ class PracticeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPracticeCard(String title, String subtitle, IconData icon,
+  Widget _buildPracticeCard(BuildContext context, String title, String subtitle, IconData icon,
       Color color, bool isTablet, VoidCallback onTap) {
+    final theme = Theme.of(context);
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.cardBackground,
+          color: theme.cardColor,
           borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
           border: Border.all(
-            color: AppTheme.border,
+            color: theme.dividerColor,
             width: 1,
           ),
         ),
@@ -292,7 +301,7 @@ class PracticeScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: isTablet ? 18 : 16,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.textPrimary,
+                    color: theme.textTheme.titleMedium?.color,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -300,7 +309,7 @@ class PracticeScreen extends StatelessWidget {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: AppTheme.textSecondary,
+                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
                     fontSize: isTablet ? 14 : 12,
                   ),
                   textAlign: TextAlign.center,
