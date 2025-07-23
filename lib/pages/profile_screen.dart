@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -255,13 +254,9 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 4),
     );
   }
 }
+
+// This is the ProfileScreen, but if you need the ProfilePage with bottom navigation,
+// you should use ProfilePage instead from pages/profile_page.dart

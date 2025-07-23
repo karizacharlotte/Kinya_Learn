@@ -57,7 +57,7 @@ class _LocalVideoPlayerState extends State<LocalVideoPlayer> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: Offset(0, 4),
           ),
@@ -163,7 +163,7 @@ class _LocalVideoPlayerState extends State<LocalVideoPlayer> {
                       allowScrubbing: true,
                       colors: VideoProgressColors(
                         playedColor: Colors.orange,
-                        bufferedColor: Colors.orange.withOpacity(0.3),
+                        bufferedColor: Colors.orange.withValues(alpha: 0.3),
                         backgroundColor: Colors.grey.shade300,
                       ),
                     ),
@@ -213,11 +213,11 @@ class _LocalVideoPlayerState extends State<LocalVideoPlayer> {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.8),
+                  color: Colors.orange.withValues(alpha: 0.8),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withValues(alpha: 0.3),
                       blurRadius: 10,
                       offset: Offset(0, 5),
                     ),

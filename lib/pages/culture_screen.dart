@@ -26,10 +26,12 @@ class CultureScreen extends StatelessWidget {
               vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
             ),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [AppTheme.primaryOrange, AppTheme.primaryOrange],
+                colors: isDark
+                    ? [const Color(0xFF23262F), const Color(0xFF23262F)]
+                    : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
             child: Column(
@@ -43,7 +45,7 @@ class CultureScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: isDark ? Colors.white : Colors.white,
                         ),
                       ),
                     ),
@@ -59,7 +61,7 @@ class CultureScreen extends StatelessWidget {
                   'Explore Rwandan culture, traditions, and history',
                   style: TextStyle(
                     fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: isDark ? Colors.white.withValues(alpha: 0.9) : Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
               ],

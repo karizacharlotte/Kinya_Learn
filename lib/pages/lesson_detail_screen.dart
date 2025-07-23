@@ -175,7 +175,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.green.withOpacity(0.3),
+                    color: Colors.green.withValues(alpha: 0.3),
                     blurRadius: 15,
                     offset: Offset(0, 8),
                   ),
@@ -189,7 +189,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                       Container(
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
@@ -214,7 +214,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                             Text(
                               'Take a quiz to reinforce what you learned',
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                                 fontSize: isTablet ? 14 : 12,
                               ),
                             ),

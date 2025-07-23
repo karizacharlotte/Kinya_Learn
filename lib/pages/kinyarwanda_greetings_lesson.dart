@@ -161,7 +161,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -194,7 +194,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                     : 'Keep practicing to improve your skills!',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -205,9 +205,9 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                 ),
                 child: Column(
                   children: [
@@ -215,7 +215,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                       'Your Score',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                       ),
                     ),
                     SizedBox(height: 8),
@@ -235,7 +235,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                       ],
@@ -267,7 +267,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                         });
                       },
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.white.withOpacity(0.2),
+                        backgroundColor: Colors.white.withValues(alpha: 0.2),
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -363,7 +363,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 20,
                 offset: Offset(0, -10),
               ),
@@ -391,7 +391,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                           Container(
                             padding: EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(Icons.quiz_outlined, size: 20),
@@ -431,7 +431,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: Offset(0, 2),
               ),
@@ -579,7 +579,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                           duration: Duration(milliseconds: 200),
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: isSelected ? Color(0xFF4CAF50).withOpacity(0.1) : Colors.white,
+                            color: isSelected ? Color(0xFF4CAF50).withValues(alpha: 0.1) : Colors.white,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: isSelected ? Color(0xFF4CAF50) : Colors.grey.shade200,
@@ -587,7 +587,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.04),
+                                color: Colors.black.withValues(alpha: 0.04),
                                 blurRadius: 10,
                                 offset: Offset(0, 4),
                               ),
@@ -644,7 +644,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 blurRadius: 20,
                 offset: Offset(0, -10),
               ),

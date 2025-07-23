@@ -1,0 +1,193 @@
+KINYA LEARN - FIREBASE FIRESTORE DATABASE STRUCTURE
+
+Root Collections:
+
+1. users/
+   Document ID: {userId}
+   Fields:
+   - uid: string
+   - email: string
+   - displayName: string
+   - photoURL: string (optional)
+   - createdAt: timestamp
+   - lastLoginAt: timestamp
+   - totalPoints: number (default: 0)
+   - currentLevel: number (default: 1)
+   - completedLessons: array of lesson IDs
+   - achievements: array of achievement IDs
+   - streakDays: number (default: 0)
+   - lastActivityDate: timestamp
+   - preferences: map
+     - language: string (default: 'en')
+     - soundEnabled: boolean (default: true)
+     - notificationsEnabled: boolean (default: true)
+     - theme: string (default: 'light')
+
+2. lessons/
+   Document ID: {lessonId}
+   Fields:
+   - id: hhstring
+   - title: string
+   - titleKinyarwanda: string
+   - description: string
+   - descriptionKinyarwanda: string
+   - category: string (greetings, numbers, family, etc.)
+   - level: number (1-10)
+   - videoUrl: string
+   - videoThumbnail: string
+   - duration: number (in seconds)
+   - points: number (points awarded for completion)
+   - order: number (display order in category)
+   - isActive: boolean (default: true)
+   - createdAt: timestamp
+   - updatedAt: timestamp
+   - vocabulary: array of maps
+     - word: string
+     - translation: string
+     - pronunciation: string
+     - audioUrl: string (optional)
+   - exercises: array of maps
+     - type: string (multiple-choice, fill-blank, pronunciation)
+     - question: string
+     - options: array (for multiple choice)
+     - correctAnswer: string
+     - points: number
+
+3. categories/
+   Document ID: {categoryId}
+   Fields:
+   - id: string
+   - name: string
+   - nameKinyarwanda: string
+   - description: string
+   - icon: string
+   - color: string
+   - order: number
+   - lessonsCount: number
+   - isActive: boolean
+
+4. user_progress/
+   Document ID: {userId}
+   Fields:
+   - userId: string
+   - totalLessonsCompleted: number
+   - totalPoints: number
+   - currentStreak: number
+   - longestStreak: number
+   - lastActivityDate: timestamp
+   - levelProgress: map
+     - currentLevel: number
+     - pointsInCurrentLevel: number
+     - pointsNeededForNextLevel: number
+   - categoryProgress: map
+     - {categoryId}: map
+       - completedLessons: number
+       - totalLessons: number
+       - points: number
+
+5. lesson_progress/
+   Document ID: {userId}_{lessonId}
+   Fields:
+   - userId: string
+   - lessonId: string
+   - status: string (not_started, in_progress, completed)
+   - progress: number (0-100)
+   - pointsEarned: number
+   - attemptsCount: number
+   - firstCompletedAt: timestamp
+   - lastAccessedAt: timestamp
+   - exerciseResults: array of maps
+     - exerciseId: string
+     - isCorrect: boolean
+     - attempts: number
+     - timeSpent: number
+
+6. achievements/
+   Document ID: {achievementId}
+   Fields:
+   - id: string
+   - title: string
+   - description: string
+   - icon: string
+   - type: string (streak, completion, points, special)
+   - condition: map
+     - type: string
+     - value: number
+   - points: number
+   - isActive: boolean
+   - rarity: string (common, rare, epic, legendary)
+
+7. user_achievements/
+   Document ID: {userId}_{achievementId}
+   Fields:
+   - userId: string
+   - achievementId: string
+   - unlockedAt: timestamp
+   - progress: number (for progressive achievements)
+
+8. daily_challenges/
+   Document ID: {date} (YYYY-MM-DD format)
+   Fields:
+   - date: string
+   - challenge: map
+     - type: string (complete_lessons, earn_points, streak)
+     - target: number
+     - points: number
+   - participants: array of user IDs
+   - isActive: boolean
+
+9. app_content/
+   Document ID: "config"
+   Fields:
+   - version: string
+   - minSupportedVersion: string
+   - featuredLessons: array of lesson IDs
+   - announcements: array of maps
+     - title: string
+     - message: string
+     - type: string (info, warning, update)
+     - expiresAt: timestamp
+   - maintenanceMode: boolean
+
+10. feedback/
+    Document ID: auto-generated
+    Fields:
+    - userId: string
+    - type: string (bug, suggestion, rating)
+    - title: string
+    - message: string
+    - rating: number (1-5, optional)
+    - createdAt: timestamp
+    - status: string (pending, reviewed, resolved)
+
+SUBCOLLECTIONS:
+
+users/{userId}/notifications/
+- id: string
+- title: string
+- message: string
+- type: string (achievement, reminder, update)
+- isRead: boolean
+- createdAt: timestamp
+
+lessons/{lessonId}/comments/
+- userId: string
+- userName: string
+- comment: string
+- rating: number (1-5)
+- createdAt: timestamp
+- isHelpful: number (votes)
+
+SECURITY RULES CONSIDERATIONS:
+- Users can only read/write their own user document
+- All users can read lessons, categories, achievements
+- Only authenticated users can create lesson progress
+- Admin role for content management
+- Rate limiting for feedback submissions
+
+INDEXES NEEDED:
+- users: email, createdAt
+- lessons: category, level, order
+- user_progress: userId, lastActivityDate
+- lesson_progress: userId, lessonId, status
+- achievements: type, isActive

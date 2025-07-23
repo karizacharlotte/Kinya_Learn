@@ -62,12 +62,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   end: Alignment.bottomCenter,
                                   colors: isDarkMode
                                       ? [
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .surface
+                                          const Color(0xFF23262F),
+                                          const Color(0xFF23262F)
                                         ]
                                       : [
                                           AppTheme.primaryOrange,
@@ -420,7 +416,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     // Navigate to auth choice screen and clear the navigation stack
     Navigator.of(context).pushNamedAndRemoveUntil(
-      '/auth-choice',
+      '/auth',
       (Route<dynamic> route) => false,
     );
 
