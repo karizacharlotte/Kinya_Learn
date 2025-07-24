@@ -30,19 +30,40 @@ Replace the placeholder values in `lib/firebase_options.dart` with your actual F
 4. Scroll down to "Your apps" section
 5. For each platform, copy the configuration values:
 
-**For Web:**
+**For Android:**
 ```dart
-static const FirebaseOptions web = FirebaseOptions(
-  apiKey: 'YOUR_ACTUAL_WEB_API_KEY',
-  appId: 'YOUR_ACTUAL_WEB_APP_ID',
-  messagingSenderId: 'YOUR_ACTUAL_MESSAGING_SENDER_ID',
-  projectId: 'YOUR_ACTUAL_PROJECT_ID',
-  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+static const FirebaseOptions android = FirebaseOptions(
+  apiKey: 'YOUR_ANDROID_API_KEY',
+  appId: 'YOUR_ANDROID_APP_ID',
+  messagingSenderId: 'YOUR_ANDROID_MESSAGING_SENDER_ID',
+  projectId: 'YOUR_PROJECT_ID',
   storageBucket: 'YOUR_PROJECT_ID.appspot.com',
 );
 ```
 
-**For Android, iOS, macOS, Windows:** Update similarly with platform-specific values.
+**For iOS:**
+```dart
+static const FirebaseOptions ios = FirebaseOptions(
+  apiKey: 'YOUR_IOS_API_KEY',
+  appId: 'YOUR_IOS_APP_ID',
+  messagingSenderId: 'YOUR_IOS_MESSAGING_SENDER_ID',
+  projectId: 'YOUR_PROJECT_ID',
+  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+  iosBundleId: 'com.example.yourapp',
+);
+```
+
+**For Web:**
+```dart
+static const FirebaseOptions web = FirebaseOptions(
+  apiKey: 'YOUR_WEB_API_KEY',
+  appId: 'YOUR_WEB_APP_ID',
+  messagingSenderId: 'YOUR_WEB_MESSAGING_SENDER_ID',
+  projectId: 'YOUR_PROJECT_ID',
+  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+);
+```
 
 ### 2. Set Up Firestore Database
 

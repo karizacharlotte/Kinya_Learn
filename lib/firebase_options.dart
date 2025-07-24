@@ -52,24 +52,24 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBxIdVICQXGfJ8MudqwgC2_VkgyCzCqwJw',
-    appId: '1:230200917214:android:YOUR_ANDROID_APP_ID',
+    appId: '1:230200917214:android:731c5dfbc3a03cdd4f964f',
     messagingSenderId: '230200917214',
     projectId: 'kinyalearn',
-    storageBucket: 'kinyalearn.firebasestorage.app',
+    storageBucket: 'kinyalearn.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBxIdVICQXGfJ8MudqwgC2_VkgyCzCqwJw',
-    appId: '1:230200917214:ios:YOUR_IOS_APP_ID',
+    appId: '1:230200917214:ios:f53478970e99ceae4f964f',
     messagingSenderId: '230200917214',
     projectId: 'kinyalearn',
-    storageBucket: 'kinyalearn.firebasestorage.app',
+    storageBucket: 'kinyalearn.appspot.com',
     iosBundleId: 'com.kinyalearn.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBxIdVICQXGfJ8MudqwgC2_VkgyCzCqwJw',
-    appId: '1:230200917214:ios:YOUR_IOS_APP_ID',
+    appId: '1:230200917214:ios:1:230200917214:ios:f53478970e99ceae4f964f',
     messagingSenderId: '230200917214',
     projectId: 'kinyalearn',
     storageBucket: 'kinyalearn.firebasestorage.app',
