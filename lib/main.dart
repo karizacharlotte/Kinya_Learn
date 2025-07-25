@@ -35,7 +35,7 @@ Future<void> _testFirebaseConnection() async {
     
     // Test Firestore connection
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    print('📊 Project ID: ${DefaultFirebaseOptions.currentPlatform.projectId}');
+    print('📊 Project ID:  [1m${DefaultFirebaseOptions.currentPlatform.projectId} [0m');
     
     // Test Authentication service
     FirebaseAuth auth = FirebaseAuth.instance;

@@ -81,7 +81,7 @@ class NotificationService {
         _nextInstanceOfTime(hour, minute),
         notificationDetails,
         matchDateTimeComponents: DateTimeComponents.time,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: 'daily_reminder',
       );
 
@@ -149,7 +149,7 @@ class NotificationService {
         _nextInstanceOfTime(20, 0), // 8 PM
         notificationDetails,
         matchDateTimeComponents: DateTimeComponents.time,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         payload: 'streak_reminder',
       );
     } catch (e) {
