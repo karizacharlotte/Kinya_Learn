@@ -38,13 +38,19 @@ class AuthProvider with ChangeNotifier {
       DocumentSnapshot doc = await FirebaseService.getUserDocument(_user!.uid);
       if (doc.exists) {
         _userData = doc.data() as Map<String, dynamic>?;
+      } else {
+        // Initialize user data if document doesn't exist
+        await FirestoreService.initializeUserData(
+          _user!.uid, 
+          _user!.email ?? '', 
+          _user!.displayName ?? 'User'
+        );
+        // Reload the data after initialization
+        doc = await FirebaseService.getUserDocument(_user!.uid);
+        if (doc.exists) {
+          _userData = doc.data() as Map<String, dynamic>?;
+        }
       }
-      // Initialize user data if this is their first time
-      await FirestoreService.initializeUserData(
-        _user!.uid, 
-        _user!.email ?? '', 
-        _user!.displayName ?? 'User'
-      );
     } catch (e) {
       print('Error loading user data: $e');
     }
@@ -234,16 +240,16 @@ class AuthProvider with ChangeNotifier {
   }
 
   /// Get user's total XP
-  int get totalXP => _userData?['progress']?['totalXP'] ?? 0;
+  int get totalXP => _userData?['progress']?['totalXP'] ?? _userData?['totalPoints'] ?? 0;
 
   /// Get user's current streak
-  int get currentStreak => _userData?['progress']?['currentStreak'] ?? 0;
+  int get currentStreak => _userData?['progress']?['currentStreak'] ?? _userData?['streakDays'] ?? 0;
 
   /// Get user's lessons completed count
-  int get lessonsCompleted => _userData?['progress']?['lessonsCompleted'] ?? 0;
+  int get lessonsCompleted => _userData?['progress']?['lessonsCompleted'] ?? _userData?['totalLessonsCompleted'] ?? 0;
 
   /// Get user's display name
-  String get displayName => _user?.displayName ?? _userData?['name'] ?? 'User';
+  String get displayName => _user?.displayName ?? _userData?['displayName'] ?? _userData?['name'] ?? 'User';
 
   /// Helper methods
   void _setLoading(bool loading) {

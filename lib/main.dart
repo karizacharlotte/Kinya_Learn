@@ -18,7 +18,7 @@ import 'pages/culture_screen.dart';
 import 'pages/profile_page.dart';
 import 'pages/auth/login_screen.dart';
 import 'pages/auth/auth_choice_screen.dart';
-// import 'debug/firebase_test_screen.dart';
+import 'debug/backend_health_check.dart';
 import 'pages/splash_screen.dart';
 import 'theme/app_theme.dart';
 import 'models/lesson.dart';
@@ -146,7 +146,7 @@ class KinyaLearnApp extends StatelessWidget {
             '/about': (context) => const AboutScreen(),
             '/settings': (context) => const SettingsScreen(),
             '/dictionary': (context) => const HomePage(), // Placeholder for now
-            // '/firebase-test': (context) => FirebaseTestScreen(),
+            '/firebase-test': (context) => const BackendHealthCheck(),
           },
           onGenerateRoute: (settings) {
             if (settings.name == '/lesson-detail') {
