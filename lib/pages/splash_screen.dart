@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
+import '../providers/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,11 +51,18 @@ class _SplashScreenState extends State<SplashScreen>
 
     if (mounted) {
       final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
       // Check if user has set a theme before
       if (themeProvider.hasUserSetTheme()) {
-        // User has already set a theme, go directly to auth
-        Navigator.pushReplacementNamed(context, '/auth');
+        // User has already set a theme, check authentication
+        if (authProvider.isLoggedIn) {
+          // User is logged in, go to home
+          Navigator.pushReplacementNamed(context, '/');
+        } else {
+          // User is not logged in, go to auth choice
+          Navigator.pushReplacementNamed(context, '/auth');
+        }
       } else {
         // First time user, show theme selection
         _showThemeSelectionDialog();
@@ -105,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
+                        _navigateToAuth();
                       }
                     },
                   ),
@@ -119,7 +127,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
+                        _navigateToAuth();
                       }
                     },
                   ),
@@ -133,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen>
                       if (value != null) {
                         themeProvider.setThemeMode(value);
                         Navigator.of(context).pop();
-                        Navigator.pushReplacementNamed(context, '/auth');
+                        _navigateToAuth();
                       }
                     },
                   ),
@@ -144,6 +152,15 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       ),
     );
+  }
+
+  void _navigateToAuth() {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    if (authProvider.isLoggedIn) {
+      Navigator.pushReplacementNamed(context, '/');
+    } else {
+      Navigator.pushReplacementNamed(context, '/auth');
+    }
   }
 
   @override

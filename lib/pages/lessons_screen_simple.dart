@@ -59,7 +59,7 @@ class LessonsScreen extends StatelessWidget {
                     'Choose a lesson to start learning Kinyarwanda',
                     style: TextStyle(
                       fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                     ),
                   ),
                 ],
@@ -108,13 +108,13 @@ class LessonsScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: lesson.isCompleted 
-                ? AppTheme.primaryOrange.withOpacity(0.5)
+                ? AppTheme.primaryOrange.withValues(alpha: 0.5)
                 : Colors.transparent,
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -127,7 +127,7 @@ class LessonsScreen extends StatelessWidget {
             Container(
               height: 120,
               decoration: BoxDecoration(
-                color: AppTheme.primaryOrange.withOpacity(0.1),
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
@@ -202,7 +202,7 @@ class LessonsScreen extends StatelessWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: AppTheme.primaryOrange.withOpacity(0.1),
+                            color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
