@@ -488,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         SizedBox(height: isTablet ? 16 : 12),
-        Container(
+        SizedBox(
           height: isTablet ? 200 : 160,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -613,7 +613,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         SizedBox(height: isTablet ? 16 : 12),
-        Container(
+        SizedBox(
           height: isTablet ? 140 : 120,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,

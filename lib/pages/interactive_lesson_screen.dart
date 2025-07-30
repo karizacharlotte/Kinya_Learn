@@ -16,7 +16,7 @@ class InteractiveLessonScreen extends StatefulWidget {
 
 class _InteractiveLessonScreenState extends State<InteractiveLessonScreen> {
   int _currentQuestionIndex = 0;
-  Map<String, String> _userAnswers = {};
+  final Map<String, String> _userAnswers = {};
   bool _showVideo = true;
 
   @override
@@ -44,7 +44,7 @@ class _InteractiveLessonScreenState extends State<InteractiveLessonScreen> {
         children: [
           // Video Section (expandable)
           if (_showVideo && widget.lesson.videoUrl != null)
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Card(
                 margin: EdgeInsets.all(16),

@@ -405,7 +405,7 @@ class _DailyChallengeScreenState extends State<DailyChallengeScreen> {
                         currentQuestion['options'].length,
                         (index) => Padding(
                           padding: EdgeInsets.only(bottom: isTablet ? 12 : 8),
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             child: InkWell(
                               onTap: showResult ? null : () {

@@ -351,11 +351,11 @@ class _FirebaseTestScreenState extends State<FirebaseTestScreen> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: isLoading ? null : testUserCreation,
-                          child: Text('Create Test User'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
                           ),
+                          child: Text('Create Test User'),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -368,11 +368,11 @@ class _FirebaseTestScreenState extends State<FirebaseTestScreen> {
                           });
                           testFirebaseConnection();
                         },
-                        child: Text('Re-run Tests'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           foregroundColor: Colors.white,
                         ),
+                        child: Text('Re-run Tests'),
                       ),
                     ],
                   ),

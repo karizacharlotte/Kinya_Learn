@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/lesson.dart';
-import '../data/language_lessons.dart';
-import '../components/lesson_navigation.dart';
 import '../providers/lesson_progress_provider.dart';
 
 class GenericQuizLesson extends StatefulWidget {

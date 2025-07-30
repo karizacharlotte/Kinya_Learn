@@ -169,9 +169,7 @@ class _LocalVideoPlayerState extends State<LocalVideoPlayer> {
                     ),
                   ),
                   Text(
-                    _formatDuration(_controller.value.position) +
-                        ' / ' +
-                        _formatDuration(_controller.value.duration),
+                    '${_formatDuration(_controller.value.position)} / ${_formatDuration(_controller.value.duration)}',
                     style: TextStyle(
                       color: Colors.grey.shade600,
                       fontSize: 12,

@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../firebase_options.dart';
 
 class BackendHealthCheck extends StatefulWidget {
+  const BackendHealthCheck({super.key});
+
   @override
   _BackendHealthCheckState createState() => _BackendHealthCheckState();
 }

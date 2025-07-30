@@ -278,7 +278,7 @@ class _ImageLessonPlayerState extends State<ImageLessonPlayer>
                   children: [
                     // Previous Button
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                         height: 48,
                         child: ElevatedButton(
                           onPressed: _currentSlideIndex > 0 ? _previousSlide : null,
@@ -314,7 +314,7 @@ class _ImageLessonPlayerState extends State<ImageLessonPlayer>
                     // Next/Complete Button
                     Expanded(
                       flex: 2,
-                      child: Container(
+                      child: SizedBox(
                         height: 48,
                         child: ElevatedButton(
                           onPressed: _nextSlide,
