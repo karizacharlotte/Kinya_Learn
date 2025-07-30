@@ -147,7 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: BoxDecoration(
                                   color: Colors.red.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                                  border: Border.all(
+                                      color: Colors.red.withValues(alpha: 0.3)),
                                 ),
                                 child: Text(
                                   authProvider.errorMessage!,
@@ -161,11 +162,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: 'Email',
-                                labelStyle:
-                                    TextStyle(color: Colors.white.withValues(alpha: 0.8)),
+                                labelStyle: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.8)),
                                 hintText: 'Enter your email address',
-                                hintStyle:
-                                    TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+                                hintStyle: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.6)),
                                 prefixIcon: Icon(Icons.email_outlined,
                                     color: Colors.white.withValues(alpha: 0.8)),
                                 filled: true,
@@ -173,12 +174,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.3)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.3)),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.3)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.3)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -204,11 +207,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                labelStyle:
-                                    TextStyle(color: Colors.white.withValues(alpha: 0.8)),
+                                labelStyle: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.8)),
                                 hintText: 'Enter your password',
-                                hintStyle:
-                                    TextStyle(color: Colors.white.withValues(alpha: 0.6)),
+                                hintStyle: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.6)),
                                 prefixIcon: Icon(Icons.lock_outlined,
                                     color: Colors.white.withValues(alpha: 0.8)),
                                 suffixIcon: IconButton(
@@ -229,12 +232,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.3)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.3)),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.3)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.3)),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -264,15 +269,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     });
                                   },
                                   activeColor: Colors.white,
-                                  checkColor: const Color.fromARGB(
-                                      255, 78, 42, 147), // changed from 158, 74, 21
+                                  checkColor: const Color.fromARGB(255, 78, 42,
+                                      147), // changed from 158, 74, 21
                                   side: BorderSide(
-                                      color: Colors.white.withValues(alpha: 0.8)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.8)),
                                 ),
                                 Text(
                                   'Remember me',
                                   style: TextStyle(
-                                      color: Colors.white.withValues(alpha: 0.9)),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.9)),
                                 ),
                                 const Spacer(),
                                 TextButton(
@@ -282,7 +289,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Text(
                                     'Forgot password?',
                                     style: TextStyle(
-                                        color: Colors.white.withValues(alpha: 0.9)),
+                                        color: Colors.white
+                                            .withValues(alpha: 0.9)),
                                   ),
                                 ),
                               ],
@@ -293,11 +301,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: double.infinity,
                               height: 48,
                               child: ElevatedButton(
-                                onPressed: authProvider.isLoading ? null : _handleLogin,
+                                onPressed: authProvider.isLoading
+                                    ? null
+                                    : _handleLogin,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,
-                                  foregroundColor: const Color.fromARGB(
-                                      255, 78, 42, 147), // changed from 158, 74, 21
+                                  foregroundColor: const Color.fromARGB(255, 78,
+                                      42, 147), // changed from 158, 74, 21
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -309,7 +319,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         height: 20,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                          valueColor: AlwaysStoppedAnimation<
+                                                  Color>(
                                               Color.fromARGB(255, 78, 42, 147)),
                                         ),
                                       )
@@ -328,8 +339,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 const Expanded(child: Divider()),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   child: Text(
                                     'or',
                                     style: TextStyle(color: AppTheme.textMuted),
@@ -374,8 +385,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             'Sign up',
-                            style:
-                                TextStyle(color: Colors.white.withValues(alpha: 0.9)),
+                            style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.9)),
                           ),
                         ),
                       ],
@@ -391,14 +402,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildSocialButton(
-      String text, IconData icon, Color backgroundColor, Color textColor) {
+    String text,
+    IconData icon,
+    Color backgroundColor,
+    Color textColor, {
+    VoidCallback? onPressed, // <-- make it configurable
+  }) {
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: OutlinedButton(
-        onPressed: () {
-          // Handle social login
-        },
+        onPressed: onPressed, // <-- use the passed-in function
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
@@ -419,12 +433,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      
+
       final success = await authProvider.signIn(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-      
+
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }
@@ -433,7 +447,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _showForgotPasswordDialog() {
     final emailController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -441,7 +455,8 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Enter your email address to receive a password reset link.'),
+            const Text(
+                'Enter your email address to receive a password reset link.'),
             const SizedBox(height: 16),
             TextField(
               controller: emailController,
@@ -461,9 +476,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ElevatedButton(
             onPressed: () async {
               if (emailController.text.isNotEmpty) {
-                final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                final success = await authProvider.resetPassword(emailController.text.trim());
-                
+                final authProvider =
+                    Provider.of<AuthProvider>(context, listen: false);
+                final success = await authProvider
+                    .resetPassword(emailController.text.trim());
+
                 if (success && mounted) {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(

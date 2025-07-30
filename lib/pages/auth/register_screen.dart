@@ -78,7 +78,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.red.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                                border: Border.all(
+                                    color: Colors.red.withValues(alpha: 0.3)),
                               ),
                               child: Text(
                                 authProvider.errorMessage!,
@@ -190,20 +191,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Checkbox(
-                                value: _acceptTerms,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _acceptTerms = value ?? false;
-                                  });
-                                },
-                                activeColor: const Color.fromARGB(255, 8, 8, 8),
+                              Container(
+                                width: 18,
+                                height: 18,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey, // light grey outline
+                                    width: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Checkbox(
+                                  value: _acceptTerms,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _acceptTerms = value ?? false;
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  side: const BorderSide(
+                                    color: Colors
+                                        .transparent, // to let the Container border show
+                                  ),
+                                  activeColor:
+                                      const Color.fromARGB(255, 8, 8, 8),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  visualDensity: VisualDensity.compact,
+                                ),
                               ),
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
                                     style: TextStyle(
-                                      color: const Color.fromARGB(255, 13, 12, 12),
+                                      color:
+                                          const Color.fromARGB(255, 13, 12, 12),
                                       fontSize: 14,
                                     ),
                                     children: [
@@ -235,7 +259,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: double.infinity,
                             height: 48,
                             child: OutlinedButton(
-                              onPressed: (_acceptTerms && !authProvider.isLoading) ? _handleRegister : null,
+                              onPressed:
+                                  (_acceptTerms && !authProvider.isLoading)
+                                      ? _handleRegister
+                                      : null,
                               style: OutlinedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 foregroundColor: Colors.black87,
@@ -250,19 +277,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                        valueColor: AlwaysStoppedAnimation<
+                                                Color>(
                                             Color.fromARGB(255, 78, 42, 147)),
                                       ),
                                     )
                                   : Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: const [
                                         Text(
                                           'Create Account',
                                           style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
                                         ),
                                       ],
                                     ),
@@ -274,10 +304,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               const Expanded(child: Divider()),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: Text(
                                   'or',
-                                  style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+                                  style: TextStyle(
+                                      color:
+                                          const Color.fromARGB(255, 0, 0, 0)),
                                 ),
                               ),
                               const Expanded(child: Divider()),
@@ -311,7 +344,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(
                         'Already have an account? ',
-                        style: TextStyle(color: const Color.fromARGB(255, 12, 11, 11)),
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 12, 11, 11)),
                       ),
                       TextButton(
                         onPressed: () {
@@ -359,13 +393,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      
+
       final success = await authProvider.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
         name: _nameController.text.trim(),
       );
-      
+
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }

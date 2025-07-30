@@ -32,8 +32,10 @@ class AuthProvider with ChangeNotifier {
 
   /// Load user data from Firestore
   Future<void> _loadUserData() async {
-    if (_user == null) { return; }
-    
+    if (_user == null) {
+      return;
+    }
+
     try {
       DocumentSnapshot doc = await FirebaseService.getUserDocument(_user!.uid);
       if (doc.exists) {
@@ -41,10 +43,7 @@ class AuthProvider with ChangeNotifier {
       } else {
         // Initialize user data if document doesn't exist
         await FirestoreService.initializeUserData(
-          _user!.uid, 
-          _user!.email ?? '', 
-          _user!.displayName ?? 'User'
-        );
+            _user!.uid, _user!.email ?? '', _user!.displayName ?? 'User');
         // Reload the data after initialization
         doc = await FirebaseService.getUserDocument(_user!.uid);
         if (doc.exists) {
@@ -107,12 +106,12 @@ class AuthProvider with ChangeNotifier {
       if (result != null) {
         _user = result.user;
         await _loadUserData();
-        
+
         // Update last login time
         if (_user != null) {
           await FirebaseService.updateUserProgress(uid: _user!.uid);
         }
-        
+
         return true;
       }
       return false;
@@ -146,7 +145,7 @@ class AuthProvider with ChangeNotifier {
     try {
       _setLoading(true);
       _clearError();
-      
+
       await FirebaseService.resetPassword(email);
       return true;
     } on FirebaseAuthException catch (e) {
@@ -166,7 +165,9 @@ class AuthProvider with ChangeNotifier {
     int? xpGained,
     int? currentStreak,
   }) async {
-    if (_user == null) { return; }
+    if (_user == null) {
+      return;
+    }
 
     try {
       await FirebaseService.updateUserProgress(
@@ -175,7 +176,7 @@ class AuthProvider with ChangeNotifier {
         xpGained: xpGained,
         currentStreak: currentStreak,
       );
-      
+
       // Reload user data to reflect changes
       await _loadUserData();
     } catch (e) {
@@ -191,7 +192,9 @@ class AuthProvider with ChangeNotifier {
     required int xpEarned,
     Map<String, dynamic>? additionalData,
   }) async {
-    if (_user == null) { return; }
+    if (_user == null) {
+      return;
+    }
 
     try {
       await FirebaseService.saveLessonProgress(
@@ -202,7 +205,7 @@ class AuthProvider with ChangeNotifier {
         xpEarned: xpEarned,
         additionalData: additionalData,
       );
-      
+
       // Reload user data to reflect progress changes
       await _loadUserData();
     } catch (e) {
@@ -219,7 +222,9 @@ class AuthProvider with ChangeNotifier {
     required int timeSpent,
     Map<String, dynamic>? answers,
   }) async {
-    if (_user == null) { return; }
+    if (_user == null) {
+      return;
+    }
 
     try {
       await FirebaseService.saveQuizResult(
@@ -231,7 +236,7 @@ class AuthProvider with ChangeNotifier {
         timeSpent: timeSpent,
         answers: answers,
       );
-      
+
       // Reload user data to reflect XP changes
       await _loadUserData();
     } catch (e) {
@@ -240,16 +245,25 @@ class AuthProvider with ChangeNotifier {
   }
 
   /// Get user's total XP
-  int get totalXP => _userData?['progress']?['totalXP'] ?? _userData?['totalPoints'] ?? 0;
+  int get totalXP =>
+      _userData?['progress']?['totalXP'] ?? _userData?['totalPoints'] ?? 0;
 
   /// Get user's current streak
-  int get currentStreak => _userData?['progress']?['currentStreak'] ?? _userData?['streakDays'] ?? 0;
+  int get currentStreak =>
+      _userData?['progress']?['currentStreak'] ?? _userData?['streakDays'] ?? 0;
 
   /// Get user's lessons completed count
-  int get lessonsCompleted => _userData?['progress']?['lessonsCompleted'] ?? _userData?['totalLessonsCompleted'] ?? 0;
+  int get lessonsCompleted =>
+      _userData?['progress']?['lessonsCompleted'] ??
+      _userData?['totalLessonsCompleted'] ??
+      0;
 
   /// Get user's display name
-  String get displayName => _user?.displayName ?? _userData?['displayName'] ?? _userData?['name'] ?? 'User';
+  String get displayName =>
+      _user?.displayName ??
+      _userData?['displayName'] ??
+      _userData?['name'] ??
+      'User';
 
   /// Helper methods
   void _setLoading(bool loading) {

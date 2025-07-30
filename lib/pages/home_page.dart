@@ -17,7 +17,6 @@ class HomePage extends StatelessWidget {
     final isTablet = screenWidth > 768;
     final isDesktop = screenWidth > 1024;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Consumer<AuthProvider>(
@@ -56,7 +55,8 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Welcome back, ${authProvider.displayName}!',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
+                                      fontSize:
+                                          isDesktop ? 32 : (isTablet ? 28 : 24),
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -65,8 +65,10 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Continue your Kinyarwanda learning journey',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                                      color: Colors.white.withValues(alpha: 0.9),
+                                      fontSize:
+                                          isDesktop ? 18 : (isTablet ? 16 : 14),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.9),
                                     ),
                                   ),
                                 ],
@@ -74,7 +76,8 @@ class HomePage extends StatelessWidget {
                             ),
                             IconButton(
                               onPressed: () => _showLogoutDialog(context),
-                              icon: const Icon(Icons.logout, color: Colors.white),
+                              icon:
+                                  const Icon(Icons.logout, color: Colors.white),
                               tooltip: 'Logout',
                             ),
                           ],
@@ -118,7 +121,8 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Learn Kinyarwanda\nwith KinyaLearn',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 48 : (isTablet ? 36 : 28),
+                                      fontSize:
+                                          isDesktop ? 48 : (isTablet ? 36 : 28),
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
@@ -127,12 +131,14 @@ class HomePage extends StatelessWidget {
                                   Text(
                                     'Master the beautiful language of Rwanda through interactive lessons, cultural insights, and practical exercises.',
                                     style: TextStyle(
-                                      fontSize: isDesktop ? 20 : (isTablet ? 18 : 16),
-                                      color: Colors.white.withValues(alpha: 0.9),
+                                      fontSize:
+                                          isDesktop ? 20 : (isTablet ? 18 : 16),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.9),
                                     ),
                                   ),
                                   SizedBox(height: isTablet ? 32 : 24),
-                                  
+
                                   // Sign In Button for guests
                                   ElevatedButton(
                                     onPressed: () {
@@ -180,9 +186,32 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ],
-                      
+
                       SizedBox(height: isTablet ? 32 : 24),
-                      
+
+
+                      // Debug: Firebase Test Button (remove in production)
+                      if (const bool.fromEnvironment('dart.vm.product') ==
+                          false)
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/firebase-test');
+                            },
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              side: BorderSide(color: Colors.white),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isTablet ? 24 : 20,
+                                vertical: isTablet ? 16 : 12,
+                              ),
+                            ),
+                            child: Text('🔧 Test Backend Connection'),
+                          ),
+                        ),
+
+
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/lessons');
@@ -336,7 +365,8 @@ class HomePage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
                         crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                        childAspectRatio:
+                            isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
                         children: [
                           _buildFeatureCard(
                             context,
@@ -373,7 +403,9 @@ class HomePage extends StatelessWidget {
                     vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
                   ),
                   decoration: BoxDecoration(
-                    color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
+                    color: isDark
+                        ? Theme.of(context).colorScheme.surface
+                        : AppTheme.cardBackground,
                   ),
                   child: Column(
                     children: [
@@ -392,7 +424,8 @@ class HomePage extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
                         crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                        childAspectRatio:
+                            isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
                         children: [
                           _buildQuickStartCard(
                             context,
@@ -432,7 +465,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(BuildContext context, String label, String value, IconData icon, bool isTablet) {
+  Widget _buildStatCard(BuildContext context, String label, String value,
+      IconData icon, bool isTablet) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(isTablet ? 16 : 12),
@@ -466,13 +500,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, IconData icon, String title, String description, bool isTablet) {
+  Widget _buildFeatureCard(BuildContext context, IconData icon, String title,
+      String description, bool isTablet) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Container(
       padding: EdgeInsets.all(isTablet ? 32 : 24),
       decoration: BoxDecoration(
-        color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
+        color: isDark
+            ? Theme.of(context).colorScheme.surface
+            : AppTheme.cardBackground,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -521,9 +558,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickStartCard(BuildContext context, String title, String description, IconData icon, String route, bool isTablet) {
+  Widget _buildQuickStartCard(BuildContext context, String title,
+      String description, IconData icon, String route, bool isTablet) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
@@ -664,7 +702,8 @@ class HomePage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
-              final authProvider = Provider.of<AuthProvider>(context, listen: false);
+              final authProvider =
+                  Provider.of<AuthProvider>(context, listen: false);
               await authProvider.signOut();
               if (context.mounted) {
                 Navigator.pop(context);
