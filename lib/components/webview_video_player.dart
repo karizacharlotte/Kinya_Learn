@@ -11,11 +11,11 @@ class WebViewVideoPlayer extends StatefulWidget {
   final String? subtitle;
 
   const WebViewVideoPlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     this.title,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   State<WebViewVideoPlayer> createState() => _WebViewVideoPlayerState();

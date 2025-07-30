@@ -3,7 +3,7 @@ import '../components/embedded_video_player.dart';
 import '../theme/app_theme.dart';
 
 class VideoTestPage extends StatelessWidget {
-  const VideoTestPage({Key? key}) : super(key: key);
+  const VideoTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {

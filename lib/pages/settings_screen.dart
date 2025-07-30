@@ -577,8 +577,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 class SideNavigation extends StatelessWidget {
   final String selected;
   final void Function(String route)? onNavigate;
-  const SideNavigation({required this.selected, this.onNavigate, Key? key})
-      : super(key: key);
+  const SideNavigation({super.key, required this.selected, this.onNavigate});
 
   @override
   Widget build(BuildContext context) {

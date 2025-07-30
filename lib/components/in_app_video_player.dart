@@ -14,7 +14,7 @@ class InAppVideoPlayer extends StatefulWidget {
   final double? aspectRatio;
 
   const InAppVideoPlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     this.title,
     this.subtitle,
@@ -25,7 +25,7 @@ class InAppVideoPlayer extends StatefulWidget {
     this.showYoutubeBranding = true,
     this.customPlayText,
     this.aspectRatio,
-  }) : super(key: key);
+  });
 
   @override
   State<InAppVideoPlayer> createState() => _InAppVideoPlayerState();

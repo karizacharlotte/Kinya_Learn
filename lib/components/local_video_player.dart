@@ -6,10 +6,10 @@ class LocalVideoPlayer extends StatefulWidget {
   final String? title;
 
   const LocalVideoPlayer({
-    Key? key,
+    super.key,
     required this.videoAssetPath,
     this.title,
-  }) : super(key: key);
+  });
 
   @override
   State<LocalVideoPlayer> createState() => _LocalVideoPlayerState();

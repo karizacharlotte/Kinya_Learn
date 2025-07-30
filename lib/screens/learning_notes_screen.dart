@@ -232,9 +232,9 @@ class _LearningNotesScreenState extends State<LearningNotesScreen> with TickerPr
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isOverdue 
-                ? Colors.red.withOpacity(0.5)
+                ? Colors.red.withValues(alpha: 0.5)
                 : isDueSoon 
-                  ? Colors.orange.withOpacity(0.5)
+                  ? Colors.orange.withValues(alpha: 0.5)
                   : Colors.transparent,
               width: 2,
             ),
@@ -266,7 +266,7 @@ class _LearningNotesScreenState extends State<LearningNotesScreen> with TickerPr
                   note.content,
                   style: TextStyle(
                     fontSize: isTablet ? 14 : 12,
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
+                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
                     decoration: note.isCompleted ? TextDecoration.lineThrough : null,
                   ),
                   maxLines: 2,
@@ -346,7 +346,7 @@ class _LearningNotesScreenState extends State<LearningNotesScreen> with TickerPr
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isOverdue ? Colors.red.withOpacity(0.5) : Colors.transparent,
+              color: isOverdue ? Colors.red.withValues(alpha: 0.5) : Colors.transparent,
               width: 2,
             ),
           ),
@@ -375,7 +375,7 @@ class _LearningNotesScreenState extends State<LearningNotesScreen> with TickerPr
                   goal.description,
                   style: TextStyle(
                     fontSize: isTablet ? 14 : 12,
-                    color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
+                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -756,8 +756,8 @@ class _LearningNotesScreenState extends State<LearningNotesScreen> with TickerPr
       avatar: Icon(icon, size: 16, color: color),
       label: Text('$title ($count)'),
       onPressed: count > 0 ? onTap : null,
-      backgroundColor: color.withOpacity(0.1),
-      side: BorderSide(color: color.withOpacity(0.3)),
+      backgroundColor: color.withValues(alpha: 0.1),
+      side: BorderSide(color: color.withValues(alpha: 0.3)),
     );
   }
 

@@ -8,12 +8,12 @@ class ImageLessonPlayer extends StatefulWidget {
   final VoidCallback? onCompleted;
 
   const ImageLessonPlayer({
-    Key? key,
+    super.key,
     required this.slides,
     this.title,
     this.subtitle,
     this.onCompleted,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageLessonPlayer> createState() => _ImageLessonPlayerState();

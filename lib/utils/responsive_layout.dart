@@ -102,7 +102,7 @@ class ResponsiveCard extends StatelessWidget {
         BorderRadius.circular(
           ResponsiveHelper.isDesktop(context) ? 16 : 12,
         );
-
+  
     return Container(
       margin: responsiveMargin,
       child: Card(
@@ -165,7 +165,6 @@ class ResponsiveText extends StatelessWidget {
           break;
       }
     }
-
     return Text(
       text,
       style: TextStyle(

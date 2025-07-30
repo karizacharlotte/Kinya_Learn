@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/image_lesson_player.dart';
 import '../data/language_lessons.dart';
-import '../models/lesson.dart';
+
 
 class KinyarwandaGreetingsLesson extends StatefulWidget {
   const KinyarwandaGreetingsLesson({super.key});
@@ -344,7 +344,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white.withOpacity(0.3),
+                    backgroundColor: Colors.white.withValues(alpha: 0.3),
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -696,7 +696,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
