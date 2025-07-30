@@ -126,15 +126,17 @@ class _VocabularyPageState extends State<VocabularyPage> {
                   example: _exampleController.text.isNotEmpty ? _exampleController.text : null,
                 );
                 
-                if (success) {
+                if (success && mounted) {
                   _clearControllers();
                   Navigator.pop(context);
                   _loadVocabulary();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Word added successfully!')),
-                  );
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Word added successfully!')),
+                    );
+                  }
                 }
-              } else {
+              } else if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Please fill in all required fields')),
                 );
@@ -225,13 +227,15 @@ class _VocabularyPageState extends State<VocabularyPage> {
                   'example': _exampleController.text.isNotEmpty ? _exampleController.text : null,
                 });
                 
-                if (success) {
+                if (success && mounted) {
                   _clearControllers();
                   Navigator.pop(context);
                   _loadVocabulary();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Word updated successfully!')),
-                  );
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Word updated successfully!')),
+                    );
+                  }
                 }
               }
             },
@@ -262,26 +266,30 @@ class _VocabularyPageState extends State<VocabularyPage> {
       ),
     );
 
-    if (confirmed == true) {
+    if (confirmed == true && mounted) {
       final success = await StudentDataService.deleteVocabulary(vocabId);
-      if (success) {
+      if (success && mounted) {
         _loadVocabulary();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Word deleted successfully!')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Word deleted successfully!')),
+          );
+        }
       }
     }
   }
 
   Future<void> _toggleMastered(String vocabId, bool currentStatus) async {
     final success = await StudentDataService.markVocabularyMastered(vocabId, !currentStatus);
-    if (success) {
+    if (success && mounted) {
       _loadVocabulary();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(currentStatus ? 'Marked as not mastered' : 'Marked as mastered!'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(currentStatus ? 'Marked as not mastered' : 'Marked as mastered!'),
+          ),
+        );
+      }
     }
   }
 
