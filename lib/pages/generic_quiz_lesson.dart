@@ -6,7 +6,7 @@ import '../providers/lesson_progress_provider.dart';
 class GenericQuizLesson extends StatefulWidget {
   final Lesson lesson;
   
-  const GenericQuizLesson({Key? key, required this.lesson}) : super(key: key);
+  const GenericQuizLesson({super.key, required this.lesson});
 
   @override
   State<GenericQuizLesson> createState() => _GenericQuizLessonState();
@@ -496,7 +496,7 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
