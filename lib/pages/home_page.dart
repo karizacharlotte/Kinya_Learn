@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
 import '../providers/auth_provider.dart';
+import 'notes_page.dart';
+import 'learning_goals_page.dart';
+import 'vocabulary_page.dart';
+import 'student_dashboard.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -179,26 +183,6 @@ class HomePage extends StatelessWidget {
                       
                       SizedBox(height: isTablet ? 32 : 24),
                       
-                      // Debug: Firebase Test Button (remove in production)
-                      if (const bool.fromEnvironment('dart.vm.product') == false)
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/firebase-test');
-                            },
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              side: BorderSide(color: Colors.white),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isTablet ? 24 : 20,
-                                vertical: isTablet ? 16 : 12,
-                              ),
-                            ),
-                            child: Text('🔧 Test Backend Connection'),
-                          ),
-                        ),
-                      
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/lessons');
@@ -225,6 +209,108 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                // Student Tools Section (for logged-in users)
+                if (authProvider.isLoggedIn) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
+                      vertical: isDesktop ? 40 : (isTablet ? 30 : 20),
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark ? Theme.of(context).colorScheme.surface : Colors.grey[50],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Study Tools',
+                          style: TextStyle(
+                            fontSize: isDesktop ? 28 : (isTablet ? 24 : 20),
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : AppTheme.textPrimary,
+                          ),
+                        ),
+                        SizedBox(height: isTablet ? 16 : 12),
+                        // Quick Dashboard Button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const StudentDashboard()),
+                            ),
+                            icon: const Icon(Icons.dashboard),
+                            label: const Text('View Student Dashboard'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryOrange,
+                              foregroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 12),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: isTablet ? 16 : 12),
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: isTablet ? 1.2 : 1.1,
+                          children: [
+                            _buildStudentToolCard(
+                              context,
+                              Icons.note_alt_outlined,
+                              'My Notes',
+                              'Personal lesson notes',
+                              isTablet,
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const NotesPage()),
+                              ),
+                            ),
+                            _buildStudentToolCard(
+                              context,
+                              Icons.track_changes,
+                              'Learning Goals',
+                              'Set & track goals',
+                              isTablet,
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const LearningGoalsPage()),
+                              ),
+                            ),
+                            _buildStudentToolCard(
+                              context,
+                              Icons.book_outlined,
+                              'Vocabulary',
+                              'Personal word list',
+                              isTablet,
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const VocabularyPage()),
+                              ),
+                            ),
+                            _buildStudentToolCard(
+                              context,
+                              Icons.bookmark_outline,
+                              'Bookmarks',
+                              'Saved lessons',
+                              isTablet,
+                              () {
+                                // TODO: Implement bookmarks page
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Bookmarks feature coming soon!')),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
 
                 // Features Section
                 Container(
@@ -486,6 +572,76 @@ class HomePage extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: isTablet ? 16 : 14,
+                color: isDark ? Colors.white70 : AppTheme.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStudentToolCard(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String description,
+    bool isTablet,
+    VoidCallback onTap,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: EdgeInsets.all(isTablet ? 20 : 16),
+        decoration: BoxDecoration(
+          color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isDark ? Colors.grey[700]! : Colors.grey[200]!,
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(isTablet ? 16 : 12),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryOrange.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                size: isTablet ? 32 : 28,
+                color: AppTheme.primaryOrange,
+              ),
+            ),
+            SizedBox(height: isTablet ? 16 : 12),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: isTablet ? 16 : 14,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : AppTheme.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: isTablet ? 8 : 6),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: isTablet ? 12 : 11,
                 color: isDark ? Colors.white70 : AppTheme.textSecondary,
               ),
             ),
