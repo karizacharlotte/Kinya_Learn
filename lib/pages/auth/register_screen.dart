@@ -289,9 +289,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         Text(
                                           'Create Account',
                                           style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0)),
                                         ),
                                       ],
                                     ),
