@@ -10,7 +10,7 @@ plugins {
 android {
     namespace = "com.example.kinya_learn"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "21.4.7075529"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -47,6 +47,10 @@ flutter {
 }
 
 dependencies {
+    // Core library desugaring support
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    
+    // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
 
     // Firebase services for Kinya Learn

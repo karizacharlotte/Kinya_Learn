@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'theme/theme_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/learning_notes_provider.dart';
 import 'services/notification_service.dart';
 import 'services/achievement_service.dart';
 import 'services/firestore_data_seeder.dart';
@@ -26,6 +27,7 @@ import 'pages/final_quiz_screen.dart';
 import 'pages/about_screen.dart';
 import 'pages/settings_screen.dart';
 import 'pages/lesson_detail_screen.dart';
+import 'screens/learning_notes_screen.dart';
 
 // 🔥 Simple Firebase Test Function
 Future<void> _testFirebaseConnection() async {
@@ -104,6 +106,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => LearningNotesProvider()),
         // If you need lesson progress tracking, add this line:
         // ChangeNotifierProvider(create: (_) => LessonProgressProvider()),
         // If you want to use the enhanced auth provider, swap it here:
@@ -137,6 +140,7 @@ class KinyaLearnApp extends StatelessWidget {
             '/culture': (context) => const CultureScreen(),
             '/profile': (context) => const ProfilePage(),
             '/profile-page': (context) => const ProfilePage(),
+            '/learning-notes': (context) => const LearningNotesScreen(),
             '/auth': (context) => const AuthChoiceScreen(),
             '/auth-choice': (context) => const AuthChoiceScreen(),
             '/login': (context) => const LoginScreen(),

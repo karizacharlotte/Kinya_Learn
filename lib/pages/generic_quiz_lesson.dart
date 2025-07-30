@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/lesson.dart';
-import '../data/language_lessons.dart';
-import '../components/lesson_navigation.dart';
 import '../providers/lesson_progress_provider.dart';
 
 class GenericQuizLesson extends StatefulWidget {
   final Lesson lesson;
   
-  const GenericQuizLesson({Key? key, required this.lesson}) : super(key: key);
+  const GenericQuizLesson({super.key, required this.lesson});
 
   @override
   State<GenericQuizLesson> createState() => _GenericQuizLessonState();
@@ -498,7 +496,7 @@ class _GenericQuizLessonState extends State<GenericQuizLesson> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
