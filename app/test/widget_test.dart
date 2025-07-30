@@ -7,22 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:kinya_learn/main.dart';
-import 'package:kinya_learn/theme/theme_provider.dart';
+import '../lib/main.dart';
 
 void main() {
   testWidgets('KinyaLearn app smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => ThemeProvider(),
-        child: const KinyaLearnApp(),
-      ),
-    );
+    await tester.pumpWidget(const KinyaLearnApp());
 
     // Verify that our app loads
     expect(find.byType(MaterialApp), findsOneWidget);
-
   });
 }
