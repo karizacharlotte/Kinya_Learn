@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../theme/theme_provider.dart';
 import '../providers/auth_provider.dart';
+import '../utils/responsive_layout.dart';
+import '../utils/responsive_helper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -91,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
             const SizedBox(width: 12),
-            const Text('Welcome to KinyaLearn!'),
+            const Flexible(child: Text('Welcome to KinyaLearn!')),
           ],
         ),
         content: Column(
@@ -172,12 +174,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    return Scaffold(
+    
+    return ResponsiveScaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -203,8 +203,8 @@ class _SplashScreenState extends State<SplashScreen>
                     children: [
                       // Rwanda Flag inspired icon
                       Container(
-                        width: isTablet ? 120 : 100,
-                        height: isTablet ? 80 : 66,
+                        width: ResponsiveHelper.getResponsiveValue(context, mobile: 100, tablet: 120, desktop: 140),
+                        height: ResponsiveHelper.getResponsiveValue(context, mobile: 66, tablet: 80, desktop: 93),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
@@ -253,53 +253,38 @@ class _SplashScreenState extends State<SplashScreen>
                       SizedBox(height: screenHeight * 0.08),
 
                       // App Title
-                      Text(
+                      ResponsiveText(
                         'KinyaLearn',
-                        style: TextStyle(
-                          fontSize: isTablet ? 48 : 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: -1,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              offset: const Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
+                        type: ResponsiveTextType.header,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 40, tablet: 48, desktop: 56),
                       ),
 
                       SizedBox(height: screenHeight * 0.02),
 
                       // Subtitle in Kinyarwanda
-                      Text(
+                      ResponsiveText(
                         'Kinyarwanda wiga neza',
-                        style: TextStyle(
-                          fontSize: isTablet ? 20 : 18,
-                          color: Colors.white.withValues(alpha: 0.9),
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.5,
-                        ),
+                        type: ResponsiveTextType.body,
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontWeight: FontWeight.w500,
+                        customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 18, tablet: 20, desktop: 22),
                       ),
 
                       SizedBox(height: screenHeight * 0.15),
 
                       // Bottom tagline
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isTablet ? 60 : 40,
-                        ),
+                        padding: ResponsiveHelper.getResponsivePadding(context),
                         child: Column(
                           children: [
-                            Text(
+                            ResponsiveText(
                               'Tangira Kwiga • Start Learning',
-                              style: TextStyle(
-                                fontSize: isTablet ? 18 : 16,
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1,
-                              ),
+                              type: ResponsiveTextType.body,
+                              color: Colors.white.withValues(alpha: 0.8),
+                              fontWeight: FontWeight.w600,
+                              customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 18, desktop: 20),
                             ),
                             const SizedBox(height: 20),
                             // Loading indicator

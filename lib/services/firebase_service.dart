@@ -88,8 +88,15 @@ class FirebaseService {
   /// Sign in with Google
   static Future<UserCredential?> signInWithGoogle() async {
     try {
+      // Configure Google Sign-In with web client ID
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        // Add your web client ID here - get it from Firebase Console
+        // For now, we'll use a placeholder to prevent the assertion error
+        scopes: ['email', 'profile'],
+      );
+      
       // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       
       if (googleUser == null) {
         // User canceled the sign-in
