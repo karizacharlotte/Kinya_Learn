@@ -58,7 +58,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
   String _getEmbedUrl(String videoUrl) {
     final videoId = _getVideoId(videoUrl);
     if (videoId.isNotEmpty) {
-      return 'https://www.youtube.com/embed/$videoId?autoplay=0&controls=1&modestbranding=1&rel=0&fs=1&playsinline=1&enablejsapi=1&origin=${Uri.base.origin}';
+      return 'https://www.youtube.com/embed/$videoId?autoplay=0&controls=1&modestbranding=1&rel=0&fs=1&playsinline=1&enablejsapi=1&origin=https://localhost';
     }
     return videoUrl;
   }
@@ -139,10 +139,11 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
     final primaryColor = widget.primaryColor ?? theme.primaryColor;
     final accentColor = widget.accentColor ?? Colors.deepOrange;
     final borderRadius = widget.borderRadius ?? BorderRadius.circular(12);
-    final videoHeight = widget.height ?? (widget.aspectRatio != null 
-        ? MediaQuery.of(context).size.width / widget.aspectRatio! 
-        : 300.0);
-    
+    final videoHeight = widget.height ??
+        (widget.aspectRatio != null
+            ? MediaQuery.of(context).size.width / widget.aspectRatio!
+            : 300.0);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: borderRadius,
@@ -210,30 +211,38 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                 ],
               ),
             ),
-          
+
           // Video player
           Container(
             height: videoHeight,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.only(
-                topLeft: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topLeft.x),
-                topRight: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topRight.x),
+                topLeft: widget.title != null
+                    ? Radius.zero
+                    : Radius.circular(borderRadius.topLeft.x),
+                topRight: widget.title != null
+                    ? Radius.zero
+                    : Radius.circular(borderRadius.topRight.x),
                 bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
                 bottomRight: Radius.circular(borderRadius.bottomRight.x),
               ),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.only(
-                topLeft: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topLeft.x),
-                topRight: widget.title != null ? Radius.zero : Radius.circular(borderRadius.topRight.x),
+                topLeft: widget.title != null
+                    ? Radius.zero
+                    : Radius.circular(borderRadius.topLeft.x),
+                topRight: widget.title != null
+                    ? Radius.zero
+                    : Radius.circular(borderRadius.topRight.x),
                 bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
                 bottomRight: Radius.circular(borderRadius.bottomRight.x),
               ),
               child: _hasError ? _buildErrorWidget() : _buildVideoPlayer(),
             ),
           ),
-          
+
           // Progress bar
           Container(
             height: 2,
@@ -242,13 +251,13 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
               borderRadius: BorderRadius.circular(1),
             ),
           ),
-          
+
           // Info section
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: theme.brightness == Brightness.dark 
-                  ? Colors.grey.shade800 
+              color: theme.brightness == Brightness.dark
+                  ? Colors.grey.shade800
                   : Colors.grey.shade100,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(borderRadius.bottomLeft.x),
@@ -259,20 +268,20 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
               children: [
                 Icon(
                   Icons.video_library,
-                  color: theme.brightness == Brightness.dark 
-                      ? Colors.grey.shade400 
+                  color: theme.brightness == Brightness.dark
+                      ? Colors.grey.shade400
                       : Colors.grey.shade600,
                   size: 16,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    _isVideoLoaded 
-                      ? 'Video loaded and ready!'
-                      : 'Ready to play in app',
+                    _isVideoLoaded
+                        ? 'Video loaded and ready!'
+                        : 'Ready to play in app',
                     style: TextStyle(
-                      color: theme.brightness == Brightness.dark 
-                          ? Colors.grey.shade400 
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.grey.shade400
                           : Colors.grey.shade600,
                       fontSize: 12,
                     ),
@@ -348,7 +357,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
     final theme = Theme.of(context);
     final primaryColor = widget.primaryColor ?? theme.primaryColor;
     final playText = widget.customPlayText ?? 'Tap to Play Video';
-    
+
     return GestureDetector(
       onTap: () {
         // Just load the video immediately without loading overlay
@@ -383,8 +392,8 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                         child: Center(
                           child: CircularProgressIndicator(
                             value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / 
-                                  loadingProgress.expectedTotalBytes!
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
                                 : null,
                             color: Colors.white,
                           ),
@@ -415,7 +424,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                     ),
                   ),
           ),
-          
+
           // Dark overlay
           Container(
             width: double.infinity,
@@ -431,7 +440,7 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
               ),
             ),
           ),
-          
+
           // Play button
           Center(
             child: Column(
@@ -459,7 +468,8 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(8),
@@ -475,7 +485,8 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(6),
@@ -491,10 +502,11 @@ class _InAppVideoPlayerState extends State<InAppVideoPlayer> {
               ],
             ),
           ),
-          
+
           // YouTube branding
-          if (widget.showYoutubeBranding && 
-              (widget.videoUrl.contains('youtube.com') || widget.videoUrl.contains('youtu.be')))
+          if (widget.showYoutubeBranding &&
+              (widget.videoUrl.contains('youtube.com') ||
+                  widget.videoUrl.contains('youtu.be')))
             Positioned(
               top: 16,
               right: 16,

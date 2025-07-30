@@ -12,7 +12,20 @@
           "package_name": "com.kinyalearn.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "230200917214-e29hrsra2toavtuhggr85h531iql5nqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinyalearn.app",
+            "certificate_hash": "3eeed85865c878953d61137ac40dac85f948fc72"
+          }
+        },
+        {
+          "client_id": "230200917214-r2qkhta4avtr9a25osoi461s6rcq407l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB2T6uxeT5cJ_zuhW4NqNxloK5GDc49hQw"
@@ -20,7 +33,20 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230200917214-r2qkhta4avtr9a25osoi461s6rcq407l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "230200917214-4625smnmljh5bir3r99ssr19tsggi4gr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "KinyaLearn",
+                "app_store_id": "12"
+              }
+            }
+          ]
         }
       }
     }
