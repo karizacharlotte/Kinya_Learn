@@ -1,83 +1,26 @@
 import 'package:flutter/material.dart';
-import 'responsive_helper.dart';
+import '../utils/responsive_helper.dart';
 
-/// A comprehensive responsive layout widget that adapts to different screen sizes and orientations
-class ResponsiveLayout extends StatelessWidget {
-  final Widget? mobilePortrait;
-  final Widget? mobileLandscape;
-  final Widget? tabletPortrait;
-  final Widget? tabletLandscape;
-  final Widget? desktop;
-  final Widget? fallback;
-  final bool showSideNavigation;
-  final Widget? sideNavigation;
-  final Widget? bottomNavigation;
-  final bool maintainBottomViewPadding;
-
-  const ResponsiveLayout({
+/// A responsive container that provides consistent max width and centering
+class ResponsiveContainer extends StatelessWidget {
+  final Widget child;
+  final double? maxWidth;
+  
+  const ResponsiveContainer({
     super.key,
-    this.mobilePortrait,
-    this.mobileLandscape,
-    this.tabletPortrait,
-    this.tabletLandscape,
-    this.desktop,
-    this.fallback,
-    this.showSideNavigation = false,
-    this.sideNavigation,
-    this.bottomNavigation,
-    this.maintainBottomViewPadding = true,
+    required this.child,
+    this.maxWidth,
   });
-
+  
   @override
   Widget build(BuildContext context) {
-    final layoutType = ResponsiveHelper.getLayoutType(context);
-
-    Widget content;
-
-    switch (layoutType) {
-      case ResponsiveLayoutType.mobilePortrait:
-        content = mobilePortrait ?? fallback ?? Container();
-        break;
-      case ResponsiveLayoutType.mobileLandscape:
-        content = mobileLandscape ?? mobilePortrait ?? fallback ?? Container();
-        break;
-      case ResponsiveLayoutType.tabletPortrait:
-        content = tabletPortrait ?? mobilePortrait ?? fallback ?? Container();
-        break;
-      case ResponsiveLayoutType.tabletLandscape:
-        content = tabletLandscape ??
-            tabletPortrait ??
-            desktop ??
-            fallback ??
-            Container();
-        break;
-      case ResponsiveLayoutType.desktop:
-        content = desktop ?? tabletLandscape ?? fallback ?? Container();
-        break;
-    }
-
-    // Wrap with side navigation if needed
-    if (showSideNavigation &&
-        ResponsiveHelper.shouldUseSideNavigation(context)) {
-      return Row(
-        children: [
-          if (sideNavigation != null) sideNavigation!,
-          Expanded(child: content),
-        ],
-      );
-    }
-
-    // Wrap with bottom navigation if needed for mobile
-    if (bottomNavigation != null && ResponsiveHelper.isMobile(context)) {
-      return Column(
-        children: [
-          Expanded(child: content),
-          bottomNavigation!,
-        ],
-      );
-    }
-
-    return content;
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxWidth: maxWidth ?? (ResponsiveHelper.isDesktop(context) ? 1200 : double.infinity),
+      ),
+      child: child,
+    );
   }
 }
 
@@ -181,7 +124,6 @@ class ResponsiveCard extends StatelessWidget {
   }
 }
 
-/// A responsive text widget that adapts font size based on screen size
 class ResponsiveText extends StatelessWidget {
   final String text;
   final ResponsiveTextType type;
@@ -237,13 +179,11 @@ class ResponsiveText extends StatelessWidget {
     );
   }
 }
-
 enum ResponsiveTextType {
   header,
   title,
   body,
 }
-
 /// A responsive button widget that adapts its size based on screen size
 class ResponsiveButton extends StatelessWidget {
   final Widget child;
@@ -276,32 +216,34 @@ class ResponsiveButton extends StatelessWidget {
           ResponsiveHelper.isDesktop(context) ? 12 : 8,
         );
 
-    if (isOutlined) {
-      return OutlinedButton(
-        onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          foregroundColor: foregroundColor,
-          padding: responsivePadding,
-          shape: RoundedRectangleBorder(
-            borderRadius: responsiveBorderRadius,
-          ),
-        ),
-        child: child,
-      );
-    }
-
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        padding: responsivePadding,
-        elevation: elevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: responsiveBorderRadius,
-        ),
-      ),
-      child: child,
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: isOutlined
+          ? OutlinedButton(
+              onPressed: onPressed,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: foregroundColor,
+                padding: responsivePadding,
+                shape: RoundedRectangleBorder(
+                  borderRadius: responsiveBorderRadius,
+                ),
+              ),
+              child: child,
+            )
+          : ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: backgroundColor,
+                foregroundColor: foregroundColor,
+                padding: responsivePadding,
+                elevation: elevation,
+                shape: RoundedRectangleBorder(
+                  borderRadius: responsiveBorderRadius,
+                ),
+              ),
+              child: child,
+            ),
     );
   }
 }
@@ -337,9 +279,7 @@ class ResponsiveScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       body: SafeArea(
-        child: ResponsiveContainer(
-          child: body,
-        ),
+        child: body,
       ),
     );
   }
@@ -366,8 +306,6 @@ class ResponsiveAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = ResponsiveHelper.getResponsiveNavigationHeight(context);
-
     return AppBar(
       title: title,
       actions: actions,
@@ -375,7 +313,7 @@ class ResponsiveAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       elevation: elevation,
       automaticallyImplyLeading: automaticallyImplyLeading,
-      toolbarHeight: height,
+      toolbarHeight: ResponsiveHelper.getResponsiveNavigationHeight(context),
     );
   }
 

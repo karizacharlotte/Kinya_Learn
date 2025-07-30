@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../theme/app_theme.dart';
 import '../../providers/auth_provider.dart';
+import '../../utils/responsive_layout.dart';
+import '../../utils/responsive_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,12 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    return Scaffold(
+    
+    return ResponsiveScaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
         width: double.infinity,
@@ -38,14 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 : [AppTheme.primaryOrange, AppTheme.primaryOrange],
           ),
         ),
-        child: SafeArea(
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: ResponsiveContainer(
             child: Padding(
-              padding: EdgeInsets.all(isTablet ? 32 : 24),
+              padding: ResponsiveHelper.getResponsivePadding(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: isTablet ? 60 : 40),
+                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 40, medium: 50, large: 60)),
                   // Logo and Brand
                   Center(
                     child: Column(
@@ -93,42 +93,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Text(
+                        ResponsiveText(
                           'KinyaLearn',
-                          style: TextStyle(
-                            fontSize: isTablet ? 32 : 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          type: ResponsiveTextType.header,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                         const SizedBox(height: 8),
-                        Text(
+                        ResponsiveText(
                           'Learn Kinyarwanda with confidence',
-                          style: TextStyle(
-                            fontSize: isTablet ? 16 : 14,
-                            color: Colors.white.withValues(alpha: 0.9),
-                          ),
+                          type: ResponsiveTextType.body,
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: isTablet ? 60 : 40),
+                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 40, medium: 50, large: 60)),
                   // Welcome Text
-                  Text(
+                  ResponsiveText(
                     'Welcome back',
-                    style: TextStyle(
-                      fontSize: isTablet ? 24 : 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                    type: ResponsiveTextType.title,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  ResponsiveText(
                     'Sign in to continue your learning journey',
-                    style: TextStyle(
-                      fontSize: isTablet ? 16 : 14,
-                      color: Colors.white.withValues(alpha: 0.9),
-                    ),
+                    type: ResponsiveTextType.body,
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                   const SizedBox(height: 32),
                   // Login Form
@@ -261,20 +253,33 @@ class _LoginScreenState extends State<LoginScreen> {
                             // Remember Me & Forgot Password
                             Row(
                               children: [
-                                Checkbox(
-                                  value: _rememberMe,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value ?? false;
-                                    });
-                                  },
-                                  activeColor: Colors.white,
-                                  checkColor: const Color.fromARGB(255, 78, 42,
-                                      147), // changed from 158, 74, 21
-                                  side: BorderSide(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.8)),
+                                Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: _rememberMe ? Colors.white : Colors.white.withValues(alpha: 0.6),
+                                      width: 2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: _rememberMe ? Colors.white : Colors.transparent,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _rememberMe = !_rememberMe;
+                                      });
+                                    },
+                                    child: _rememberMe
+                                        ? const Icon(
+                                            Icons.check,
+                                            color: Color.fromARGB(255, 78, 42, 147),
+                                            size: 16,
+                                          )
+                                        : null,
+                                  ),
                                 ),
+                                const SizedBox(width: 8),
                                 Text(
                                   'Remember me',
                                   style: TextStyle(
@@ -297,41 +302,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 24),
                             // Login Button
-                            SizedBox(
-                              width: double.infinity,
-                              height: 48,
-                              child: ElevatedButton(
-                                onPressed: authProvider.isLoading
-                                    ? null
-                                    : _handleLogin,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: const Color.fromARGB(255, 78,
-                                      42, 147), // changed from 158, 74, 21
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: authProvider.isLoading
-                                    ? const SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<
-                                                  Color>(
-                                              Color.fromARGB(255, 78, 42, 147)),
-                                        ),
-                                      )
-                                    : const Text(
-                                        'Sign In',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                            ResponsiveButton(
+                              onPressed: authProvider.isLoading
+                                  ? null
+                                  : _handleLogin,
+                              backgroundColor: Colors.white,
+                              foregroundColor: const Color.fromARGB(255, 78, 42, 147),
+                              child: authProvider.isLoading
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(
+                                            Color.fromARGB(255, 78, 42, 147)),
                                       ),
-                              ),
+                                    )
+                                  : const ResponsiveText(
+                                      'Sign In',
+                                      type: ResponsiveTextType.body,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                             ),
                             const SizedBox(height: 24),
                             // Divider
@@ -356,6 +347,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Icons.g_mobiledata,
                               Colors.white.withValues(alpha: 0.15),
                               Colors.white,
+                              onPressed: () => _handleSocialSignIn('Google'),
                             ),
                             const SizedBox(height: 12),
                             _buildSocialButton(
@@ -363,6 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Icons.apple,
                               Colors.white.withValues(alpha: 0.15),
                               Colors.white,
+                              onPressed: () => _handleSocialSignIn('Apple'),
                             ),
                           ],
                         ),
@@ -406,26 +399,20 @@ class _LoginScreenState extends State<LoginScreen> {
     IconData icon,
     Color backgroundColor,
     Color textColor, {
-    VoidCallback? onPressed, // <-- make it configurable
+    VoidCallback? onPressed,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48,
-      child: OutlinedButton(
-        onPressed: onPressed, // <-- use the passed-in function
-        style: OutlinedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          foregroundColor: textColor,
-          side: const BorderSide(color: AppTheme.border),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 20),
-            const SizedBox(width: 12),
-            Text(text, style: const TextStyle(fontWeight: FontWeight.w500)),
-          ],
-        ),
+    return ResponsiveButton(
+      onPressed: onPressed,
+      backgroundColor: backgroundColor,
+      foregroundColor: textColor,
+      isOutlined: true,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20),
+          const SizedBox(width: 12),
+          ResponsiveText(text, type: ResponsiveTextType.body, fontWeight: FontWeight.w500),
+        ],
       ),
     );
   }
@@ -442,6 +429,18 @@ class _LoginScreenState extends State<LoginScreen> {
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }
+    }
+  }
+
+  void _handleSocialSignIn(String provider) async {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$provider sign-in is not configured yet. Please use email login.'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 3),
+        ),
+      );
     }
   }
 

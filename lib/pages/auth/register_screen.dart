@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -210,27 +211,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: [
                               Container(
                                 margin: const EdgeInsets.only(top: 2),
-                                child: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Checkbox(
-                                    value: _acceptTerms,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _acceptTerms = value ?? false;
-                                      });
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    activeColor: Colors.grey.shade800,
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    visualDensity: VisualDensity.compact,
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: _acceptTerms ? Colors.grey.shade800 : Colors.grey.shade400,
+                                    width: 2,
                                   ),
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: _acceptTerms ? Colors.grey.shade800 : Colors.transparent,
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _acceptTerms = !_acceptTerms;
+                                    });
+                                  },
+                                  child: _acceptTerms
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                          size: 16,
+                                        )
+                                      : null,
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
@@ -342,34 +348,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(height: sectionSpacing),
                 // Sign In Link
                 Center(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    children: [
-                      Text(
-                        'Already have an account? ',
-                        style: TextStyle(
-                          color: Colors.grey.shade700,
-                          fontSize: isSmallScreen ? 13 : 14,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(
-                            fontSize: isSmallScreen ? 13 : 14,
-                            fontWeight: FontWeight.w600,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (constraints.maxWidth < 300) {
+                        return Column(
+                          children: [
+                            Text(
+                              'Already have an account?',
+                              style: TextStyle(
+                                color: Colors.grey.shade700,
+                                fontSize: isSmallScreen ? 13 : 14,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'Sign in',
+                                style: TextStyle(
+                                  fontSize: isSmallScreen ? 13 : 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Text(
+                            'Already have an account? ',
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              fontSize: isSmallScreen ? 13 : 14,
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Text(
+                              'Sign in',
+                              style: TextStyle(
+                                fontSize: isSmallScreen ? 13 : 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 16),
@@ -387,9 +418,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: double.infinity,
       height: isSmallScreen ? 44 : 48,
       child: OutlinedButton(
-        onPressed: () {
-          // Handle social registration
-        },
+        onPressed: () => _handleSocialSignIn(text),
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
@@ -430,6 +459,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Navigator.pushReplacementNamed(context, '/');
       }
     }
+  }
+
+  void _handleSocialSignIn(String provider) async {
+    // Temporary: Show configuration message until Google Sign-In is properly set up
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$provider sign-in is not configured yet. Please use email registration.'),
+          backgroundColor: Colors.orange,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+    
+    // TODO: Uncomment when Google Sign-In is properly configured
+    /*
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    bool success = false;
+    
+    if (provider.contains('Google')) {
+      success = await authProvider.signInWithGoogle();
+    }
+    // Add other providers here in the future (Apple, Facebook, etc.)
+    
+    if (success && mounted) {
+      Navigator.pushReplacementNamed(context, '/');
+    }
+    */
   }
 
   @override

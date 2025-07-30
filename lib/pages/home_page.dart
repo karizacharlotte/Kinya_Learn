@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
 import '../providers/auth_provider.dart';
+import '../utils/responsive_layout.dart';
+import '../utils/responsive_helper.dart';
 import 'notes_page.dart';
 import 'learning_goals_page.dart';
 import 'vocabulary_page.dart';
@@ -13,11 +15,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-    final isDesktop = screenWidth > 1024;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Scaffold(
+    
+    return ResponsiveScaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Consumer<AuthProvider>(
         builder: (context, authProvider, _) {
@@ -27,10 +27,7 @@ class HomePage extends StatelessWidget {
                 // Hero Section
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-                    vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
-                  ),
+                  padding: ResponsiveHelper.getResponsivePadding(context),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -44,7 +41,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // User Welcome Section
-                      if (authProvider.isLoggedIn) ...[
+                      if (authProvider.isLoggedIn) ...[ 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -52,62 +49,53 @@ class HomePage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  ResponsiveText(
                                     'Welcome back, ${authProvider.displayName}!',
-                                    style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 32 : (isTablet ? 28 : 24),
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                    type: ResponsiveTextType.header,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
-                                  SizedBox(height: isTablet ? 12 : 8),
-                                  Text(
+                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
+                                  ResponsiveText(
                                     'Continue your Kinyarwanda learning journey',
-                                    style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 18 : (isTablet ? 16 : 14),
-                                      color:
-                                          Colors.white.withValues(alpha: 0.9),
-                                    ),
+                                    type: ResponsiveTextType.body,
+                                    color: Colors.white.withValues(alpha: 0.9),
                                   ),
                                 ],
                               ),
                             ),
                             IconButton(
                               onPressed: () => _showLogoutDialog(context),
-                              icon:
-                                  const Icon(Icons.logout, color: Colors.white),
+                              icon: const Icon(Icons.logout, color: Colors.white),
                               tooltip: 'Logout',
                             ),
                           ],
                         ),
-                        SizedBox(height: isTablet ? 32 : 24),
+                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
                         // User Stats
-                        Row(
+                        ResponsiveGrid(
+                          mobileColumns: 3,
+                          tabletColumns: 3,
+                          desktopColumns: 3,
+                          spacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 16, large: 20),
                           children: [
                             _buildStatCard(
                               context,
                               'XP',
                               '${authProvider.totalXP}',
                               Icons.star,
-                              isTablet,
                             ),
-                            SizedBox(width: isTablet ? 16 : 12),
                             _buildStatCard(
                               context,
                               'Streak',
                               '${authProvider.currentStreak} days',
                               Icons.local_fire_department,
-                              isTablet,
                             ),
-                            SizedBox(width: isTablet ? 16 : 12),
                             _buildStatCard(
                               context,
                               'Lessons',
                               '${authProvider.lessonsCompleted}',
                               Icons.book,
-                              isTablet,
                             ),
                           ],
                         ),
@@ -118,55 +106,38 @@ class HomePage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  ResponsiveText(
                                     'Learn Kinyarwanda\nwith KinyaLearn',
-                                    style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 48 : (isTablet ? 36 : 28),
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                    type: ResponsiveTextType.header,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 28, tablet: 36, desktop: 48),
                                   ),
-                                  SizedBox(height: isTablet ? 20 : 16),
-                                  Text(
+                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 16, medium: 18, large: 20)),
+                                  ResponsiveText(
                                     'Master the beautiful language of Rwanda through interactive lessons, cultural insights, and practical exercises.',
-                                    style: TextStyle(
-                                      fontSize:
-                                          isDesktop ? 20 : (isTablet ? 18 : 16),
-                                      color:
-                                          Colors.white.withValues(alpha: 0.9),
-                                    ),
+                                    type: ResponsiveTextType.body,
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 18, desktop: 20),
                                   ),
-                                  SizedBox(height: isTablet ? 32 : 24),
-
+                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
                                   // Sign In Button for guests
-                                  ElevatedButton(
+                                  ResponsiveButton(
                                     onPressed: () {
                                       Navigator.pushNamed(context, '/auth');
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: AppTheme.primaryOrange,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: isTablet ? 32 : 24,
-                                        vertical: isTablet ? 20 : 16,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                    child: Text(
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: AppTheme.primaryOrange,
+                                    child: ResponsiveText(
                                       'Sign In to Track Progress',
-                                      style: TextStyle(
-                                        fontSize: isTablet ? 18 : 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                      type: ResponsiveTextType.body,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            if (isDesktop)
+                            if (ResponsiveHelper.isDesktop(context))
                               Expanded(
                                 child: Container(
                                   height: 400,
@@ -187,52 +158,32 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
 
-                      SizedBox(height: isTablet ? 32 : 24),
-
+                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
 
                       // Debug: Firebase Test Button (remove in production)
-                      if (const bool.fromEnvironment('dart.vm.product') ==
-                          false)
+                      if (const bool.fromEnvironment('dart.vm.product') == false)
                         Padding(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: OutlinedButton(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: ResponsiveButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/firebase-test');
                             },
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              side: BorderSide(color: Colors.white),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isTablet ? 24 : 20,
-                                vertical: isTablet ? 16 : 12,
-                              ),
-                            ),
-                            child: Text('🔧 Test Backend Connection'),
+                            isOutlined: true,
+                            foregroundColor: Colors.white,
+                            child: const ResponsiveText('🔧 Test Backend Connection', type: ResponsiveTextType.body),
                           ),
                         ),
 
-
-                      ElevatedButton(
+                      ResponsiveButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/lessons');
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: AppTheme.primaryOrange,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isTablet ? 32 : 24,
-                            vertical: isTablet ? 20 : 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Text(
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppTheme.primaryOrange,
+                        child: const ResponsiveText(
                           'Start Learning',
-                          style: TextStyle(
-                            fontSize: isTablet ? 18 : 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          type: ResponsiveTextType.body,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -243,57 +194,48 @@ class HomePage extends StatelessWidget {
                 if (authProvider.isLoggedIn) ...[
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-                      vertical: isDesktop ? 40 : (isTablet ? 30 : 20),
-                    ),
+                    padding: ResponsiveHelper.getResponsivePadding(context),
                     decoration: BoxDecoration(
                       color: isDark ? Theme.of(context).colorScheme.surface : Colors.grey[50],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        ResponsiveText(
                           'Study Tools',
-                          style: TextStyle(
-                            fontSize: isDesktop ? 28 : (isTablet ? 24 : 20),
-                            fontWeight: FontWeight.bold,
-                            color: isDark ? Colors.white : AppTheme.textPrimary,
-                          ),
+                          type: ResponsiveTextType.title,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.white : AppTheme.textPrimary,
                         ),
-                        SizedBox(height: isTablet ? 16 : 12),
+                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16)),
                         // Quick Dashboard Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const StudentDashboard()),
-                            ),
-                            icon: const Icon(Icons.dashboard),
-                            label: const Text('View Student Dashboard'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.primaryOrange,
-                              foregroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 12),
-                            ),
+                        ResponsiveButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const StudentDashboard()),
+                          ),
+                          backgroundColor: AppTheme.primaryOrange,
+                          foregroundColor: Colors.white,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.dashboard),
+                              SizedBox(width: 8),
+                              ResponsiveText('View Student Dashboard', type: ResponsiveTextType.body),
+                            ],
                           ),
                         ),
-                        SizedBox(height: isTablet ? 16 : 12),
-                        GridView.count(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                          childAspectRatio: isTablet ? 1.2 : 1.1,
+                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16)),
+                        ResponsiveGrid(
+                          mobileColumns: 2,
+                          tabletColumns: 3,
+                          desktopColumns: 4,
                           children: [
                             _buildStudentToolCard(
                               context,
                               Icons.note_alt_outlined,
                               'My Notes',
                               'Personal lesson notes',
-                              isTablet,
                               () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (_) => const NotesPage()),
@@ -304,7 +246,6 @@ class HomePage extends StatelessWidget {
                               Icons.track_changes,
                               'Learning Goals',
                               'Set & track goals',
-                              isTablet,
                               () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (_) => const LearningGoalsPage()),
@@ -315,7 +256,6 @@ class HomePage extends StatelessWidget {
                               Icons.book_outlined,
                               'Vocabulary',
                               'Personal word list',
-                              isTablet,
                               () => Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (_) => const VocabularyPage()),
@@ -326,9 +266,7 @@ class HomePage extends StatelessWidget {
                               Icons.bookmark_outline,
                               'Bookmarks',
                               'Saved lessons',
-                              isTablet,
                               () {
-                                // TODO: Implement bookmarks page
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('Bookmarks feature coming soon!')),
                                 );
@@ -344,50 +282,38 @@ class HomePage extends StatelessWidget {
                 // Features Section
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-                    vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
-                  ),
+                  padding: ResponsiveHelper.getResponsivePadding(context),
                   child: Column(
                     children: [
-                      Text(
+                      ResponsiveText(
                         'Why Choose KinyaLearn?',
-                        style: TextStyle(
-                          fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : AppTheme.textPrimary,
-                        ),
+                        type: ResponsiveTextType.header,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : AppTheme.textPrimary,
                       ),
-                      SizedBox(height: isTablet ? 48 : 32),
-                      GridView.count(
-                        crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        childAspectRatio:
-                            isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 32, medium: 40, large: 48)),
+                      ResponsiveGrid(
+                        mobileColumns: 1,
+                        tabletColumns: 2,
+                        desktopColumns: 3,
                         children: [
                           _buildFeatureCard(
                             context,
                             Icons.video_library,
                             'Interactive Videos',
                             'Learn with authentic Kinyarwanda videos and interactive content',
-                            isTablet,
                           ),
                           _buildFeatureCard(
                             context,
                             Icons.quiz,
                             'Practice Quizzes',
                             'Test your knowledge with engaging quizzes and exercises',
-                            isTablet,
                           ),
                           _buildFeatureCard(
                             context,
                             Icons.volume_up,
                             'Perfect Pronunciation',
                             'Master authentic Kinyarwanda pronunciation with TTS support',
-                            isTablet,
                           ),
                         ],
                       ),
@@ -398,10 +324,7 @@ class HomePage extends StatelessWidget {
                 // Quick Start Section
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-                    vertical: isDesktop ? 80 : (isTablet ? 60 : 40),
-                  ),
+                  padding: ResponsiveHelper.getResponsivePadding(context),
                   decoration: BoxDecoration(
                     color: isDark
                         ? Theme.of(context).colorScheme.surface
@@ -409,23 +332,17 @@ class HomePage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Text(
+                      ResponsiveText(
                         'Quick Start',
-                        style: TextStyle(
-                          fontSize: isDesktop ? 36 : (isTablet ? 28 : 24),
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : AppTheme.textPrimary,
-                        ),
+                        type: ResponsiveTextType.header,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : AppTheme.textPrimary,
                       ),
-                      SizedBox(height: isTablet ? 48 : 32),
-                      GridView.count(
-                        crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 1),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        mainAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        crossAxisSpacing: isDesktop ? 40 : (isTablet ? 30 : 20),
-                        childAspectRatio:
-                            isDesktop ? 1.2 : (isTablet ? 1.1 : 1.5),
+                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 32, medium: 40, large: 48)),
+                      ResponsiveGrid(
+                        mobileColumns: 1,
+                        tabletColumns: 2,
+                        desktopColumns: 3,
                         children: [
                           _buildQuickStartCard(
                             context,
@@ -433,7 +350,6 @@ class HomePage extends StatelessWidget {
                             'Start with structured lessons',
                             Icons.book,
                             '/lessons',
-                            isTablet,
                           ),
                           _buildQuickStartCard(
                             context,
@@ -441,7 +357,6 @@ class HomePage extends StatelessWidget {
                             'Test your skills',
                             Icons.quiz,
                             '/practice',
-                            isTablet,
                           ),
                           _buildQuickStartCard(
                             context,
@@ -449,7 +364,6 @@ class HomePage extends StatelessWidget {
                             'Customize your learning',
                             Icons.settings,
                             '/settings',
-                            isTablet,
                           ),
                         ],
                       ),
@@ -465,153 +379,112 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(BuildContext context, String label, String value,
-      IconData icon, bool isTablet) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(isTablet ? 16 : 12),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: Colors.white, size: isTablet ? 24 : 20),
-            SizedBox(height: isTablet ? 8 : 4),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: isTablet ? 18 : 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: isTablet ? 12 : 10,
-                color: Colors.white.withValues(alpha: 0.8),
-              ),
-            ),
-          ],
-        ),
+  Widget _buildStatCard(BuildContext context, String label, String value, IconData icon) {
+    return ResponsiveCard(
+      color: Colors.white.withValues(alpha: 0.2),
+      child: Column(
+        children: [
+          Icon(
+            icon, 
+            color: Colors.white, 
+            size: ResponsiveHelper.getResponsiveIconSize(context)
+          ),
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
+          ResponsiveText(
+            value,
+            type: ResponsiveTextType.body,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          ResponsiveText(
+            label,
+            type: ResponsiveTextType.body,
+            customFontSize: ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.8,
+            color: Colors.white.withValues(alpha: 0.8),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, IconData icon, String title,
-      String description, bool isTablet) {
+  Widget _buildFeatureCard(BuildContext context, IconData icon, String title, String description) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Container(
-      padding: EdgeInsets.all(isTablet ? 32 : 24),
-      decoration: BoxDecoration(
-        color: isDark
-            ? Theme.of(context).colorScheme.surface
-            : AppTheme.cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return ResponsiveCard(
+      color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(isTablet ? 20 : 16),
+            padding: ResponsiveHelper.getResponsivePadding(context),
             decoration: BoxDecoration(
               color: AppTheme.primaryOrange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               icon,
-              size: isTablet ? 48 : 40,
+              size: ResponsiveHelper.getResponsiveIconSize(context) * 1.5,
               color: AppTheme.primaryOrange,
             ),
           ),
-          SizedBox(height: isTablet ? 24 : 16),
-          Text(
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+          ResponsiveText(
             title,
-            style: TextStyle(
-              fontSize: isTablet ? 20 : 18,
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : AppTheme.textPrimary,
-            ),
+            type: ResponsiveTextType.title,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white : AppTheme.textPrimary,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: isTablet ? 16 : 12),
-          Text(
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 12, large: 16)),
+          ResponsiveText(
             description,
+            type: ResponsiveTextType.body,
+            color: isDark ? Colors.white70 : AppTheme.textSecondary,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: isTablet ? 16 : 14,
-              color: isDark ? Colors.white70 : AppTheme.textSecondary,
-            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildQuickStartCard(BuildContext context, String title,
-      String description, IconData icon, String route, bool isTablet) {
+  Widget _buildQuickStartCard(BuildContext context, String title, String description, IconData icon, String route) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, route);
       },
-      child: Container(
-        padding: EdgeInsets.all(isTablet ? 32 : 24),
-        decoration: BoxDecoration(
-          color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
+      child: ResponsiveCard(
+        color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(isTablet ? 20 : 16),
+              padding: ResponsiveHelper.getResponsivePadding(context),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 icon,
-                size: isTablet ? 48 : 40,
+                size: ResponsiveHelper.getResponsiveIconSize(context) * 1.5,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: isTablet ? 24 : 16),
-            Text(
+            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+            ResponsiveText(
               title,
-              style: TextStyle(
-                fontSize: isTablet ? 20 : 18,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : AppTheme.textPrimary,
-              ),
+              type: ResponsiveTextType.title,
+              fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white : AppTheme.textPrimary,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isTablet ? 16 : 12),
-            Text(
+            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 12, large: 16)),
+            ResponsiveText(
               description,
+              type: ResponsiveTextType.body,
+              color: isDark ? Colors.white70 : AppTheme.textSecondary,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: isTablet ? 16 : 14,
-                color: isDark ? Colors.white70 : AppTheme.textSecondary,
-              ),
             ),
           ],
         ),
@@ -624,7 +497,6 @@ class HomePage extends StatelessWidget {
     IconData icon,
     String title,
     String description,
-    bool isTablet,
     VoidCallback onTap,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -632,56 +504,38 @@ class HomePage extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: EdgeInsets.all(isTablet ? 20 : 16),
-        decoration: BoxDecoration(
-          color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isDark ? Colors.grey[700]! : Colors.grey[200]!,
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      child: ResponsiveCard(
+        color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(isTablet ? 16 : 12),
+              padding: ResponsiveHelper.getResponsivePadding(context),
               decoration: BoxDecoration(
                 color: AppTheme.primaryOrange.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
-                size: isTablet ? 32 : 28,
+                size: ResponsiveHelper.getResponsiveIconSize(context),
                 color: AppTheme.primaryOrange,
               ),
             ),
-            SizedBox(height: isTablet ? 16 : 12),
-            Text(
+            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+            ResponsiveText(
               title,
-              style: TextStyle(
-                fontSize: isTablet ? 16 : 14,
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : AppTheme.textPrimary,
-              ),
+              type: ResponsiveTextType.body,
+              fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white : AppTheme.textPrimary,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isTablet ? 8 : 6),
-            Text(
+            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 6, medium: 8, large: 10)),
+            ResponsiveText(
               description,
+              type: ResponsiveTextType.body,
+              customFontSize: ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.9,
+              color: isDark ? Colors.white70 : AppTheme.textSecondary,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: isTablet ? 12 : 11,
-                color: isDark ? Colors.white70 : AppTheme.textSecondary,
-              ),
             ),
           ],
         ),

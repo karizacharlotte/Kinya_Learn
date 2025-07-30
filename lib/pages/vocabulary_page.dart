@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/student_data_service.dart';
+import '../utils/responsive_layout.dart';
+import '../utils/responsive_helper.dart';
 
 class VocabularyPage extends StatefulWidget {
   final bool autoShowAddDialog;
@@ -311,11 +313,10 @@ class _VocabularyPageState extends State<VocabularyPage> {
     final displayVocab = _filteredVocabulary;
     final masteredCount = _vocabulary.where((v) => v['mastered'] == true).length;
     
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Vocabulary'),
+    return ResponsiveScaffold(
+      appBar: ResponsiveAppBar(
+        title: const ResponsiveText('My Vocabulary', type: ResponsiveTextType.title),
         backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
         actions: [
           PopupMenuButton(
             itemBuilder: (context) => [
@@ -340,70 +341,48 @@ class _VocabularyPageState extends State<VocabularyPage> {
       body: Column(
         children: [
           // Statistics Card
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(16),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '${_vocabulary.length}',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Text('Total Words'),
-                        ],
+          ResponsiveContainer(
+            child: ResponsiveCard(
+              margin: ResponsiveHelper.getResponsivePadding(context),
+              child: ResponsiveGrid(
+                mobileColumns: 3,
+                tabletColumns: 3,
+                desktopColumns: 3,
+                childAspectRatio: 1.5,
+                children: [
+                  Column(
+                    children: [
+                      ResponsiveText(
+                        '${_vocabulary.length}',
+                        type: ResponsiveTextType.title,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 40,
-                      color: Colors.grey[300],
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '$masteredCount',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ),
-                          const Text('Mastered'),
-                        ],
+                      const ResponsiveText('Total Words', type: ResponsiveTextType.body),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ResponsiveText(
+                        '$masteredCount',
+                        type: ResponsiveTextType.title,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: 40,
-                      color: Colors.grey[300],
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            '${_vocabulary.length - masteredCount}',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          const Text('Learning'),
-                        ],
+                      const ResponsiveText('Mastered', type: ResponsiveTextType.body),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      ResponsiveText(
+                        '${_vocabulary.length - masteredCount}',
+                        type: ResponsiveTextType.title,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange,
                       ),
-                    ),
-                  ],
-                ),
+                      const ResponsiveText('Learning', type: ResponsiveTextType.body),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

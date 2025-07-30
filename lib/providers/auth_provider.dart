@@ -159,6 +159,37 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  /// Sign in with Google
+  Future<bool> signInWithGoogle() async {
+    try {
+      _setLoading(true);
+      _clearError();
+
+      UserCredential? result = await FirebaseService.signInWithGoogle();
+
+      if (result != null) {
+        _user = result.user;
+        await _loadUserData();
+
+        // Update last login time
+        if (_user != null) {
+          await FirebaseService.updateUserProgress(uid: _user!.uid);
+        }
+
+        return true;
+      }
+      return false;
+    } on FirebaseAuthException catch (e) {
+      _setError(_getErrorMessage(e.code));
+      return false;
+    } catch (e) {
+      _setError('Failed to sign in with Google');
+      return false;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   /// Update user progress
   Future<void> updateProgress({
     int? lessonsCompleted,
