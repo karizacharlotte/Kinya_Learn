@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/webview_video_player.dart';
 
 class VideoTestScreen extends StatefulWidget {
-  const VideoTestScreen({Key? key}) : super(key: key);
+  const VideoTestScreen({super.key});
 
   @override
   State<VideoTestScreen> createState() => _VideoTestScreenState();

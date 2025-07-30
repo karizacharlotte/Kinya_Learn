@@ -9,11 +9,11 @@ class SimpleVideoPlayer extends StatefulWidget {
   final String? subtitle;
 
   const SimpleVideoPlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     this.title,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   State<SimpleVideoPlayer> createState() => _SimpleVideoPlayerState();

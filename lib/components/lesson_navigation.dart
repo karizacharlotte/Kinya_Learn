@@ -9,11 +9,11 @@ class LessonNavigation extends StatelessWidget {
   final VoidCallback? onPrevious;
 
   const LessonNavigation({
-    Key? key,
+    super.key,
     required this.currentLesson,
     this.onNext,
     this.onPrevious,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

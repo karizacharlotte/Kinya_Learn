@@ -154,9 +154,7 @@ class _LessonViewerState extends State<LessonViewer> {
                 SizedBox(height: isTablet ? 12 : 8),
                 LinearProgressIndicator(
                   value: (currentSectionIndex + 1) / widget.sections.length,
-                  backgroundColor: isDark 
-                    ? Colors.white.withValues(alpha: 0.3)
-                    : Colors.white.withValues(alpha: 0.3),
+                  backgroundColor: Colors.white.withValues(alpha: 0.3),
                   valueColor: AlwaysStoppedAnimation<Color>(
                     isDark ? AppTheme.primaryOrange : Colors.white,
                   ),
@@ -498,7 +496,7 @@ class _LessonViewerState extends State<LessonViewer> {
               ],
             ),
           );
-        }).toList(),
+        }),
 
         if (culturalContext != null) ...[
           SizedBox(height: isTablet ? 24 : 16),
@@ -652,7 +650,7 @@ class _LessonViewerState extends State<LessonViewer> {
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

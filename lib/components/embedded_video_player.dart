@@ -13,13 +13,13 @@ class EmbeddedVideoPlayer extends StatefulWidget {
   final bool showControls;
 
   const EmbeddedVideoPlayer({
-    Key? key,
+    super.key,
     required this.videoUrl,
     this.title,
     this.subtitle,
     this.autoPlay = false,
     this.showControls = true,
-  }) : super(key: key);
+  });
 
   @override
   State<EmbeddedVideoPlayer> createState() => _EmbeddedVideoPlayerState();

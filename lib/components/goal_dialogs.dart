@@ -689,16 +689,16 @@ class _GoalDetailDialog extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: goal.isCompleted 
-              ? [Colors.green.withOpacity(0.1), Colors.green.withOpacity(0.05)]
-              : [AppTheme.primaryOrange.withOpacity(0.1), AppTheme.primaryOrange.withOpacity(0.05)],
+              ? [Colors.green.withValues(alpha: 0.1), Colors.green.withValues(alpha: 0.05)]
+              : [AppTheme.primaryOrange.withValues(alpha: 0.1), AppTheme.primaryOrange.withValues(alpha: 0.05)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: goal.isCompleted 
-              ? Colors.green.withOpacity(0.3)
-              : AppTheme.primaryOrange.withOpacity(0.3),
+              ? Colors.green.withValues(alpha: 0.3)
+              : AppTheme.primaryOrange.withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -786,8 +786,8 @@ class _GoalDetailDialog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        border: Border.all(color: color.withOpacity(0.3)),
+        color: color.withValues(alpha: 0.1),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -847,8 +847,8 @@ class _GoalDetailDialog extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: statusColor.withOpacity(0.1),
-        border: Border.all(color: statusColor.withOpacity(0.3)),
+        color: statusColor.withValues(alpha: 0.1),
+        border: Border.all(color: statusColor.withValues(alpha: 0.3)),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

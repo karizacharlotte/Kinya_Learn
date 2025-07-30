@@ -12,7 +12,7 @@ class BackendHealthCheck extends StatefulWidget {
 }
 
 class _BackendHealthCheckState extends State<BackendHealthCheck> {
-  Map<String, dynamic> _testResults = {};
+  final Map<String, dynamic> _testResults = {};
   bool _isRunningTests = false;
 
   @override
@@ -121,7 +121,6 @@ class _BackendHealthCheckState extends State<BackendHealthCheck> {
   Future<void> _testFirebaseConnection() async {
     try {
       // Test basic Firebase connection
-      final auth = FirebaseService.auth;
       final firestore = FirebaseService.firestore;
       
       // Test Firestore read
@@ -131,7 +130,7 @@ class _BackendHealthCheckState extends State<BackendHealthCheck> {
         'Firebase Connection',
         true,
         'Firebase services are accessible',
-        'Auth: ${auth != null}, Firestore: ${firestore != null}, Test doc exists: ${testDoc.exists}',
+        'Auth: available, Firestore: available, Test doc exists: ${testDoc.exists}',
       );
     } catch (e) {
       _addTestResult(

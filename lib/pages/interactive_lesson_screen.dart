@@ -6,9 +6,9 @@ class InteractiveLessonScreen extends StatefulWidget {
   final Lesson lesson;
 
   const InteractiveLessonScreen({
-    Key? key,
+    super.key,
     required this.lesson,
-  }) : super(key: key);
+  });
 
   @override
   State<InteractiveLessonScreen> createState() => _InteractiveLessonScreenState();
@@ -192,7 +192,7 @@ class _InteractiveLessonScreenState extends State<InteractiveLessonScreen> {
                                 ),
                               ),
                             );
-                          }).toList(),
+                          }),
                         ],
                       ),
                     ),
