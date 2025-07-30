@@ -101,7 +101,7 @@ class ProgressTrackingService {
 
       await _firestore
           .collection('progress')
-          .doc('${userId}_${lessonId}_${sectionId}')
+          .doc('${userId}_${lessonId}_$sectionId')
           .set(sectionProgressData, SetOptions(merge: true));
 
     } catch (e) {

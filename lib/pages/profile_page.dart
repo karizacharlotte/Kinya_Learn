@@ -207,6 +207,14 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         const SizedBox(height: 12),
         _buildOptionCard(
+          icon: Icons.notes,
+          title: 'Learning Notes & Goals',
+          subtitle: 'Manage your notes and learning goals',
+          onTap: () => Navigator.pushNamed(context, '/learning-notes'),
+          isDark: isDark,
+        ),
+        const SizedBox(height: 12),
+        _buildOptionCard(
           icon: Icons.bar_chart,
           title: 'Learning Statistics',
           subtitle: 'Detailed progress analytics',

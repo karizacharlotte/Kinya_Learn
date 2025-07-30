@@ -438,7 +438,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 52,
                     child: ElevatedButton(
                       onPressed: _startQuiz,
@@ -719,7 +719,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 48,
                     child: TextButton(
                       onPressed: () {
@@ -752,7 +752,7 @@ class _KinyarwandaGreetingsLessonState extends State<KinyarwandaGreetingsLesson>
                 SizedBox(width: 16),
                 Expanded(
                   flex: 2,
-                  child: Container(
+                  child: SizedBox(
                     height: 48,
                     child: ElevatedButton(
                       onPressed: _selectedAnswers[_currentQuestionIndex] != -1 ? _nextQuestion : null,

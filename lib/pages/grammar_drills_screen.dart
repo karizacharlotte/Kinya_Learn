@@ -275,7 +275,7 @@ class _GrammarDrillsScreenState extends State<GrammarDrillsScreen> {
                         grammarQuestions[currentQuestionIndex]['options'].length,
                         (index) => Padding(
                           padding: EdgeInsets.only(bottom: isTablet ? 12 : 8),
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             child: InkWell(
                               onTap: showResult ? null : () {

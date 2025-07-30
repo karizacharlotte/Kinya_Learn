@@ -43,7 +43,7 @@ class FirebaseService {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       print('Sign up error: ${e.message}');
-      throw e;
+      rethrow;
     }
   }
 
@@ -60,7 +60,7 @@ class FirebaseService {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       print('Sign in error: ${e.message}');
-      throw e;
+      rethrow;
     }
   }
 
@@ -70,7 +70,7 @@ class FirebaseService {
       await _auth.signOut();
     } catch (e) {
       print('Sign out error: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -80,7 +80,7 @@ class FirebaseService {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       print('Password reset error: ${e.message}');
-      throw e;
+      rethrow;
     }
   }
 
@@ -109,7 +109,7 @@ class FirebaseService {
       });
     } catch (e) {
       print('Error creating user document: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -119,7 +119,7 @@ class FirebaseService {
       return await _firestore.collection('users').doc(uid).get();
     } catch (e) {
       print('Error getting user document: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -157,7 +157,7 @@ class FirebaseService {
       await _firestore.collection('users').doc(uid).update(updates);
     } catch (e) {
       print('Error updating user progress: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -196,7 +196,7 @@ class FirebaseService {
       }
     } catch (e) {
       print('Error saving lesson progress: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -211,7 +211,7 @@ class FirebaseService {
           .get();
     } catch (e) {
       print('Error getting lesson progress: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -246,7 +246,7 @@ class FirebaseService {
       await updateUserProgress(uid: uid, xpGained: xpEarned);
     } catch (e) {
       print('Error saving quiz result: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -268,7 +268,7 @@ class FirebaseService {
       return downloadUrl;
     } catch (e) {
       print('Error uploading profile picture: $e');
-      throw e;
+      rethrow;
     }
   }
 
