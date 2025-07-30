@@ -356,6 +356,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Icons.g_mobiledata,
                               Colors.white.withValues(alpha: 0.15),
                               Colors.white,
+                              onPressed: () => _handleSocialSignIn('Google'),
                             ),
                             const SizedBox(height: 12),
                             _buildSocialButton(
@@ -363,6 +364,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Icons.apple,
                               Colors.white.withValues(alpha: 0.15),
                               Colors.white,
+                              onPressed: () => _handleSocialSignIn('Apple'),
                             ),
                           ],
                         ),
@@ -442,6 +444,21 @@ class _LoginScreenState extends State<LoginScreen> {
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }
+    }
+  }
+
+  void _handleSocialSignIn(String provider) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    bool success = false;
+    
+    if (provider == 'Google') {
+      success = await authProvider.signInWithGoogle();
+    }
+    // Add other providers here in the future (Apple, Facebook, etc.)
+    
+    if (success && mounted) {
+      Navigator.pushReplacementNamed(context, '/');
     }
   }
 

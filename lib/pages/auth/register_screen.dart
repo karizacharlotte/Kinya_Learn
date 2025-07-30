@@ -387,9 +387,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       width: double.infinity,
       height: isSmallScreen ? 44 : 48,
       child: OutlinedButton(
-        onPressed: () {
-          // Handle social registration
-        },
+        onPressed: () => _handleSocialSignIn(text),
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
@@ -429,6 +427,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (success && mounted) {
         Navigator.pushReplacementNamed(context, '/');
       }
+    }
+  }
+
+  void _handleSocialSignIn(String provider) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    bool success = false;
+    
+    if (provider.contains('Google')) {
+      success = await authProvider.signInWithGoogle();
+    }
+    // Add other providers here in the future (Apple, Facebook, etc.)
+    
+    if (success && mounted) {
+      Navigator.pushReplacementNamed(context, '/');
     }
   }
 
