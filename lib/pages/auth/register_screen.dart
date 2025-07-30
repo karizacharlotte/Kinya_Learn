@@ -21,47 +21,64 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
     final isTablet = screenWidth > 768;
+    final isSmallScreen = screenHeight < 700;
+    
+    // Responsive spacing
+    final topSpacing = isSmallScreen ? 10.0 : (isTablet ? 40.0 : 20.0);
+    final sectionSpacing = isSmallScreen ? 16.0 : (isTablet ? 32.0 : 24.0);
+    final fieldSpacing = isSmallScreen ? 12.0 : 16.0;
+    final horizontalPadding = isTablet ? 32.0 : 20.0;
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(isTablet ? 32 : 24),
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: 16,
+          ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: screenHeight - MediaQuery.of(context).padding.top - 32,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: isTablet ? 40 : 20),
+                SizedBox(height: topSpacing),
                 // Back Button
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.arrow_back),
                   style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.grey.shade50,
                     padding: const EdgeInsets.all(12),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: sectionSpacing),
                 // Header
                 Text(
                   'Create Account',
                   style: TextStyle(
-                    fontSize: isTablet ? 32 : 28,
+                    fontSize: isTablet ? 32 : (isSmallScreen ? 24 : 28),
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(221, 13, 12, 12),
+                    color: Colors.grey.shade800,
+                    height: 1.2,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: isSmallScreen ? 6 : 8),
                 Text(
                   'Join KinyaLearn and start your language learning journey',
                   style: TextStyle(
-                    fontSize: isTablet ? 16 : 14,
-                    color: const Color.fromARGB(166, 13, 12, 12),
+                    fontSize: isTablet ? 16 : (isSmallScreen ? 13 : 14),
+                    color: Colors.grey.shade600,
+                    height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: sectionSpacing),
                 // Registration Form
                 Consumer<AuthProvider>(
                   builder: (context, authProvider, _) {
@@ -74,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(12),
-                              margin: const EdgeInsets.only(bottom: 16),
+                              margin: EdgeInsets.only(bottom: fieldSpacing),
                               decoration: BoxDecoration(
                                 color: Colors.red.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
@@ -101,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: fieldSpacing),
                           // Email Field
                           TextFormField(
                             controller: _emailController,
@@ -121,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: fieldSpacing),
                           // Password Field
                           TextFormField(
                             controller: _passwordController,
@@ -153,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: fieldSpacing),
                           // Confirm Password Field
                           TextFormField(
                             controller: _confirmPasswordController,
@@ -186,64 +203,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: sectionSpacing),
                           // Terms and Conditions
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: 18,
-                                height: 18,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey, // light grey outline
-                                    width: 1.5,
+                                margin: const EdgeInsets.only(top: 2),
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Checkbox(
+                                    value: _acceptTerms,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _acceptTerms = value ?? false;
+                                      });
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    activeColor: Colors.grey.shade800,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    visualDensity: VisualDensity.compact,
                                   ),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Checkbox(
-                                  value: _acceptTerms,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _acceptTerms = value ?? false;
-                                    });
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  side: const BorderSide(
-                                    color: Colors
-                                        .transparent, // to let the Container border show
-                                  ),
-                                  activeColor:
-                                      const Color.fromARGB(255, 8, 8, 8),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  visualDensity: VisualDensity.compact,
                                 ),
                               ),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
                                     style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 13, 12, 12),
-                                      fontSize: 14,
+                                      color: Colors.grey.shade700,
+                                      fontSize: isSmallScreen ? 13 : 14,
+                                      height: 1.4,
                                     ),
                                     children: [
                                       const TextSpan(text: 'I agree to the '),
-                                      const TextSpan(
+                                      TextSpan(
                                         text: 'Terms of Service',
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Colors.grey.shade800,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                       const TextSpan(text: ' and '),
-                                      const TextSpan(
+                                      TextSpan(
                                         text: 'Privacy Policy',
                                         style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Colors.grey.shade800,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -253,23 +262,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: sectionSpacing),
                           // Register Button
                           SizedBox(
                             width: double.infinity,
-                            height: 48,
-                            child: OutlinedButton(
+                            height: isSmallScreen ? 44 : 48,
+                            child: ElevatedButton(
                               onPressed:
                                   (_acceptTerms && !authProvider.isLoading)
                                       ? _handleRegister
                                       : null,
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black87,
-                                side: BorderSide(color: Colors.grey[300]!),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey.shade800,
+                                foregroundColor: Colors.white,
+                                disabledBackgroundColor: Colors.grey.shade300,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
+                                elevation: 0,
                               ),
                               child: authProvider.isLoading
                                   ? const SizedBox(
@@ -277,85 +287,92 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        valueColor: AlwaysStoppedAnimation<
-                                                Color>(
-                                            Color.fromARGB(255, 78, 42, 147)),
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                       ),
                                     )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: const [
-                                        Text(
-                                          'Create Account',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0)),
-                                        ),
-                                      ],
+                                  : Text(
+                                      'Create Account',
+                                      style: TextStyle(
+                                        fontSize: isSmallScreen ? 15 : 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: fieldSpacing),
                           // Divider
                           Row(
                             children: [
                               const Expanded(child: Divider()),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Text(
                                   'or',
                                   style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 0, 0, 0)),
+                                    color: Colors.grey.shade600,
+                                    fontSize: isSmallScreen ? 13 : 14,
+                                  ),
                                 ),
                               ),
                               const Expanded(child: Divider()),
                             ],
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: fieldSpacing),
                           // Social Registration
                           _buildSocialButton(
                             'Continue with Google',
                             Icons.g_mobiledata,
                             Colors.white,
                             Colors.black87,
+                            isSmallScreen,
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: fieldSpacing * 0.75),
                           _buildSocialButton(
                             'Continue with Apple',
                             Icons.apple,
                             Colors.black87,
                             Colors.white,
+                            isSmallScreen,
                           ),
                         ],
                       ),
                     );
                   },
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: sectionSpacing),
                 // Sign In Link
                 Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
                     children: [
                       Text(
                         'Already have an account? ',
                         style: TextStyle(
-                            color: const Color.fromARGB(255, 12, 11, 11)),
+                          color: Colors.grey.shade700,
+                          fontSize: isSmallScreen ? 13 : 14,
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text('Sign in'),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text(
+                          'Sign in',
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 13 : 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 16),
               ],
             ),
           ),
@@ -365,10 +382,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildSocialButton(
-      String text, IconData icon, Color backgroundColor, Color textColor) {
+      String text, IconData icon, Color backgroundColor, Color textColor, bool isSmallScreen) {
     return SizedBox(
       width: double.infinity,
-      height: 48,
+      height: isSmallScreen ? 44 : 48,
       child: OutlinedButton(
         onPressed: () {
           // Handle social registration
@@ -376,14 +393,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         style: OutlinedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          side: BorderSide(color: Colors.grey[300]!),
+          side: BorderSide(color: Colors.grey.shade300),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 20),
+            Icon(icon, size: isSmallScreen ? 18 : 20),
             const SizedBox(width: 12),
-            Text(text, style: const TextStyle(fontWeight: FontWeight.w500)),
+            Text(
+              text,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: isSmallScreen ? 14 : 15,
+              ),
+            ),
           ],
         ),
       ),

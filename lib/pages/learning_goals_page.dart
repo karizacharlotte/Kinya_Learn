@@ -52,7 +52,7 @@ class _LearningGoalsPageState extends State<LearningGoalsPage> {
     
     try {
       final goals = await StudentDataService.getLearningGoals();
-      if (goals != null) {
+      if (goals != null && mounted) {
         setState(() {
           _dailyLessons = goals['dailyLessons'] ?? 3;
           _weeklyGoal = goals['weeklyGoal'] ?? 21;
@@ -65,18 +65,24 @@ class _LearningGoalsPageState extends State<LearningGoalsPage> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading goals: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading goals: $e')),
+        );
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   Future<void> _loadTodayProgress() async {
     try {
       final progress = await StudentDataService.getDailyProgress();
-      setState(() => _todayProgress = progress);
+      if (mounted) {
+        setState(() => _todayProgress = progress);
+      }
     } catch (e) {
       print('Error loading today progress: $e');
     }
@@ -97,22 +103,26 @@ class _LearningGoalsPageState extends State<LearningGoalsPage> {
         targetDate: _targetDate,
       );
       
-      if (success) {
+      if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Learning goals updated successfully!')),
         );
         _loadGoals();
-      } else {
+      } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update goals')),
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
