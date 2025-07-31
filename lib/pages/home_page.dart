@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return ResponsiveScaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Consumer<AuthProvider>(
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // User Welcome Section
-                      if (authProvider.isLoggedIn) ...[ 
+                      if (authProvider.isLoggedIn) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -56,18 +56,31 @@ class HomePage extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),
-                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
+                                  SizedBox(
+                                      height:
+                                          ResponsiveHelper.getResponsiveSpacing(
+                                              context,
+                                              small: 8,
+                                              medium: 10,
+                                              large: 12)),
                                   ResponsiveText(
                                     'Continue your Kinyarwanda learning journey',
                                     type: ResponsiveTextType.body,
                                     color: Colors.white.withValues(alpha: 0.9),
                                   ),
-                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+                                  SizedBox(
+                                      height:
+                                          ResponsiveHelper.getResponsiveSpacing(
+                                              context,
+                                              small: 24,
+                                              medium: 28,
+                                              large: 32)),
                                   Center(
                                     child: RwandanFlag(
                                       width: 120,
                                       height: 80,
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
                                     ),
                                   ),
                                 ],
@@ -75,7 +88,8 @@ class HomePage extends StatelessWidget {
                             ),
                             IconButton(
                               onPressed: () => _showLogoutDialog(context),
-                              icon: const Icon(Icons.logout, color: Colors.white),
+                              icon:
+                                  const Icon(Icons.logout, color: Colors.white),
                               tooltip: 'Logout',
                             ),
                           ],
@@ -93,16 +107,38 @@ class HomePage extends StatelessWidget {
                                     type: ResponsiveTextType.header,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                    customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 28, tablet: 36, desktop: 48),
+                                    customFontSize:
+                                        ResponsiveHelper.getResponsiveValue(
+                                            context,
+                                            mobile: 28,
+                                            tablet: 36,
+                                            desktop: 48),
                                   ),
-                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 16, medium: 18, large: 20)),
+                                  SizedBox(
+                                      height:
+                                          ResponsiveHelper.getResponsiveSpacing(
+                                              context,
+                                              small: 16,
+                                              medium: 18,
+                                              large: 20)),
                                   ResponsiveText(
                                     'Master the beautiful language of Rwanda through interactive lessons, cultural insights, and practical exercises.',
                                     type: ResponsiveTextType.body,
                                     color: Colors.white.withValues(alpha: 0.9),
-                                    customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 18, desktop: 20),
+                                    customFontSize:
+                                        ResponsiveHelper.getResponsiveValue(
+                                            context,
+                                            mobile: 16,
+                                            tablet: 18,
+                                            desktop: 20),
                                   ),
-                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+                                  SizedBox(
+                                      height:
+                                          ResponsiveHelper.getResponsiveSpacing(
+                                              context,
+                                              small: 24,
+                                              medium: 28,
+                                              large: 32)),
                                   // Sign In Button for guests
                                   ResponsiveButton(
                                     onPressed: () {
@@ -131,7 +167,8 @@ class HomePage extends StatelessWidget {
                                     child: RwandanFlag(
                                       width: 200,
                                       height: 133,
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
                                     ),
                                   ),
                                 ),
@@ -140,7 +177,9 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
 
-                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+                      SizedBox(
+                          height: ResponsiveHelper.getResponsiveSpacing(context,
+                              small: 24, medium: 28, large: 32)),
                     ],
                   ),
                 ),
@@ -151,7 +190,9 @@ class HomePage extends StatelessWidget {
                     width: double.infinity,
                     padding: ResponsiveHelper.getResponsivePadding(context),
                     decoration: BoxDecoration(
-                      color: isDark ? Theme.of(context).colorScheme.surface : Colors.grey[50],
+                      color: isDark
+                          ? Theme.of(context).colorScheme.surface
+                          : Colors.grey[50],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,12 +203,18 @@ class HomePage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: isDark ? Colors.white : AppTheme.textPrimary,
                         ),
-                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16)),
+                        SizedBox(
+                            height: ResponsiveHelper.getResponsiveSpacing(
+                                context,
+                                small: 12,
+                                medium: 14,
+                                large: 16)),
                         // Quick Dashboard Button
                         ResponsiveButton(
                           onPressed: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const StudentDashboard()),
+                            MaterialPageRoute(
+                                builder: (_) => const StudentDashboard()),
                           ),
                           backgroundColor: AppTheme.primaryOrange,
                           foregroundColor: Colors.white,
@@ -176,11 +223,17 @@ class HomePage extends StatelessWidget {
                             children: [
                               Icon(Icons.dashboard),
                               SizedBox(width: 8),
-                              ResponsiveText('View Student Dashboard', type: ResponsiveTextType.body),
+                              ResponsiveText('View Student Dashboard',
+                                  type: ResponsiveTextType.body),
                             ],
                           ),
                         ),
-                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16)),
+                        SizedBox(
+                            height: ResponsiveHelper.getResponsiveSpacing(
+                                context,
+                                small: 12,
+                                medium: 14,
+                                large: 16)),
                         ResponsiveGrid(
                           mobileColumns: 2,
                           tabletColumns: 3,
@@ -193,7 +246,8 @@ class HomePage extends StatelessWidget {
                               'Personal lesson notes',
                               () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => const NotesPage()),
+                                MaterialPageRoute(
+                                    builder: (_) => const NotesPage()),
                               ),
                             ),
                             _buildStudentToolCard(
@@ -203,7 +257,8 @@ class HomePage extends StatelessWidget {
                               'Set & track goals',
                               () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => const LearningGoalsPage()),
+                                MaterialPageRoute(
+                                    builder: (_) => const LearningGoalsPage()),
                               ),
                             ),
                             _buildStudentToolCard(
@@ -213,7 +268,8 @@ class HomePage extends StatelessWidget {
                               'Personal word list',
                               () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => const VocabularyPage()),
+                                MaterialPageRoute(
+                                    builder: (_) => const VocabularyPage()),
                               ),
                             ),
                             _buildStudentToolCard(
@@ -223,7 +279,9 @@ class HomePage extends StatelessWidget {
                               'Saved lessons',
                               () {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Bookmarks feature coming soon!')),
+                                  const SnackBar(
+                                      content: Text(
+                                          'Bookmarks feature coming soon!')),
                                 );
                               },
                             ),
@@ -246,7 +304,9 @@ class HomePage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: isDark ? Colors.white : AppTheme.textPrimary,
                       ),
-                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 32, medium: 40, large: 48)),
+                      SizedBox(
+                          height: ResponsiveHelper.getResponsiveSpacing(context,
+                              small: 32, medium: 40, large: 48)),
                       ResponsiveGrid(
                         mobileColumns: 1,
                         tabletColumns: 2,
@@ -293,7 +353,9 @@ class HomePage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: isDark ? Colors.white : AppTheme.textPrimary,
                       ),
-                      SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 32, medium: 40, large: 48)),
+                      SizedBox(
+                          height: ResponsiveHelper.getResponsiveSpacing(context,
+                              small: 32, medium: 40, large: 48)),
                       ResponsiveGrid(
                         mobileColumns: 1,
                         tabletColumns: 2,
@@ -334,17 +396,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(BuildContext context, String label, String value, IconData icon) {
+  Widget _buildStatCard(
+      BuildContext context, String label, String value, IconData icon) {
     return ResponsiveCard(
       color: Colors.white.withValues(alpha: 0.2),
       child: Column(
         children: [
-          Icon(
-            icon, 
-            color: Colors.white, 
-            size: ResponsiveHelper.getResponsiveIconSize(context)
-          ),
-          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
+          Icon(icon,
+              color: Colors.white,
+              size: ResponsiveHelper.getResponsiveIconSize(context)),
+          SizedBox(
+              height: ResponsiveHelper.getResponsiveSpacing(context,
+                  small: 4, medium: 6, large: 8)),
           ResponsiveText(
             value,
             type: ResponsiveTextType.body,
@@ -354,7 +417,8 @@ class HomePage extends StatelessWidget {
           ResponsiveText(
             label,
             type: ResponsiveTextType.body,
-            customFontSize: ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.8,
+            customFontSize:
+                ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.8,
             color: Colors.white.withValues(alpha: 0.8),
           ),
         ],
@@ -362,11 +426,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, IconData icon, String title, String description) {
+  Widget _buildFeatureCard(
+      BuildContext context, IconData icon, String title, String description) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ResponsiveCard(
-      color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
+      color: isDark
+          ? Theme.of(context).colorScheme.surface
+          : AppTheme.cardBackground,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -390,7 +457,9 @@ class HomePage extends StatelessWidget {
             color: isDark ? Colors.white : AppTheme.textPrimary,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 12, large: 16)),
+          SizedBox(
+              height: ResponsiveHelper.getResponsiveSpacing(context,
+                  small: 8, medium: 12, large: 16)),
           ResponsiveText(
             description,
             type: ResponsiveTextType.body,
@@ -402,7 +471,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickStartCard(BuildContext context, String title, String description, IconData icon, String route) {
+  Widget _buildQuickStartCard(BuildContext context, String title,
+      String description, IconData icon, String route) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
@@ -434,7 +504,9 @@ class HomePage extends StatelessWidget {
               color: isDark ? Colors.white : AppTheme.textPrimary,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 12, large: 16)),
+            SizedBox(
+                height: ResponsiveHelper.getResponsiveSpacing(context,
+                    small: 8, medium: 12, large: 16)),
             ResponsiveText(
               description,
               type: ResponsiveTextType.body,
@@ -455,7 +527,7 @@ class HomePage extends StatelessWidget {
     VoidCallback onTap,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -484,12 +556,17 @@ class HomePage extends StatelessWidget {
               color: isDark ? Colors.white : AppTheme.textPrimary,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 6, medium: 8, large: 10)),
+            SizedBox(
+                height: ResponsiveHelper.getResponsiveSpacing(context,
+                    small: 0, medium: 0, large: 0)),
             ResponsiveText(
               description,
               type: ResponsiveTextType.body,
-              customFontSize: ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.9,
-              color: isDark ? Colors.white70 : AppTheme.textSecondary,
+              customFontSize:
+                  ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.9,
+              color: isDark
+                  ? const Color.fromARGB(179, 114, 102, 102)
+                  : AppTheme.textSecondary,
               textAlign: TextAlign.center,
             ),
           ],
