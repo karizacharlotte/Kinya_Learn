@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
 import '../data/culture_lessons.dart';
+import '../utils/responsive_helper.dart';
+import '../utils/responsive_layout.dart';
 
 class CultureScreen extends StatelessWidget {
   const CultureScreen({super.key});
@@ -9,22 +11,16 @@ class CultureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lessons = CultureLessons.getLessons();
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-    final isDesktop = screenWidth > 1024;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           // Header
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-              vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
-            ),
+            padding: ResponsiveHelper.getResponsivePadding(context),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -34,58 +30,50 @@ class CultureScreen extends StatelessWidget {
                     : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Rwandan Culture & Heritage',
-                        style: TextStyle(
-                          fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ResponsiveText(
+                          'Rwandan Culture & Heritage',
+                          type: ResponsiveTextType.header,
                           fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.white,
+                          color: Colors.white,
                         ),
                       ),
-                    ),
-                    Icon(
-                      Icons.language,
-                      color: Colors.white,
-                      size: isDesktop ? 40 : (isTablet ? 36 : 32),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Explore Rwandan culture, traditions, and history',
-                  style: TextStyle(
-                    fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                    color: isDark ? Colors.white.withValues(alpha: 0.9) : Colors.white.withValues(alpha: 0.9),
+                      Icon(
+                        Icons.language,
+                        color: Colors.white,
+                        size: ResponsiveHelper.getResponsiveIconSize(context) * 1.5,
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+                  ResponsiveText(
+                    'Explore Rwandan culture, traditions, and history',
+                    type: ResponsiveTextType.body,
+                    color: Colors.white.withValues(alpha: 0.9),
+                  ),
+                ],
+              ),
             ),
           ),
           
           // Culture Lessons Grid
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(isDesktop ? 24 : (isTablet ? 20 : 16)),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
-                  crossAxisSpacing: isDesktop ? 16 : (isTablet ? 14 : 12),
-                  mainAxisSpacing: isDesktop ? 16 : (isTablet ? 14 : 12),
-                  childAspectRatio: isDesktop ? 0.85 : (isTablet ? 0.8 : 0.9),
-                ),
-                itemCount: lessons.length,
-                itemBuilder: (context, index) {
-                  final lesson = lessons[index];
-                  return _buildLessonCard(context, lesson, isTablet, isDark);
-                },
+              padding: ResponsiveHelper.getResponsivePadding(context),
+              child: ResponsiveGrid(
+                mobileColumns: 2,
+                tabletColumns: 3,
+                desktopColumns: 4,
+                spacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16),
+                runSpacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16),
+                childAspectRatio: ResponsiveHelper.getResponsiveValue(context, mobile: 0.9, tablet: 0.8, desktop: 0.85),
+                children: lessons.map((lesson) => _buildLessonCard(context, lesson, isDark)).toList(),
               ),
             ),
           ),
@@ -95,7 +83,7 @@ class CultureScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLessonCard(BuildContext context, lesson, bool isTablet, bool isDark) {
+  Widget _buildLessonCard(BuildContext context, lesson, bool isDark) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -107,11 +95,11 @@ class CultureScreen extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF2C2C2C) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
           boxShadow: [
             BoxShadow(
               color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.2),
-              blurRadius: 8,
+              blurRadius: ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 10, desktop: 12),
               offset: const Offset(0, 4),
             ),
           ],
@@ -121,7 +109,10 @@ class CultureScreen extends StatelessWidget {
           children: [
             // Lesson Header with enhanced preview
             Container(
-              padding: EdgeInsets.all(isTablet ? 12 : 8),
+              padding: ResponsiveHelper.getResponsivePadding(context).copyWith(
+                top: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+                bottom: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+              ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -131,9 +122,9 @@ class CultureScreen extends StatelessWidget {
                     _getLessonColor(lesson.id).withValues(alpha: 0.8),
                   ],
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
+                  topRight: Radius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
                 ),
               ),
               child: Stack(
@@ -149,55 +140,55 @@ class CultureScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(isTablet ? 8 : 6),
+                        padding: EdgeInsets.all(ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 8, desktop: 10)),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 9, desktop: 10)),
                         ),
                         child: Icon(
                           _getLessonIcon(lesson.id),
                           color: Colors.white,
-                          size: isTablet ? 20 : 16,
+                          size: ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 20, desktop: 24),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            ResponsiveText(
                               'Lesson ${lesson.order}',
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.9),
-                                fontSize: isTablet ? 10 : 9,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              type: ResponsiveTextType.body,
+                              customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 9, tablet: 10, desktop: 11),
+                              color: Colors.white.withValues(alpha: 0.9),
+                              fontWeight: FontWeight.w500,
                             ),
-                            const SizedBox(height: 2),
-                            Text(
+                            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 2, medium: 3, large: 4)),
+                            ResponsiveText(
                               lesson.title,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: isTablet ? 14 : 12,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              type: ResponsiveTextType.body,
+                              customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 2),
+                            SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 2, medium: 3, large: 4)),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 7, desktop: 8),
+                                vertical: ResponsiveHelper.getResponsiveValue(context, mobile: 1, tablet: 2, desktop: 3)
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 7, desktop: 8)),
                               ),
-                              child: Text(
+                              child: ResponsiveText(
                                 _getCulturePreviewText(lesson.id),
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                type: ResponsiveTextType.body,
+                                customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 9, desktop: 10),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -212,17 +203,18 @@ class CultureScreen extends StatelessWidget {
             // Lesson Content
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(isTablet ? 12 : 8),
+                padding: ResponsiveHelper.getResponsivePadding(context).copyWith(
+                  top: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+                  bottom: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    ResponsiveText(
                       lesson.description,
-                      style: TextStyle(
-                        color: isDark ? Colors.white.withValues(alpha: 0.8) : Colors.grey[700],
-                        fontSize: isTablet ? 11 : 10,
-                        height: 1.3,
-                      ),
+                      type: ResponsiveTextType.body,
+                      customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 10, tablet: 11, desktop: 12),
+                      color: isDark ? Colors.white.withValues(alpha: 0.8) : Colors.grey[700],
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -232,22 +224,21 @@ class CultureScreen extends StatelessWidget {
                         Icon(
                           Icons.play_circle_outline,
                           color: AppTheme.primaryOrange,
-                          size: isTablet ? 16 : 14,
+                          size: ResponsiveHelper.getResponsiveValue(context, mobile: 14, tablet: 16, desktop: 18),
                         ),
-                        const SizedBox(width: 4),
-                        Text(
+                        SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 5, large: 6)),
+                        ResponsiveText(
                           'Watch & Learn',
-                          style: TextStyle(
-                            color: AppTheme.primaryOrange,
-                            fontSize: isTablet ? 11 : 10,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          type: ResponsiveTextType.body,
+                          customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 10, tablet: 11, desktop: 12),
+                          color: AppTheme.primaryOrange,
+                          fontWeight: FontWeight.w600,
                         ),
                         const Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
                           color: isDark ? Colors.white.withValues(alpha: 0.6) : Colors.grey[400],
-                          size: isTablet ? 12 : 10,
+                          size: ResponsiveHelper.getResponsiveValue(context, mobile: 10, tablet: 12, desktop: 14),
                         ),
                       ],
                     ),

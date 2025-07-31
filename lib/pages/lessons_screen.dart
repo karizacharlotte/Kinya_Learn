@@ -3,6 +3,8 @@ import 'dart:math';
 import '../data/language_lessons.dart';
 import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
+import '../utils/responsive_helper.dart';
+import '../utils/responsive_layout.dart';
 
 class LessonsScreen extends StatelessWidget {
   const LessonsScreen({super.key});
@@ -10,22 +12,16 @@ class LessonsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lessons = KinyarwandaLanguageLessons.getLanguageLessons();
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-    final isDesktop = screenWidth > 1024;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           // Header
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              horizontal: isDesktop ? 60 : (isTablet ? 40 : 24),
-              vertical: isDesktop ? 40 : (isTablet ? 32 : 24),
-            ),
+            padding: ResponsiveHelper.getResponsivePadding(context),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -42,60 +38,61 @@ class LessonsScreen extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        icon: Icon(Icons.arrow_back, 
+                          color: Colors.white,
+                          size: ResponsiveHelper.getResponsiveIconSize(context),
+                        ),
                         onPressed: () => Navigator.pop(context),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 12, large: 16)),
                       Expanded(
-                        child: Text(
+                        child: ResponsiveText(
                           'Kinyarwanda Lessons',
-                          style: TextStyle(
-                            fontSize: isDesktop ? 32 : (isTablet ? 28 : 24),
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                          type: ResponsiveTextType.header,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
+                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
+                  ResponsiveText(
                     'Choose a lesson to start learning Kinyarwanda',
-                    style: TextStyle(
-                      fontSize: isDesktop ? 18 : (isTablet ? 16 : 14),
-                      color: Colors.white.withValues(alpha: 0.9),
-                    ),
+                    type: ResponsiveTextType.body,
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
                   // Progress indicator
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16)),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(ResponsiveHelper.isDesktop(context) ? 12 : 8),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.school, color: Colors.white, size: 16),
-                        const SizedBox(width: 8),
+                        Icon(Icons.school, 
+                          color: Colors.white, 
+                          size: ResponsiveHelper.getResponsiveIconSize(context) * 0.8
+                        ),
+                        SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              ResponsiveText(
                                 'Progress: ${lessons.where((l) => l.isCompleted).length}/${lessons.length} lessons completed',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white.withValues(alpha: 0.9),
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                type: ResponsiveTextType.body,
+                                customFontSize: ResponsiveHelper.getResponsiveBodyFontSize(context) * 0.85,
+                                color: Colors.white.withValues(alpha: 0.9),
+                                fontWeight: FontWeight.w600,
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
                               LinearProgressIndicator(
                                 value: lessons.where((l) => l.isCompleted).length / lessons.length,
                                 backgroundColor: Colors.white.withValues(alpha: 0.3),
                                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                                minHeight: 3,
+                                minHeight: ResponsiveHelper.getResponsiveValue(context, mobile: 3, tablet: 4, desktop: 5),
                               ),
                             ],
                           ),
@@ -111,21 +108,15 @@ class LessonsScreen extends StatelessWidget {
           // Lessons Grid
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(isDesktop ? 24 : (isTablet ? 20 : 16)),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
-                  crossAxisSpacing: isDesktop ? 16 : (isTablet ? 14 : 12),
-                  mainAxisSpacing: isDesktop ? 16 : (isTablet ? 14 : 12),
-                  childAspectRatio: isDesktop ? 0.85 : (isTablet ? 0.8 : 0.9),
-                ),
-                itemCount: lessons.length,
-                itemBuilder: (context, index) {
-                  final lesson = lessons[index];
-                  return _buildLessonCard(context, lesson, isTablet, isDark);
-                },
+              padding: ResponsiveHelper.getResponsivePadding(context),
+              child: ResponsiveGrid(
+                mobileColumns: 2,
+                tabletColumns: 3,
+                desktopColumns: 4,
+                spacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16),
+                runSpacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 14, large: 16),
+                childAspectRatio: ResponsiveHelper.getResponsiveValue(context, mobile: 0.9, tablet: 0.8, desktop: 0.85),
+                children: lessons.map((lesson) => _buildLessonCard(context, lesson, isDark)).toList(),
               ),
             ),
           ),
@@ -135,7 +126,7 @@ class LessonsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLessonCard(BuildContext context, lesson, bool isTablet, bool isDark) {
+  Widget _buildLessonCard(BuildContext context, lesson, bool isDark) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -147,7 +138,7 @@ class LessonsScreen extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: isDark ? Theme.of(context).colorScheme.surface : AppTheme.cardBackground,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
           border: Border.all(
             color: lesson.isCompleted 
                 ? AppTheme.primaryOrange.withValues(alpha: 0.5)
@@ -157,7 +148,7 @@ class LessonsScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
+              blurRadius: ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 10, desktop: 12),
               offset: const Offset(0, 2),
             ),
           ],
@@ -167,7 +158,7 @@ class LessonsScreen extends StatelessWidget {
           children: [
             // Video thumbnail section with lesson preview
             Container(
-              height: 80,
+              height: ResponsiveHelper.getResponsiveValue(context, mobile: 80, tablet: 90, desktop: 100),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -177,9 +168,9 @@ class LessonsScreen extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
+                  topRight: Radius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
                 ),
               ),
               child: Stack(
@@ -197,32 +188,34 @@ class LessonsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 36,
-                          height: 36,
+                          width: ResponsiveHelper.getResponsiveValue(context, mobile: 36, tablet: 40, desktop: 44),
+                          height: ResponsiveHelper.getResponsiveValue(context, mobile: 36, tablet: 40, desktop: 44),
                           decoration: BoxDecoration(
                             color: _getLessonColor(lesson.id).withValues(alpha: 0.2),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
                             _getLessonIcon(lesson.id),
-                            size: 20,
+                            size: ResponsiveHelper.getResponsiveValue(context, mobile: 20, tablet: 22, desktop: 24),
                             color: _getLessonColor(lesson.id),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 8, desktop: 10),
+                            vertical: ResponsiveHelper.getResponsiveValue(context, mobile: 2, tablet: 3, desktop: 4)
+                          ),
                           decoration: BoxDecoration(
                             color: _getLessonColor(lesson.id).withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 9, desktop: 10)),
                           ),
-                          child: Text(
+                          child: ResponsiveText(
                             _getLessonPreviewText(lesson.id),
-                            style: TextStyle(
-                              fontSize: 9,
-                              color: _getLessonColor(lesson.id),
-                              fontWeight: FontWeight.w600,
-                            ),
+                            type: ResponsiveTextType.body,
+                            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 9, tablet: 10, desktop: 11),
+                            color: _getLessonColor(lesson.id),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -231,36 +224,36 @@ class LessonsScreen extends StatelessWidget {
                   
                   // Play button overlay
                   Positioned(
-                    bottom: 4,
-                    right: 4,
+                    bottom: ResponsiveHelper.getResponsiveValue(context, mobile: 4, tablet: 6, desktop: 8),
+                    right: ResponsiveHelper.getResponsiveValue(context, mobile: 4, tablet: 6, desktop: 8),
                     child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(ResponsiveHelper.getResponsiveValue(context, mobile: 4, tablet: 5, desktop: 6)),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.7),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.play_arrow,
                         color: Colors.white,
-                        size: 12,
+                        size: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
                       ),
                     ),
                   ),
                   
                   if (lesson.isCompleted)
                     Positioned(
-                      top: 4,
-                      right: 4,
+                      top: ResponsiveHelper.getResponsiveValue(context, mobile: 4, tablet: 6, desktop: 8),
+                      right: ResponsiveHelper.getResponsiveValue(context, mobile: 4, tablet: 6, desktop: 8),
                       child: Container(
-                        padding: const EdgeInsets.all(2),
+                        padding: EdgeInsets.all(ResponsiveHelper.getResponsiveValue(context, mobile: 2, tablet: 3, desktop: 4)),
                         decoration: const BoxDecoration(
                           color: Colors.green,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.check,
                           color: Colors.white,
-                          size: 12,
+                          size: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
                         ),
                       ),
                     ),
@@ -271,74 +264,76 @@ class LessonsScreen extends StatelessWidget {
             // Content section
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(isTablet ? 12 : 8),
+                padding: ResponsiveHelper.getResponsivePadding(context).copyWith(
+                  top: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+                  bottom: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
+                          child: ResponsiveText(
                             lesson.title,
-                            style: TextStyle(
-                              fontSize: isTablet ? 14 : 12,
-                              fontWeight: FontWeight.w600,
-                              color: isDark ? Colors.white : AppTheme.textPrimary,
-                            ),
+                            type: ResponsiveTextType.body,
+                            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
+                            fontWeight: FontWeight.w600,
+                            color: isDark ? Colors.white : AppTheme.textPrimary,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         if (lesson.isCompleted)
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 8, desktop: 10),
+                              vertical: ResponsiveHelper.getResponsiveValue(context, mobile: 2, tablet: 3, desktop: 4)
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 9, desktop: 10)),
                             ),
-                            child: Text(
+                            child: ResponsiveText(
                               'DONE',
-                              style: TextStyle(
-                                fontSize: 8,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              type: ResponsiveTextType.body,
+                              customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 8, tablet: 9, desktop: 10),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
                     Expanded(
-                      child: Text(
+                      child: ResponsiveText(
                         lesson.description,
-                        style: TextStyle(
-                          fontSize: isTablet ? 11 : 10,
-                          color: isDark ? Colors.white70 : AppTheme.textSecondary,
-                        ),
+                        type: ResponsiveTextType.body,
+                        customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 10, tablet: 11, desktop: 12),
+                        color: isDark ? Colors.white70 : AppTheme.textSecondary,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 8, desktop: 10),
+                            vertical: ResponsiveHelper.getResponsiveValue(context, mobile: 2, tablet: 3, desktop: 4),
                           ),
                           decoration: BoxDecoration(
                             color: AppTheme.primaryOrange.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 6, tablet: 7, desktop: 8)),
                           ),
-                          child: Text(
+                          child: ResponsiveText(
                             'Lesson ${lesson.order}',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: AppTheme.primaryOrange,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            type: ResponsiveTextType.body,
+                            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 10, tablet: 11, desktop: 12),
+                            color: AppTheme.primaryOrange,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         Row(
@@ -346,25 +341,25 @@ class LessonsScreen extends StatelessWidget {
                             if (lesson.isCompleted)
                               Icon(
                                 Icons.check_circle,
-                                size: 14,
+                                size: ResponsiveHelper.getResponsiveValue(context, mobile: 14, tablet: 16, desktop: 18),
                                 color: Colors.green,
                               )
                             else if (lesson.isUnlocked)
                               Icon(
                                 Icons.play_circle_fill,
-                                size: 14,
+                                size: ResponsiveHelper.getResponsiveValue(context, mobile: 14, tablet: 16, desktop: 18),
                                 color: AppTheme.primaryOrange,
                               )
                             else
                               Icon(
                                 Icons.lock,
-                                size: 14,
+                                size: ResponsiveHelper.getResponsiveValue(context, mobile: 14, tablet: 16, desktop: 18),
                                 color: Colors.grey,
                               ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 5, large: 6)),
                             Icon(
                               Icons.arrow_forward_ios,
-                              size: 12,
+                              size: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
                               color: isDark ? Colors.white54 : AppTheme.textSecondary,
                             ),
                           ],
@@ -379,6 +374,7 @@ class LessonsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
   }
 
   // Helper methods for lesson customization
@@ -486,7 +482,6 @@ class LessonsScreen extends StatelessWidget {
         return 'Learn';
     }
   }
-}
 
 // Custom painter for lesson card background patterns
 class _LessonPatternPainter extends CustomPainter {

@@ -193,6 +193,7 @@ class ResponsiveButton extends StatelessWidget {
   final BorderRadius? borderRadius;
   final double? elevation;
   final bool isOutlined;
+  final double? width;
 
   const ResponsiveButton({
     super.key,
@@ -204,6 +205,7 @@ class ResponsiveButton extends StatelessWidget {
     this.borderRadius,
     this.elevation,
     this.isOutlined = false,
+    this.width,
   });
 
   @override
@@ -215,35 +217,42 @@ class ResponsiveButton extends StatelessWidget {
           ResponsiveHelper.isDesktop(context) ? 12 : 8,
         );
 
-    return SizedBox(
-      width: double.infinity,
-      height: 48,
-      child: isOutlined
-          ? OutlinedButton(
-              onPressed: onPressed,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: foregroundColor,
-                padding: responsivePadding,
-                shape: RoundedRectangleBorder(
-                  borderRadius: responsiveBorderRadius,
-                ),
+    final button = isOutlined
+        ? OutlinedButton(
+            onPressed: onPressed,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: foregroundColor,
+              padding: responsivePadding,
+              shape: RoundedRectangleBorder(
+                borderRadius: responsiveBorderRadius,
               ),
-              child: child,
-            )
-          : ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: backgroundColor,
-                foregroundColor: foregroundColor,
-                padding: responsivePadding,
-                elevation: elevation,
-                shape: RoundedRectangleBorder(
-                  borderRadius: responsiveBorderRadius,
-                ),
-              ),
-              child: child,
             ),
-    );
+            child: child,
+          )
+        : ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              padding: responsivePadding,
+              elevation: elevation,
+              shape: RoundedRectangleBorder(
+                borderRadius: responsiveBorderRadius,
+              ),
+            ),
+            child: child,
+          );
+
+    return width != null
+        ? SizedBox(
+            width: width,
+            height: 48,
+            child: button,
+          )
+        : SizedBox(
+            height: 48,
+            child: button,
+          );
   }
 }
 

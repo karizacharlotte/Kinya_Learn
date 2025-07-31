@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../components/bottom_nav_bar.dart';
 import '../theme/app_theme.dart';
+import '../utils/responsive_helper.dart';
+import '../utils/responsive_layout.dart';
 import 'practice_selection_screen.dart';
 import 'speaking_practice_screen.dart';
 import 'listening_exercises_screen.dart';
@@ -14,19 +16,16 @@ class PracticeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
-    final isDesktop = screenWidth > 1200;
-
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    return Scaffold(
+    
+    return ResponsiveScaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
           // Practice Header
           Container(
-            padding: EdgeInsets.all(isTablet ? 24 : 20),
+            padding: ResponsiveHelper.getResponsivePadding(context),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -36,45 +35,46 @@ class PracticeScreen extends StatelessWidget {
                     : [AppTheme.primaryOrange, AppTheme.primaryOrange],
               ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Practice & Review',
-                        style: TextStyle(
+            child: SafeArea(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ResponsiveText(
+                          'Practice & Review',
+                          type: ResponsiveTextType.header,
                           color: isDark ? theme.colorScheme.onSurface : Colors.white,
-                          fontSize: isTablet ? 28 : 24,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      Text(
-                        'Strengthen your Kinyarwanda skills',
-                        style: TextStyle(
+                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
+                        ResponsiveText(
+                          'Strengthen your Kinyarwanda skills',
+                          type: ResponsiveTextType.body,
                           color: isDark ? theme.colorScheme.onSurface.withValues(alpha: 0.7) : Colors.white70,
-                          fontSize: isTablet ? 16 : 14,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Icon(Icons.fitness_center,
-                    color: isDark ? theme.colorScheme.onSurface : Colors.white, 
-                    size: isTablet ? 36 : 32),
-              ],
+                  Icon(Icons.fitness_center,
+                      color: isDark ? theme.colorScheme.onSurface : Colors.white, 
+                      size: ResponsiveHelper.getResponsiveIconSize(context) * 1.5),
+                ],
+              ),
             ),
           ),
           // Practice Options
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(isTablet ? 20 : 16),
-              child: GridView.count(
-                crossAxisCount: isDesktop ? 3 : (isTablet ? 2 : 2),
-                crossAxisSpacing: isTablet ? 20 : 16,
-                mainAxisSpacing: isTablet ? 20 : 16,
-                childAspectRatio: isDesktop ? 1.2 : (isTablet ? 1.1 : 1.0),
+              padding: ResponsiveHelper.getResponsivePadding(context),
+              child: ResponsiveGrid(
+                mobileColumns: 2,
+                tabletColumns: 2,
+                desktopColumns: 3,
+                spacing: ResponsiveHelper.getResponsiveSpacing(context),
+                runSpacing: ResponsiveHelper.getResponsiveSpacing(context),
+                childAspectRatio: ResponsiveHelper.getResponsiveValue(context, mobile: 1.0, tablet: 1.1, desktop: 1.2),
                 children: [
                   _buildPracticeCard(
                     context,
@@ -82,7 +82,6 @@ class PracticeScreen extends StatelessWidget {
                     'Test your knowledge',
                     Icons.quiz,
                     const Color(0xFF4CAF50),
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -98,7 +97,6 @@ class PracticeScreen extends StatelessWidget {
                     'Pronunciation & Conversation',
                     Icons.mic,
                     AppTheme.primaryOrange,
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -114,7 +112,6 @@ class PracticeScreen extends StatelessWidget {
                     'Comprehension Training',
                     Icons.headphones,
                     const Color(0xFF00A1DE),
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -130,7 +127,6 @@ class PracticeScreen extends StatelessWidget {
                     'Flash Cards & Vocabulary',
                     Icons.quiz,
                     const Color(0xFF00A651),
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -146,7 +142,6 @@ class PracticeScreen extends StatelessWidget {
                     'English ↔ Kinyarwanda',
                     Icons.translate,
                     const Color(0xFFFAD201),
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -162,7 +157,6 @@ class PracticeScreen extends StatelessWidget {
                     'Sentence Structure',
                     Icons.school,
                     AppTheme.primaryOrange,
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -178,7 +172,6 @@ class PracticeScreen extends StatelessWidget {
                     'Real-life Conversations',
                     Icons.chat_bubble,
                     const Color(0xFF00A1DE),
-                    isTablet,
                     () {
                       Navigator.push(
                         context,
@@ -198,57 +191,47 @@ class PracticeScreen extends StatelessWidget {
               final theme = Theme.of(context);
               final isDark = theme.brightness == Brightness.dark;
               return Container(
-                margin: EdgeInsets.all(isTablet ? 20 : 16),
-                padding: EdgeInsets.all(isTablet ? 20 : 16),
+                margin: ResponsiveHelper.getResponsivePadding(context),
+                padding: ResponsiveHelper.getResponsivePadding(context),
                 decoration: BoxDecoration(
                   color: isDark
                       ? theme.colorScheme.surface
                       : AppTheme.primaryOrange,
-                  borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+                  borderRadius: BorderRadius.circular(ResponsiveHelper.isDesktop(context) ? 16 : 12),
                 ),
                 child: Row(
                   children: [
                     Icon(Icons.local_fire_department,
                         color: isDark ? theme.colorScheme.onSurface : Colors.white, 
-                        size: isTablet ? 36 : 32),
-                    SizedBox(width: isTablet ? 20 : 16),
+                        size: ResponsiveHelper.getResponsiveIconSize(context) * 1.5),
+                    SizedBox(width: ResponsiveHelper.getResponsiveSpacing(context)),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          ResponsiveText(
                             'Daily Challenge',
-                            style: TextStyle(
-                              color: isDark ? theme.colorScheme.onSurface : Colors.white,
-                              fontSize: isTablet ? 20 : 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            type: ResponsiveTextType.title,
+                            color: isDark ? theme.colorScheme.onSurface : Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
+                          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
+                          ResponsiveText(
                             'Complete today\'s challenge for bonus XP!',
-                            style: TextStyle(
-                              color: isDark ? theme.colorScheme.onSurface.withValues(alpha: 0.7) : Colors.white70,
-                              fontSize: isTablet ? 16 : 14,
-                            ),
+                            type: ResponsiveTextType.body,
+                            color: isDark ? theme.colorScheme.onSurface.withValues(alpha: 0.7) : Colors.white70,
                           ),
                         ],
                       ),
                     ),
-                    ElevatedButton(
+                    ResponsiveButton(
                       onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            isDark ? theme.cardColor : Colors.white,
-                        foregroundColor:
-                            isDark ? Colors.white : AppTheme.primaryOrange,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isTablet ? 24 : 16,
-                          vertical: isTablet ? 12 : 8,
-                        ),
-                      ),
-                      child: Text(
+                      backgroundColor: isDark ? theme.cardColor : Colors.white,
+                      foregroundColor: isDark ? Colors.white : AppTheme.primaryOrange,
+                      child: ResponsiveText(
                         'Start',
-                        style: TextStyle(fontSize: isTablet ? 16 : 14),
+                        type: ResponsiveTextType.body,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -263,61 +246,45 @@ class PracticeScreen extends StatelessWidget {
   }
 
   Widget _buildPracticeCard(BuildContext context, String title, String subtitle, IconData icon,
-      Color color, bool isTablet, VoidCallback onTap) {
+      Color color, VoidCallback onTap) {
     final theme = Theme.of(context);
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
-      child: Container(
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
-          border: Border.all(
-            color: theme.dividerColor,
-            width: 1,
-          ),
-        ),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
-          child: Padding(
-            padding: EdgeInsets.all(isTablet ? 20 : 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: isTablet ? 60 : 50,
-                  height: isTablet ? 60 : 50,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(icon, color: color, size: isTablet ? 28 : 24),
-                ),
-                SizedBox(height: isTablet ? 16 : 12),
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: isTablet ? 18 : 16,
-                    fontWeight: FontWeight.w600,
-                    color: theme.textTheme.titleMedium?.color,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: isTablet ? 6 : 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
-                    fontSize: isTablet ? 14 : 12,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+    return ResponsiveCard(
+      onTap: onTap,
+      color: theme.cardColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: ResponsiveHelper.getResponsiveValue(context, mobile: 50, tablet: 60, desktop: 70),
+            height: ResponsiveHelper.getResponsiveValue(context, mobile: 50, tablet: 60, desktop: 70),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 18, desktop: 20)),
+            ),
+            child: Icon(
+              icon, 
+              color: color, 
+              size: ResponsiveHelper.getResponsiveValue(context, mobile: 24, tablet: 28, desktop: 32)
             ),
           ),
-        ),
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 16, large: 20)),
+          ResponsiveText(
+            title,
+            type: ResponsiveTextType.body,
+            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 16, tablet: 18, desktop: 20),
+            fontWeight: FontWeight.w600,
+            color: theme.textTheme.titleMedium?.color,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
+          ResponsiveText(
+            subtitle,
+            type: ResponsiveTextType.body,
+            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 14, desktop: 16),
+            color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

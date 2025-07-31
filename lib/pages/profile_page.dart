@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
+import '../theme/theme_provider.dart';
+import '../providers/auth_provider.dart';
 import '../components/bottom_nav_bar.dart';
+import '../utils/responsive_helper.dart';
+import '../utils/responsive_layout.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,6 +27,9 @@ class _ProfilePageState extends State<ProfilePage> {
   bool offlineDownloadsEnabled = false;
   String selectedLanguage = 'English';
   bool darkModeEnabled = false;
+  
+  // Settings variables
+  double _textScale = 1.0;
 
   @override
   void initState() {
@@ -58,34 +66,36 @@ class _ProfilePageState extends State<ProfilePage> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
-    return Scaffold(
+    return ResponsiveScaffold(
       backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.background,
-      appBar: AppBar(
-        title: const Text(
+      appBar: ResponsiveAppBar(
+        title: ResponsiveText(
           'Profile',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          type: ResponsiveTextType.header,
+          fontWeight: FontWeight.bold,
         ),
-        centerTitle: true,
-        elevation: 0,
         backgroundColor: isDark ? AppTheme.darkBackground : AppTheme.background,
-        foregroundColor: isDark ? Colors.white : AppTheme.textPrimary,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Statistics Cards
-            _buildStatisticsSection(isDark),
-            
-            const SizedBox(height: 24),
-            
-            // Profile Options
-            _buildProfileOptions(isDark),
-          ],
+        padding: ResponsiveHelper.getResponsivePadding(context),
+        child: ResponsiveContainer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Statistics Cards
+              _buildStatisticsSection(isDark),
+              
+              SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+              
+              // Profile Options
+              _buildProfileOptions(isDark),
+              
+              SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+              
+              // Settings Section
+              _buildSettingsSection(isDark),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavBar(currentIndex: 4),
@@ -97,36 +107,33 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Statistics Cards Row
-        Row(
+        ResponsiveGrid(
+          mobileColumns: 3,
+          tabletColumns: 3,
+          desktopColumns: 3,
+          spacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 16, large: 20),
+          runSpacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 16, large: 20),
           children: [
-            Expanded(
-              child: _buildStatCard(
-                icon: Icons.star,
-                iconColor: Colors.amber,
-                value: totalXP.toString(),
-                label: 'Total XP',
-                isDark: isDark,
-              ),
+            _buildStatCard(
+              icon: Icons.star,
+              iconColor: Colors.amber,
+              value: totalXP.toString(),
+              label: 'Total XP',
+              isDark: isDark,
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildStatCard(
-                icon: Icons.book,
-                iconColor: Colors.blue,
-                value: '$completedLessons/$totalLessons',
-                label: 'Lessons',
-                isDark: isDark,
-              ),
+            _buildStatCard(
+              icon: Icons.book,
+              iconColor: Colors.blue,
+              value: '$completedLessons/$totalLessons',
+              label: 'Lessons',
+              isDark: isDark,
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildStatCard(
-                icon: Icons.check_circle,
-                iconColor: Colors.green,
-                value: '${accuracy.toInt()}%',
-                label: 'Accuracy',
-                isDark: isDark,
-              ),
+            _buildStatCard(
+              icon: Icons.check_circle,
+              iconColor: Colors.green,
+              value: '${accuracy.toInt()}%',
+              label: 'Accuracy',
+              isDark: isDark,
             ),
           ],
         ),
@@ -141,46 +148,28 @@ class _ProfilePageState extends State<ProfilePage> {
     required String label,
     required bool isDark,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkCardBackground : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return ResponsiveCard(
+      color: isDark ? AppTheme.darkCardBackground : Colors.white,
       child: Column(
         children: [
           Icon(
             icon,
             color: iconColor,
-            size: 24,
+            size: ResponsiveHelper.getResponsiveIconSize(context),
           ),
-          const SizedBox(height: 8),
-          Text(
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 8, medium: 10, large: 12)),
+          ResponsiveText(
             value,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : AppTheme.textPrimary,
-            ),
+            type: ResponsiveTextType.title,
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white : AppTheme.textPrimary,
           ),
-          const SizedBox(height: 4),
-          Text(
+          SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 4, medium: 6, large: 8)),
+          ResponsiveText(
             label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
-            ),
+            type: ResponsiveTextType.body,
+            customFontSize: ResponsiveHelper.getResponsiveValue(context, mobile: 12, tablet: 13, desktop: 14),
+            color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
           ),
         ],
       ),
@@ -763,5 +752,226 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
+  }
+
+  Widget _buildSettingsSection(bool isDark) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ResponsiveText(
+          'Settings',
+          type: ResponsiveTextType.title,
+          fontWeight: FontWeight.bold,
+        ),
+        const SizedBox(height: 16),
+        
+        // Theme Settings
+        ResponsiveCard(
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(
+                  isDark ? Icons.dark_mode : Icons.light_mode,
+                  color: AppTheme.primaryOrange,
+                ),
+                title: const Text('Theme'),
+                subtitle: Text(_getThemeModeName(themeProvider.themeMode)),
+                trailing: PopupMenuButton<ThemeMode>(
+                  onSelected: (ThemeMode mode) {
+                    themeProvider.setThemeMode(mode);
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem(
+                      value: ThemeMode.system,
+                      child: Text('Follow System'),
+                    ),
+                    const PopupMenuItem(
+                      value: ThemeMode.light,
+                      child: Text('Light'),
+                    ),
+                    const PopupMenuItem(
+                      value: ThemeMode.dark,
+                      child: Text('Dark'),
+                    ),
+                  ],
+                  child: const Icon(Icons.more_vert),
+                ),
+              ),
+              const Divider(),
+              
+              // Text Size Settings
+              ListTile(
+                leading: const Icon(Icons.text_fields, color: AppTheme.primaryOrange),
+                title: const Text('Text Size'),
+                subtitle: Text(_getTextSizeName(_textScale)),
+                trailing: DropdownButton<double>(
+                  value: _textScale,
+                  items: const [
+                    DropdownMenuItem(value: 1.0, child: Text('Normal')),
+                    DropdownMenuItem(value: 1.2, child: Text('Large')),
+                    DropdownMenuItem(value: 1.4, child: Text('Extra Large')),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _textScale = value ?? 1.0;
+                    });
+                  },
+                ),
+              ),
+              const Divider(),
+              
+              // Notifications
+              ListTile(
+                leading: const Icon(Icons.notifications, color: AppTheme.primaryOrange),
+                title: const Text('Notifications'),
+                subtitle: Text(notificationsEnabled ? 'Enabled' : 'Disabled'),
+                trailing: Switch(
+                  value: notificationsEnabled,
+                  activeColor: AppTheme.primaryOrange,
+                  onChanged: (value) {
+                    setState(() {
+                      notificationsEnabled = value;
+                    });
+                    _saveUserData();
+                  },
+                ),
+              ),
+              const Divider(),
+              
+              // Language Settings
+              ListTile(
+                leading: const Icon(Icons.language, color: AppTheme.primaryOrange),
+                title: const Text('Language'),
+                subtitle: const Text('Change app language'),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () => _showLanguageDialog(),
+              ),
+              const Divider(),
+              
+              // Privacy Policy
+              ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined, color: AppTheme.primaryOrange),
+                title: const Text('Privacy Policy'),
+                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                onTap: () => _showPrivacyDialog(),
+              ),
+              const Divider(),
+              
+              // Logout
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text('Log Out', style: TextStyle(color: Colors.red)),
+                onTap: () => _showLogoutConfirmation(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getThemeModeName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return 'Follow System';
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+    }
+  }
+
+  String _getTextSizeName(double scale) {
+    if (scale == 1.0) return 'Normal';
+    if (scale == 1.2) return 'Large';
+    return 'Extra Large';
+  }
+
+  void _showLanguageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Select Language'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text('English'),
+              trailing: selectedLanguage == 'English' ? const Icon(Icons.check, color: AppTheme.primaryOrange) : null,
+              onTap: () {
+                setState(() {
+                  selectedLanguage = 'English';
+                });
+                _saveUserData();
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Kinyarwanda'),
+              trailing: selectedLanguage == 'Kinyarwanda' ? const Icon(Icons.check, color: AppTheme.primaryOrange) : null,
+              onTap: () {
+                setState(() {
+                  selectedLanguage = 'Kinyarwanda';
+                });
+                _saveUserData();
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Français'),
+              trailing: selectedLanguage == 'Français' ? const Icon(Icons.check, color: AppTheme.primaryOrange) : null,
+              onTap: () {
+                setState(() {
+                  selectedLanguage = 'Français';
+                });
+                _saveUserData();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLogoutConfirmation() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Log Out'),
+        content: const Text('Are you sure you want to log out? You will need to sign in again to access your account.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _performLogout();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Log Out'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _performLogout() {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.signOut();
+    Navigator.pushReplacementNamed(context, '/auth');
   }
 }
