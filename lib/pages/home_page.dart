@@ -5,6 +5,7 @@ import '../theme/app_theme.dart';
 import '../providers/auth_provider.dart';
 import '../utils/responsive_layout.dart';
 import '../utils/responsive_helper.dart';
+import '../widgets/rwandan_flag.dart';
 import 'notes_page.dart';
 import 'learning_goals_page.dart';
 import 'vocabulary_page.dart';
@@ -61,6 +62,14 @@ class HomePage extends StatelessWidget {
                                     type: ResponsiveTextType.body,
                                     color: Colors.white.withValues(alpha: 0.9),
                                   ),
+                                  SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
+                                  Center(
+                                    child: RwandanFlag(
+                                      width: 120,
+                                      height: 80,
+                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -71,34 +80,7 @@ class HomePage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context)),
-                        // User Stats
-                        ResponsiveGrid(
-                          mobileColumns: 3,
-                          tabletColumns: 3,
-                          desktopColumns: 3,
-                          spacing: ResponsiveHelper.getResponsiveSpacing(context, small: 12, medium: 16, large: 20),
-                          children: [
-                            _buildStatCard(
-                              context,
-                              'XP',
-                              '${authProvider.totalXP}',
-                              Icons.star,
-                            ),
-                            _buildStatCard(
-                              context,
-                              'Streak',
-                              '${authProvider.currentStreak} days',
-                              Icons.local_fire_department,
-                            ),
-                            _buildStatCard(
-                              context,
-                              'Lessons',
-                              '${authProvider.lessonsCompleted}',
-                              Icons.book,
-                            ),
-                          ],
-                        ),
+                        // ...removed stats and grid, replaced with flag above...
                       ] else ...[
                         Row(
                           children: [
@@ -146,10 +128,10 @@ class HomePage extends StatelessWidget {
                                     color: Colors.white.withValues(alpha: 0.1),
                                   ),
                                   child: const Center(
-                                    child: Icon(
-                                      Icons.language,
-                                      size: 120,
-                                      color: Colors.white,
+                                    child: RwandanFlag(
+                                      width: 200,
+                                      height: 133,
+                                      borderRadius: BorderRadius.all(Radius.circular(12)),
                                     ),
                                   ),
                                 ),
@@ -159,33 +141,6 @@ class HomePage extends StatelessWidget {
                       ],
 
                       SizedBox(height: ResponsiveHelper.getResponsiveSpacing(context, small: 24, medium: 28, large: 32)),
-
-                      // Debug: Firebase Test Button (remove in production)
-                      if (const bool.fromEnvironment('dart.vm.product') == false)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: ResponsiveButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/firebase-test');
-                            },
-                            isOutlined: true,
-                            foregroundColor: Colors.white,
-                            child: const ResponsiveText('🔧 Test Backend Connection', type: ResponsiveTextType.body),
-                          ),
-                        ),
-
-                      ResponsiveButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/lessons');
-                        },
-                        backgroundColor: Colors.white,
-                        foregroundColor: AppTheme.primaryOrange,
-                        child: const ResponsiveText(
-                          'Start Learning',
-                          type: ResponsiveTextType.body,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
                     ],
                   ),
                 ),
